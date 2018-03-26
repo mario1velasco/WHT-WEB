@@ -1,3 +1,4 @@
+import { User } from './../../../shared/models/user.model';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
+  user: User = new User();
 
   constructor() { }
 
