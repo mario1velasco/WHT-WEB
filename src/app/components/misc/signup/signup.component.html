@@ -6,15 +6,26 @@
     <div class="row">
       <div class="input-field col s10">
         <i class="material-icons prefix">account_circle</i>
-        <input id="email" type="text" name="email" class="validate" placeholder="Email" [(ngModel)]="user.email" #email="ngModel" required email>
+        <input id="email" type="email" name="email" class="validate" placeholder="Email" [(ngModel)]="user.email" #email="ngModel"
+          required email>
         <label for="email">Email</label>
-        <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
+        <span class="helper-text" *ngIf="email.errors && email.touched">
+          <ul>
+            <li *ngIf="email.errors.required">Required</li>
+            <li *ngIf="email.errors.email">Invalid email format</li>
+          </ul>
+        </span>
       </div>
       <div class="input-field col s10">
         <i class="material-icons prefix">edit</i>
-        <input id="password" type="password" class="validate">
+        <input id="password" type="password" name="password" class="validate" placeholder="password" [(ngModel)]="user.password"
+          #password="ngModel" required password>
         <label for="password">Password</label>
-        <span class="helper-text" data-error="wrong" data-success="right">Helper text</span>
+        <span class="helper-text" *ngIf="password.errors && password.touched">
+          <ul>
+            <li *ngIf="password.errors.required">Required</li>
+          </ul>
+        </span>
       </div>
     </div>
     <div class="row">
