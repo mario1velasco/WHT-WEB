@@ -8,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignupComponent implements OnInit {
   user: User = new User();
-
+  emailPattern: String = '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]{2,})*$';
+  passwordPattern: String = '^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$';
   constructor() { }
 
   ngOnInit() {

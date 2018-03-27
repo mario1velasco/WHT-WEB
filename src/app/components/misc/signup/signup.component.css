@@ -38,10 +38,13 @@
 }
 
 .helper-text{
-  color: rgb(160, 17, 24);
+  color: rgb(244, 67, 54);
 }
 
 #email{
+  margin-bottom: 0px;
+}
+#password{
   margin-bottom: 0px;
 }
 .input-field{
