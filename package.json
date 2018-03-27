@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod --oat",
-    "deploy": "ng build --prod --oat --base-href 'https://mario1velasco.github.io/WHT-WEB'",
+    "deploy": "ng build --prod --oat --base-href 'https://mario1velasco.github.io/WHT-WEB' && ngh --no-silent",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
