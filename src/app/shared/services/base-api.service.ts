@@ -9,7 +9,7 @@ export class BaseApiService {
   protected static defaultHeaders: Headers = new Headers({ 'Content-Type': 'application/json' });
   protected static defaultOptions: RequestOptions = new RequestOptions({
     headers: BaseApiService.defaultHeaders,
-    // withCredentials: true
+    withCredentials: true
   });
 
   constructor() {}
