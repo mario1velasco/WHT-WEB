@@ -2,7 +2,7 @@
   <div class="col s11 offset-s1">
     <h2>Sign Up</h2>
   </div>
-  <form class="col s11 offset-s1">
+  <form class="col s11 offset-s1"  (ngSubmit)="onSubmitSignup(signupForm)" #signupForm="ngForm">
     <div class="row">
       <div class="input-field col s10">
         <i class="material-icons prefix">account_circle</i>
@@ -31,7 +31,7 @@
       </div>
     </div>
     <div class="row">
-      <button class="btn waves-effect teal darken-3" type="submit" name="action">Sign Up
+      <button class="btn waves-effect teal darken-3" type="submit" name="action" [disabled]="!signupForm.valid">Sign Up
         <i class="material-icons right">add</i>
       </button>
     </div>

@@ -11,6 +11,7 @@ import { DatepickerComponent } from './components/materialize/datepicker/datepic
 import { LoginComponent } from './components/misc/login/login.component';
 import { SignupComponent } from './components/misc/signup/signup.component';
 import { NavbarComponent } from './components/misc/navbar/navbar.component';
+import { UsersService } from './shared/services/users.service';
 
 
 @NgModule({
@@ -28,7 +29,9 @@ import { NavbarComponent } from './components/misc/navbar/navbar.component';
     HttpModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [
+    UsersService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

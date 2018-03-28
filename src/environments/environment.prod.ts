@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  baseApi: 'https://git.heroku.com/wht-api.git'
+  baseApi: 'http://localhost:3000'
+  // baseApi: 'https://wht-api.herokuapp.com/'
 };
