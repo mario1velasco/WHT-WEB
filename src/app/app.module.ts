@@ -1,3 +1,4 @@
+import { SessionService } from './shared/services/session.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { MaterializeModule } from 'angular2-materialize';
@@ -12,6 +13,7 @@ import { LoginComponent } from './components/misc/login/login.component';
 import { SignupComponent } from './components/misc/signup/signup.component';
 import { NavbarComponent } from './components/misc/navbar/navbar.component';
 import { UsersService } from './shared/services/users.service';
+import { UserPanelComponent } from './components/user/user-panel/user-panel.component';
 
 
 @NgModule({
@@ -20,7 +22,8 @@ import { UsersService } from './shared/services/users.service';
     DatepickerComponent,
     LoginComponent,
     SignupComponent,
-    NavbarComponent
+    NavbarComponent,
+    UserPanelComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +33,8 @@ import { UsersService } from './shared/services/users.service';
     RouterModule.forRoot(routes)
   ],
   providers: [
-    UsersService
+    UsersService,
+    SessionService
   ],
   bootstrap: [AppComponent]
 })
