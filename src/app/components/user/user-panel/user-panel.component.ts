@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { User } from './../../../shared/models/user.model';
+import { SessionService } from './../../../shared/services/session.service';
 
 @Component({
   selector: 'app-user-panel',
@@ -6,10 +10,28 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-panel.component.css']
 })
 export class UserPanelComponent implements OnInit {
+  private user: User;
+  // private userSubscription: Subscription;
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private sessionService: SessionService
+  ) { }
 
   ngOnInit() {
+    this.user = this.sessionService.getUser();
+    // this.userSubscription = this.sessionService.onUserChanges()
+    //   .subscribe(user => this.user = user);
   }
 
+  // ngOnDestroy() {
+  //   this.userSubscription.unsubscribe();
+  // }
+
+  onClickLogout() {
+    this.sessionService.logout()
+      .subscribe(() => {
+        this.router.navigate(['/login']);
+      });
+  }
 }
