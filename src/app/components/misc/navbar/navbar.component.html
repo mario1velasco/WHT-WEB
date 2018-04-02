@@ -1,32 +1,59 @@
-<div class="navbar-fixed hide-on-small-only">
-  <nav>
-    <div class="nav-wrapper teal darken-3">
-      <ul class="right">
-        <li><a [routerLink]="['/yyyy']">yyyy</a></li>
-        <!-- <li><a hreF="#" (click)="xxxx($event)">xxxx</a></li>
-        <li><a href="#" (click)="logout($event)">Logout</a></li> -->
-      </ul>
-    </div>
-  </nav>
-</div>
-
-<nav class="hide-on-med-and-up teal darken-3">
+<nav class="teal darken-3">
   <div class="container">
     <ul id="slide-out" class="side-nav fixed">
-      <li class="logo" style="text-align: center;">
+        <li *ngIf="user">
+          <div class="user-view">
+            <div class="background">
+              <img src="https://www.activengage.com/wp-content/uploads/2016/06/timeline-image-chat-green.jpg">
+            </div>
+            <a href="#user"><img class="circle" src="https://openclipart.org/image/300px/svg_to_png/14546/tonyk-Gnu-Knight.png&disposition=attachment"></a>
+            <a href="#name"><span class="white-text name">John Doe</span></a>
+            <a href="#email"><span class="white-text email">{{ user?.email }}</span></a>
+          </div>
+        </li>
+      <!-- <li class="logo" style="text-align: center;">
         <img src="https://png.pngtree.com/element_pic/17/02/19/7274358bfbbcf0b7192aacfb855b30e0.jpg" style="padding-top: 10px;">
-      </li>
+      </li> -->
       <li class="no-padding">
-        <ul>
-        <li><a [routerLink]="['/yyyy']">yyyy</a></li>
+        <ul *ngIf="!user">
         <!-- <li><a hreF="#" (click)="xxxx($event)">xxxx</a></li> -->
         <!-- <li><a href="#" (click)="logout($event)">Logout</a></li> -->
+          <li><a class="waves-effect" [routerLink]="['/login']"><i class="material-icons">cloud</i>Log In</a></li>
+          <li><div class="divider"></div></li>
+          <li><a class="waves-effect" [routerLink]="['/signup']"><i class="material-icons">cloud</i>Sign Up</a></li>
+          <li><div class="divider"></div></li>
+          <li><a class="sidenav-close" href="#!">Clicking this will close Sidenav</a></li>
+        </ul>
+        <ul *ngIf="user">
+            <li>
+              <a class="subheader">Log Out</a>
+            </li>
+            <li>
+              <a class="waves-effect" (click)="onClickLogout()">
+                <i class="material-icons">cloud</i>Log Out
+              </a>
+            </li>
         </ul>
       </li>
+
     </ul>
     <a href="#" materialize="sideNav" [materializeParams]="[{edge:'left'}]" data-activates="slide-out"
        class="button-collapse">
        <i class="material-icons">menu</i>
     </a>
+  </div>
+  <div class="right" *ngIf="user">
+    <!-- Dropdown Trigger -->
+    <a materialize="dropdown" class="" href='#' data-activates='dropdNav'>
+      <img class="circle " height="30" src="https://openclipart.org/image/300px/svg_to_png/14546/tonyk-Gnu-Knight.png&disposition=attachment">
+    </a>
+    <!-- Dropdown Structure -->
+    <ul id='dropdNav' class='dropdown-content'>
+      <li><a>one</a></li>
+      <li class="divider"></li>
+      <li><a>two</a></li>
+      <li class="divider"></li>
+      <li><a>three</a></li>
+    </ul>
   </div>
 </nav>
