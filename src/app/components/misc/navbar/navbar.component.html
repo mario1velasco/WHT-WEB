@@ -11,6 +11,13 @@
             <a href="#email"><span class="white-text email">{{ user?.email }}</span></a>
           </div>
         </li>
+        <li *ngIf="!user">
+          <div class="user-view">
+            <div class="background">
+              <img src="https://www.activengage.com/wp-content/uploads/2016/06/timeline-image-chat-green.jpg">
+            </div>
+          </div>
+        </li>
       <!-- <li class="logo" style="text-align: center;">
         <img src="https://png.pngtree.com/element_pic/17/02/19/7274358bfbbcf0b7192aacfb855b30e0.jpg" style="padding-top: 10px;">
       </li> -->
@@ -49,11 +56,22 @@
     </a>
     <!-- Dropdown Structure -->
     <ul id='dropdNav' class='dropdown-content'>
-      <li><a>one</a></li>
+      <li>
+        <a class="waves-effect" [routerLink]="['/profile']">
+          <i class="material-icons">cloud</i>My Profile
+        </a>
+      </li>
+      <li>
+        <a class="waves-effect" [routerLink]="['/panel']">
+          <i class="material-icons">cloud</i>Notifications
+        </a>
+      </li>
+      <li>
+        <a class="waves-effect" (click)="onClickLogout()">
+          <i class="material-icons">cloud</i>Log Out
+        </a>
+      </li>
       <li class="divider"></li>
-      <li><a>two</a></li>
-      <li class="divider"></li>
-      <li><a>three</a></li>
     </ul>
   </div>
 </nav>

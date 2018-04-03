@@ -13,12 +13,12 @@ export class SessionService extends BaseApiService {
   private static readonly SESSION_API = `${BaseApiService.BASE_API}/session`;
 
   private user: User;
-  // private userSubject: Subject<User> = new Subject();
+  private userSubject: Subject<User> = new Subject();
 
   constructor(private http: Http) {
     super();
     this.user = JSON.parse(localStorage.getItem(CURRENT_USER_KEY));
-    // this.notifyUserChanges();
+    this.notifyUserChanges();
   }
 
   authenticate(user: User): Observable<User> {
@@ -45,24 +45,24 @@ export class SessionService extends BaseApiService {
       return this.user;
     }
 
-    // onUserChanges(): Observable<User> {
-    //   return this.userSubject.asObservable();
-    // }
-    // private notifyUserChanges() {
-    //   this.userSubject.next(this.user);
-    // }
+    onUserChanges(): Observable<User> {
+      return this.userSubject.asObservable();
+    }
+    private notifyUserChanges() {
+      this.userSubject.next(this.user);
+    }
 
   private doAuthentication(user: User): User {
     this.user = user;
     localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(this.user));
-    // this.notifyUserChanges();
+    this.notifyUserChanges();
     return this.user;
   }
 
   private doLogout(): void {
     this.user = null;
     localStorage.removeItem(CURRENT_USER_KEY);
-    // this.notifyUserChanges();
+    this.notifyUserChanges();
   }
 }
 

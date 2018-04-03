@@ -12,7 +12,7 @@ import { User } from './../../../shared/models/user.model';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   private user: User = new User();
-  // private userSubscription: Subscription;
+  private userSubscription: Subscription;
 
   constructor(
     private router: Router,
@@ -20,12 +20,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
       this.user = this.sessionService.getUser();
-      // this.userSubscription = this.sessionService.onUserChanges()
-      //   .subscribe(user => this.user = user);
+      this.userSubscription = this.sessionService.onUserChanges()
+        .subscribe(user => this.user = user);
     }
 
     ngOnDestroy() {
-      // this.userSubscription.unsubscribe();
+      this.userSubscription.unsubscribe();
     }
 
     onClickLogout() {
