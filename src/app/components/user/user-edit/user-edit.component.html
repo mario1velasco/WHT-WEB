@@ -1,4 +1,7 @@
-<div class="row">
+<a [routerLink]="['/users', user.id]">
+  <i class="material-icons prefix">chevron_left</i>
+</a>
+<div class="row"> 
     <div class="col s11 offset-s1">
       <h2>My details</h2>
       <p>Here you can update your personals details</p>
@@ -21,6 +24,45 @@
               </ul>
             </span>
         </div>
+        <div class="input-field col s10">
+            <i class="material-icons prefix">account_circle</i>
+            <input placeholder="Name" id="name" type="text" [(ngModel)]="user.name" name="name" #name="ngModel">
+            <label for="name">Name</label>
+        </div>
+        <div class="input-field col s10">
+            <i class="material-icons prefix">account_circle</i>
+            <input placeholder="Family Name" id="familyname" type="text" [(ngModel)]="user.familyname" name="familyname" #familyname="ngModel">
+            <label for="familyname">Family Name</label>
+        </div>
+        <div class="input-field col s10">
+            <i class="material-icons prefix">account_circle</i>
+            <input placeholder="Telephone" id="telephone" type="text" [(ngModel)]="user.telephone" name="telephone" #telephone="ngModel">
+            <label for="telephone">Telephone</label>
+        </div>
+        <div class="input-field col s10">
+            <i class="material-icons prefix">account_circle</i>
+            <input placeholder="About" id="about" type="text" [(ngModel)]="user.about" name="about" #about="ngModel">
+            <label for="about">About</label>
+        </div>
+        <div class="input-field col s10">
+            <i class="material-icons prefix">account_circle</i>
+            <input placeholder="Language" id="language" type="text" [(ngModel)]="user.language" name="language" #language="ngModel">
+            <label for="language">Language</label>
+        </div>
+        <div class="input-field col s10">
+            <i class="material-icons prefix">account_circle</i>
+            <input placeholder="PHOTO" id="photo" type="text" [(ngModel)]="user.photo" name="photo" #photo="ngModel">
+            <label for="photo">PHOTO</label>
+          </div>
+          <div class="switch col s10">
+            <label>SUPERUSER</label>
+            <label>
+              Off
+              <input type="checkbox">
+              <span class="lever"></span>
+              On
+            </label>
+          </div>
       </div>
       <div class="row">
         <button class="btn waves-effect teal darken-3" type="submit" name="action" [disabled]="!updateForm.valid">
