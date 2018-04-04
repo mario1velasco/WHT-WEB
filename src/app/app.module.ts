@@ -18,6 +18,8 @@ import { UserPanelComponent } from './components/user/user-panel/user-panel.comp
 import { ComponentComponent } from './component/component.component';
 import { UserDetailsComponent } from './components/user/user-details/user-details.component';
 import { UserBaseComponent } from './components/user/user-base/user-base.component';
+import { UserEditComponent } from './components/user/user-edit/user-edit.component';
+import { UserBaseIdComponent } from './components/user/user-base-id/user-base-id.component';
 
 
 @NgModule({
@@ -30,7 +32,9 @@ import { UserBaseComponent } from './components/user/user-base/user-base.compone
     UserPanelComponent,
     ComponentComponent,
     UserDetailsComponent,
-    UserBaseComponent
+    UserBaseComponent,
+    UserEditComponent,
+    UserBaseIdComponent
   ],
   imports: [
     BrowserModule,

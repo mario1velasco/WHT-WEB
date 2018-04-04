@@ -11,7 +11,7 @@ import { SessionService } from './../../../shared/services/session.service';
   styleUrls: ['./user-panel.component.css']
 })
 export class UserPanelComponent implements OnInit, OnDestroy {
-  private user: User;
+  user: User;
   private userSubscription: Subscription;
 
   constructor(
