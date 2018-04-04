@@ -1,3 +1,32 @@
-<p>
-  user-edit works!
-</p>
+<div class="row">
+    <div class="col s11 offset-s1">
+      <h2>My details</h2>
+      <p>Here you can update your personals details</p>
+    </div>
+    <form class="col s11 offset-s1" (ngSubmit)="onSubmitUpdate(updateForm)" #updateForm="ngForm">
+      <div class="row">
+        <div class="input-field col s10">
+          <i class="material-icons prefix">account_circle</i>
+          <input placeholder="Email" disabled value="{{user.email}}" id="disabled" type="text" class="validate">
+          <label for="disabled">Email</label>
+        </div>
+        <div class="input-field col s10">
+            <i class="material-icons prefix">account_circle</i>
+            <input placeholder="Username" id="username" type="text" [(ngModel)]="user.username" 
+            data-length="10" name="username" class="validate" pattern="^.{0,9}$" #username="ngModel">
+            <label for="username">Username</label>
+            <span class="helper-text" *ngIf="username.errors">
+              <ul>
+                <li *ngIf="username.errors?.pattern">Username length < 10</li>
+              </ul>
+            </span>
+        </div>
+      </div>
+      <div class="row">
+        <button class="btn waves-effect teal darken-3" type="submit" name="action" [disabled]="!updateForm.valid">
+          Update
+          <i class="material-icons right">add</i>
+        </button>
+      </div>
+    </form>
+  </div>

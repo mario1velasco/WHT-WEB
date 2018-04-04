@@ -32,6 +32,18 @@ export class UsersService extends BaseApiService {
       .map((res: Response) => res.json())
       .catch((error: Response) => this.handleError(error));
   }
+  get(id: string): Observable<User> {
+    return this.http.get(`${UsersService.USERS_API}/${id}`, UsersService.defaultOptions)
+      .map((res: Response) => res.json())
+      .catch((error: Response) => this.handleError(error));
+  }
+
+  edit(user: User): Observable<User> {
+    // return this.http.put(`UsersService.PHONES_API/${user.id}`, user.asFormData(), new RequestOptions({ withCredentials: true }))
+    return this.http.put(`${UsersService.USERS_API}/${user.id}`, JSON.stringify(user), UsersService.defaultOptions)
+      .map((res: Response) => res.json())
+      .catch(error => this.handleError(error));
+  }
 
   // private handleError(error: Response): Observable<any> {
   //   if (!environment.production) {
