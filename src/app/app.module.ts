@@ -1,3 +1,4 @@
+import { IsAuthenticatedGuard } from './shared/guards/is-authenticated.guard';
 import { SessionService } from './shared/services/session.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -14,6 +15,9 @@ import { SignupComponent } from './components/misc/signup/signup.component';
 import { NavbarComponent } from './components/misc/navbar/navbar.component';
 import { UsersService } from './shared/services/users.service';
 import { UserPanelComponent } from './components/user/user-panel/user-panel.component';
+import { ComponentComponent } from './component/component.component';
+import { UserDetailsComponent } from './components/user/user-details/user-details.component';
+import { UserBaseComponent } from './components/user/user-base/user-base.component';
 
 
 @NgModule({
@@ -23,7 +27,10 @@ import { UserPanelComponent } from './components/user/user-panel/user-panel.comp
     LoginComponent,
     SignupComponent,
     NavbarComponent,
-    UserPanelComponent
+    UserPanelComponent,
+    ComponentComponent,
+    UserDetailsComponent,
+    UserBaseComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +41,8 @@ import { UserPanelComponent } from './components/user/user-panel/user-panel.comp
   ],
   providers: [
     UsersService,
-    SessionService
+    SessionService,
+    IsAuthenticatedGuard
   ],
   bootstrap: [AppComponent]
 })

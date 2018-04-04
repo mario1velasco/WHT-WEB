@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { User } from './../../../shared/models/user.model';
 import { SessionService } from './../../../shared/services/session.service';
@@ -9,9 +10,9 @@ import { SessionService } from './../../../shared/services/session.service';
   templateUrl: './user-panel.component.html',
   styleUrls: ['./user-panel.component.css']
 })
-export class UserPanelComponent implements OnInit {
+export class UserPanelComponent implements OnInit, OnDestroy {
   private user: User;
-  // private userSubscription: Subscription;
+  private userSubscription: Subscription;
 
   constructor(
     private router: Router,
@@ -20,13 +21,13 @@ export class UserPanelComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.sessionService.getUser();
-    // this.userSubscription = this.sessionService.onUserChanges()
-    //   .subscribe(user => this.user = user);
+    this.userSubscription = this.sessionService.onUserChanges()
+      .subscribe(user => this.user = user);
   }
 
-  // ngOnDestroy() {
-  //   this.userSubscription.unsubscribe();
-  // }
+  ngOnDestroy() {
+    this.userSubscription.unsubscribe();
+  }
 
   onClickLogout() {
     this.sessionService.logout()
