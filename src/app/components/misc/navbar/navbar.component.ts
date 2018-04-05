@@ -11,8 +11,8 @@ import { User } from './../../../shared/models/user.model';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit, OnDestroy {
-  private user: User = new User();
-  private userSubscription: Subscription;
+  user: User = new User();
+  userSubscription: Subscription;
 
   constructor(
     private router: Router,

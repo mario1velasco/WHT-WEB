@@ -12,7 +12,7 @@ import { SessionService } from './../../../shared/services/session.service';
 })
 export class UserPanelComponent implements OnInit, OnDestroy {
   user: User;
-  private userSubscription: Subscription;
+  userSubscription: Subscription;
 
   constructor(
     private router: Router,
