@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class SignupComponent implements OnInit {
   user: User = new User();
-  apiError: string;
+  apiError: object;
 
   constructor(
     private router: Router,
@@ -29,7 +29,7 @@ export class SignupComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this.apiError = error.message;
+        this.apiError = error;
       }
     );
   }

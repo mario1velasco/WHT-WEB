@@ -1,3 +1,4 @@
+import { GlobalErrorHandlerService } from './shared/services/global-error-handler.service';
 import { IsAuthenticatedGuard } from './shared/guards/is-authenticated.guard';
 import { SessionService } from './shared/services/session.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -44,7 +45,8 @@ import { ChatListComponent } from './components/chat/chat-list/chat-list.compone
   providers: [
     UsersService,
     SessionService,
-    IsAuthenticatedGuard
+    IsAuthenticatedGuard,
+    GlobalErrorHandlerService
   ],
   bootstrap: [AppComponent]
 })

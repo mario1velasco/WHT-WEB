@@ -12,7 +12,7 @@ import { User } from './../../../shared/models/user.model';
 })
 export class LoginComponent implements OnInit {
   user: User = new User();
-  apiError: string;
+  apiError: object;
 
   constructor(
     private sessionService: SessionService,
@@ -29,7 +29,8 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/users', user.id]);
       },
       (error) => {
-        this.apiError = error.message;
+        console.log(error);
+        this.apiError = error;
       }
     );
   }

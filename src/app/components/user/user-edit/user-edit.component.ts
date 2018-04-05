@@ -1,3 +1,4 @@
+import { GlobalErrorHandlerService } from './../../../shared/services/global-error-handler.service';
 import { User } from './../../../shared/models/user.model';
 import { UsersService } from './../../../shared/services/users.service';
 import { Component, OnInit } from '@angular/core';
@@ -11,12 +12,13 @@ import { NgForm } from '@angular/forms';
 })
 export class UserEditComponent implements OnInit {
   user: User = new User();
-  apiError: string;
+  apiError: object;
 
   constructor(
     private usersService: UsersService,
     private routes: ActivatedRoute,
     private router: Router,
+    private globalErrorHandlerService: GlobalErrorHandlerService
   ) { }
 
   ngOnInit() {
@@ -25,8 +27,14 @@ export class UserEditComponent implements OnInit {
       const id = params['id'];
       console.log(id);
       //5ac50598dabd0d33a48ceb1d
-      this.usersService.get('5ac50598dabd0d33a48ceb1d')
-        .subscribe((user) => this.user = user);
+      this.usersService.get('5ac50598dabd0d33a48ceb1d').subscribe(
+        (user) => this.user = user,
+        (error) => {
+          console.log('error');
+          this.globalErrorHandlerService.handleError(error);
+          this.apiError = error;
+        }
+      );
     });
   }
   onSubmitUpdate(form: NgForm) {

@@ -9,6 +9,9 @@
     <form class="col s11 offset-s1" (ngSubmit)="onSubmitUpdate(updateForm)" #updateForm="ngForm">
       <div class="row">
         <div class="input-field col s10">
+          <label>{{ apiError }}</label>
+        </div>
+        <div class="input-field col s10">
           <i class="material-icons prefix">account_circle</i>
           <input placeholder="Email" disabled value="{{user.email}}" id="disabled" type="text" class="validate">
           <label for="disabled">Email</label>
