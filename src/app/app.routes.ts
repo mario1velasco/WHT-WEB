@@ -1,3 +1,4 @@
+import { ChatListComponent } from './components/chat/chat-list/chat-list.component';
 import { UserBaseIdComponent } from './components/user/user-base-id/user-base-id.component';
 import { Routes } from '@angular/router';
 
@@ -6,7 +7,6 @@ import { LoginComponent } from './components/misc/login/login.component';
 import { UserPanelComponent } from './components/user/user-panel/user-panel.component';
 import { UserBaseComponent } from './components/user/user-base/user-base.component';
 import { IsAuthenticatedGuard } from './shared/guards/is-authenticated.guard';
-import { UserDetailsComponent } from './components/user/user-details/user-details.component';
 import { UserEditComponent } from './components/user/user-edit/user-edit.component';
 
 export const routes: Routes = [
@@ -31,6 +31,11 @@ export const routes: Routes = [
                         path: 'edit',
                         canActivate: [IsAuthenticatedGuard],
                         component: UserEditComponent
+                    },
+                    {
+                        path: 'chats',
+                        canActivate: [IsAuthenticatedGuard],
+                        component: ChatListComponent
                     },
                     {
                         path: '',
