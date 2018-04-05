@@ -4,6 +4,7 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { BaseApiService } from './base-api.service';
 import { environment } from './../../../environments/environment';
 import { User } from './../models/user.model';
+// tslint:disable-next-line:import-blacklist
 import { Observable, Subject } from 'rxjs/Rx';
 
 const CURRENT_USER_KEY = 'currentUser';
