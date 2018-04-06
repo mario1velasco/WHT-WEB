@@ -22,12 +22,12 @@ export class UserEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.routes.params.subscribe((params) => {
+    this.routes.parent.params.subscribe((params) => {
       console.log(params);
       const id = params['id'];
       console.log(id);
       // 5ac50598dabd0d33a48ceb1d
-      this.usersService.get('5ac50598dabd0d33a48ceb1d').subscribe(
+      this.usersService.get(id).subscribe(
         (user) => this.user = user,
         (error) => {
           console.log('error');

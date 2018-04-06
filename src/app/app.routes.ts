@@ -13,12 +13,13 @@ export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full'},
     { path: 'login', component: LoginComponent },
     { path: 'signup', component: SignupComponent },
-    { path: 'panel', component: UserPanelComponent },
+    { path: 'users', canActivate: [IsAuthenticatedGuard], component: UserPanelComponent },
     {
         path: 'users',
         canActivate: [IsAuthenticatedGuard],
         component: UserBaseComponent,
         children: [
+            { path: ':id', canActivate: [IsAuthenticatedGuard], component: UserPanelComponent },
             {
                 path: ':id',
                 canActivate: [IsAuthenticatedGuard],
@@ -31,19 +32,31 @@ export const routes: Routes = [
                         path: 'edit',
                         canActivate: [IsAuthenticatedGuard],
                         component: UserEditComponent
-                    },
-                    {
-                        path: 'chats',
-                        canActivate: [IsAuthenticatedGuard],
-                        component: ChatListComponent
-                    },
-                    {
-                        path: '',
-                        canActivate: [IsAuthenticatedGuard],
-                        component: UserPanelComponent
                     }
                 ]
             }
         ]
     },
+    { path: 'chats', canActivate: [IsAuthenticatedGuard], component: ChatListComponent},
+    // {
+    //     path: 'chats',
+    //     canActivate: [IsAuthenticatedGuard],
+    //     component: PhoneBaseComponent,
+    //     children: [
+    //         {
+    //             path: 'new',
+    //             canActivate: [IsAuthenticatedGuard],
+    //             canDeactivate: [CanLeavePhoneCreateGuard],
+    //             component: PhoneCreateComponent
+    //         },
+    //         {
+    //             path: ':id',
+    //             canActivate: [IsAuthenticatedGuard],
+    //             resolve: {
+    //                 phone: PhoneDetailsResolverGuard
+    //             },
+    //             component: PhoneItemComponent
+    //         }
+    //     ]
+    // }
 ];
