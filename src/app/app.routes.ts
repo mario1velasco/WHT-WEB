@@ -1,3 +1,4 @@
+import { ChatRoomComponent } from './components/chat/chat-room/chat-room.component';
 import { ChatListComponent } from './components/chat/chat-list/chat-list.component';
 import { UserBaseIdComponent } from './components/user/user-base-id/user-base-id.component';
 import { Routes } from '@angular/router';
@@ -38,6 +39,7 @@ export const routes: Routes = [
         ]
     },
     { path: 'chats', canActivate: [IsAuthenticatedGuard], component: ChatListComponent},
+    { path: 'newchat', canActivate: [IsAuthenticatedGuard], component: ChatRoomComponent},
     // {
     //     path: 'chats',
     //     canActivate: [IsAuthenticatedGuard],

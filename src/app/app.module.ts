@@ -1,3 +1,4 @@
+import { ChatService } from './shared/services/chat.service';
 import { GlobalErrorHandlerService } from './shared/services/global-error-handler.service';
 import { IsAuthenticatedGuard } from './shared/guards/is-authenticated.guard';
 import { SessionService } from './shared/services/session.service';
@@ -20,6 +21,7 @@ import { UserBaseComponent } from './components/user/user-base/user-base.compone
 import { UserEditComponent } from './components/user/user-edit/user-edit.component';
 import { UserBaseIdComponent } from './components/user/user-base-id/user-base-id.component';
 import { ChatListComponent } from './components/chat/chat-list/chat-list.component';
+import { ChatRoomComponent } from './components/chat/chat-room/chat-room.component';
 
 
 @NgModule({
@@ -33,7 +35,8 @@ import { ChatListComponent } from './components/chat/chat-list/chat-list.compone
     UserBaseComponent,
     UserEditComponent,
     UserBaseIdComponent,
-    ChatListComponent
+    ChatListComponent,
+    ChatRoomComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +49,8 @@ import { ChatListComponent } from './components/chat/chat-list/chat-list.compone
     UsersService,
     SessionService,
     IsAuthenticatedGuard,
-    GlobalErrorHandlerService
+    GlobalErrorHandlerService,
+    ChatService
   ],
   bootstrap: [AppComponent]
 })

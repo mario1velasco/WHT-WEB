@@ -1,0 +1,34 @@
+<p>
+  chat-room works!
+</p>
+
+<form (ngSubmit)="onSubmitCreateForm(createForm)" #createForm="ngForm">
+  <div>
+    <div>
+      <label for="username">username</label>
+      <input type="text" name="username" [(ngModel)]="user" #username="ngModel" required>
+      <ul *ngIf="username.errors && username.touched">
+        <li *ngIf="username.errors.required">username is required</li>
+      </ul>
+    </div>
+    <div>
+      <label for="message">message</label>
+      <input type="text" name="message" [(ngModel)]="texto" #message="ngModel" required>
+      <ul *ngIf="message.errors && message.touched">
+        <li *ngIf="message.errors.required">message is required</li>
+      </ul>
+    </div>
+    <div>
+      <label for="lenguage">lenguage</label>
+      <input type="text" name="lenguage" [(ngModel)]="lengua" #lenguage="ngModel" required>
+      <ul *ngIf="lenguage.errors && lenguage.touched">
+        <li *ngIf="lenguage.errors.required">lenguage is required</li>
+      </ul>
+    </div>
+  </div>
+  <button type="submit" [disabled]="!createForm.valid">Save</button>
+</form>
+<p class="error" *ngIf="error">{{ error | json }}</p>
+
+<button type="submit"  (click)="disconnect()" >DISCONNECT</button>
+<div id="messages" ></div>

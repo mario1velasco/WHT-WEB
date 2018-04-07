@@ -1,3 +1,17 @@
-<p>
-  chat-list works!
-</p>
+<h2>My Chats</h2>
+
+<div class="collection">
+  <a href="" class="collection-item" [routerLink]="['/chats', 'id']">Chat name</a>
+  <a href="" class="collection-item">
+    <span class="new badge">4</span>New Messages
+  </a>
+  <a href="" class="collection-item" [routerLink]="['/chats']">Chats</a>
+  <a href="" class="collection-item">Friends</a>
+</div>
+{{messages}}
+{{apiError}}
+
+<h2>NEW CHAT</h2>
+<a [routerLink]="['/newchat']">
+  <h1>NEW</h1>
+</a>
