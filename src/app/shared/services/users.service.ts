@@ -24,10 +24,6 @@ export class UsersService extends BaseApiService {
   }
 
   create(user: User): Observable<User> {
-    console.log(user);
-    console.log(UsersService.USERS_API);
-    console.log(UsersService.defaultOptions);
-
     return this.http.post(UsersService.USERS_API, JSON.stringify(user), UsersService.defaultOptions)
       .map((res: Response) => res.json())
       .catch((error: Response) => this.handleError(error));

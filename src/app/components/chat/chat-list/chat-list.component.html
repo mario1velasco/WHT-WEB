@@ -1,17 +1,53 @@
 <h2>My Chats</h2>
 
 <div class="collection">
-  <a href="" class="collection-item" [routerLink]="['/chats', 'id']">Chat name</a>
+  <a *ngFor="let message of messages" href="" class="collection-item" [routerLink]="['/chats', 'id']">{{message}}</a>
   <a href="" class="collection-item">
     <span class="new badge">4</span>New Messages
   </a>
-  <a href="" class="collection-item" [routerLink]="['/chats']">Chats</a>
-  <a href="" class="collection-item">Friends</a>
 </div>
-{{messages}}
+
 {{apiError}}
+
 
 <h2>NEW CHAT</h2>
 <a [routerLink]="['/newchat']">
   <h1>NEW</h1>
 </a>
+
+
+<div class="row"> 
+    <div class="col s11 offset-s1">
+      <h2>NEW CHAT</h2>
+      <p>Here you can create a new chat</p>
+    </div>
+    <form class="col s11 offset-s1" (ngSubmit)="onSubmitCreate(createForm)" #updateForm="ngForm">
+      <div class="row">
+        <div class="input-field col s10">
+          <label>{{ apiError }}</label>
+        </div>
+        <div class="input-field col s10">
+            <i class="material-icons prefix">account_circle</i>
+            <input placeholder="groupName" id="groupName" type="text" [(ngModel)]="chat.groupName" 
+            data-length="10" name="groupName" class="validate" pattern="^\S*$" #groupName="ngModel">
+            <label for="groupName">groupName</label>
+            <span class="helper-text" *ngIf="groupName.errors">
+              <ul>
+                <li *ngIf="groupName.errors?.pattern">White spaces not allow</li>
+              </ul>
+            </span>
+        </div>
+        <!-- <div class="input-field col s10">
+            <i class="material-icons prefix">account_circle</i>
+            <input placeholder="Name" id="name" type="text" [(ngModel)]="user.name" name="name" #name="ngModel">
+            <label for="name">Name</label>
+        </div> -->
+      </div>
+      <div class="row">
+        <button class="btn waves-effect teal darken-3" type="submit" name="action" [disabled]="!updateForm.valid">
+          Create
+          <i class="material-icons right">add</i>
+        </button>
+      </div>
+    </form>
+  </div>
