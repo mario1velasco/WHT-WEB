@@ -9,6 +9,7 @@ import { Message } from './../../../shared/models/message.model';
 import { User } from '../../../shared/models/user.model';
 import { Chat } from './../../../shared/models/chat.model';
 
+import * as moment from 'moment';
 @Component({
   selector: 'app-chat-list',
   templateUrl: './chat-list.component.html',
@@ -40,21 +41,21 @@ export class ChatListComponent implements OnInit {
         this.apiError = error;
       }
     );
-    // this.routes.parent.params.subscribe((params) => {
-    //   console.log(params);
-    //   const id = params['id'];
-    //   console.log(id);
-    // });
   }
 
   onSubmitCreate(form: NgForm) {
+    this.chat.originalLanguage = this.user.language;
+    this.chat.language = this.user.language;
+    const now = moment().format('LLLL');
+    this.chat.time = now;
     this.chatService.create(this.user.id, this.chat).subscribe(
-      (user) => {
-        this.router.navigate(['/chats']);
+      (chat) => {
+        console.log(chat);
+        this.router.navigate(['/chats', this.chat.groupName]);
       },
       (error) => {
         console.log(error);
-        this.apiError = error.message;
+        this.apiError = error;
       }
     );
   }

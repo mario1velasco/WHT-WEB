@@ -1,3 +1,4 @@
+import { ChatBaseComponent } from './components/chat/chat-base/chat-base.component';
 import { ChatRoomComponent } from './components/chat/chat-room/chat-room.component';
 import { ChatListComponent } from './components/chat/chat-list/chat-list.component';
 import { UserBaseIdComponent } from './components/user/user-base-id/user-base-id.component';
@@ -40,25 +41,25 @@ export const routes: Routes = [
     },
     { path: 'chats', canActivate: [IsAuthenticatedGuard], component: ChatListComponent},
     { path: 'newchat', canActivate: [IsAuthenticatedGuard], component: ChatRoomComponent},
-    // {
-    //     path: 'chats',
-    //     canActivate: [IsAuthenticatedGuard],
-    //     component: PhoneBaseComponent,
-    //     children: [
-    //         {
-    //             path: 'new',
-    //             canActivate: [IsAuthenticatedGuard],
-    //             canDeactivate: [CanLeavePhoneCreateGuard],
-    //             component: PhoneCreateComponent
-    //         },
-    //         {
-    //             path: ':id',
-    //             canActivate: [IsAuthenticatedGuard],
-    //             resolve: {
-    //                 phone: PhoneDetailsResolverGuard
-    //             },
-    //             component: PhoneItemComponent
-    //         }
-    //     ]
-    // }
+    {
+        path: 'chats',
+        canActivate: [IsAuthenticatedGuard],
+        component: ChatBaseComponent,
+        children: [
+            // {
+            //     path: 'new',
+            //     canActivate: [IsAuthenticatedGuard],
+            //     canDeactivate: [CanLeavePhoneCreateGuard],
+            //     component: PhoneCreateComponent
+            // },
+            {
+                path: ':id',
+                canActivate: [IsAuthenticatedGuard],
+                // resolve: {
+                //     phone: PhoneDetailsResolverGuard
+                // },
+                component: ChatRoomComponent
+            }
+        ]
+    }
 ];

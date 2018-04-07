@@ -30,6 +30,18 @@
           </ul>
         </span>
       </div>
+      <div class="input-field col s10">
+        <i class="material-icons prefix">edit</i>
+        <input id="username" type="text" name="username" class="validate" placeholder="User name" [(ngModel)]="user.username"
+        #username="ngModel" pattern="^\S{3,40}$" required>
+        <label for="username">Username</label>
+        <span class="helper-text" *ngIf="username.errors && username.touched">
+          <ul>
+            <li *ngIf="username.errors?.pattern">White spaces not allow and length 1-40</li>
+            <li *ngIf="username.errors.required">Required</li>
+          </ul>
+        </span>
+      </div>
     </div>
     <div class="row">
       <button class="btn waves-effect teal darken-3" type="submit" name="action" [disabled]="!signupForm.valid">Sign Up

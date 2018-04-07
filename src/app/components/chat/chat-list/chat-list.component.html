@@ -1,39 +1,31 @@
 <h2>My Chats</h2>
 
 <div class="collection">
-  <a *ngFor="let message of messages" href="" class="collection-item" [routerLink]="['/chats', 'id']">{{message}}</a>
+  <a *ngFor="let message of messages" href="" class="collection-item" [routerLink]="['/chats', message]">{{message}}</a>
   <a href="" class="collection-item">
     <span class="new badge">4</span>New Messages
   </a>
 </div>
 
-{{apiError}}
-
-
-<h2>NEW CHAT</h2>
-<a [routerLink]="['/newchat']">
-  <h1>NEW</h1>
-</a>
-
+{{ apiError }}
 
 <div class="row"> 
     <div class="col s11 offset-s1">
       <h2>NEW CHAT</h2>
       <p>Here you can create a new chat</p>
     </div>
-    <form class="col s11 offset-s1" (ngSubmit)="onSubmitCreate(createForm)" #updateForm="ngForm">
+    <form class="col s11 offset-s1" (ngSubmit)="onSubmitCreate(updateForm)" #updateForm="ngForm">
       <div class="row">
-        <div class="input-field col s10">
-          <label>{{ apiError }}</label>
-        </div>
+        
         <div class="input-field col s10">
             <i class="material-icons prefix">account_circle</i>
             <input placeholder="groupName" id="groupName" type="text" [(ngModel)]="chat.groupName" 
-            data-length="10" name="groupName" class="validate" pattern="^\S*$" #groupName="ngModel">
+            data-length="40" name="groupName" class="validate" pattern="^\S{3,40}$" #groupName="ngModel" required>
             <label for="groupName">groupName</label>
-            <span class="helper-text" *ngIf="groupName.errors">
+            <span class="helper-text" *ngIf="groupName.errors && groupName.touched">
               <ul>
-                <li *ngIf="groupName.errors?.pattern">White spaces not allow</li>
+                <li *ngIf="groupName.errors?.pattern">White spaces not allow and length 3-40</li>
+                <li *ngIf="groupName.errors?.required">Required</li>
               </ul>
             </span>
         </div>
@@ -48,6 +40,9 @@
           Create
           <i class="material-icons right">add</i>
         </button>
+        <div class="input-field col s10">
+          <label>{{ apiError }}</label>
+        </div>
       </div>
     </form>
   </div>

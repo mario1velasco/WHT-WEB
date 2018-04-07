@@ -2,7 +2,7 @@ export class User {
   id: string;
   email: string;
   password: string;
-  username?: string;
+  username: string;
   social?: string;
   name?: string;
   familyname?: string;

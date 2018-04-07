@@ -1,34 +1,59 @@
-<p>
-  chat-room works!
-</p>
-
-<form (ngSubmit)="onSubmitCreateForm(createForm)" #createForm="ngForm">
-  <div>
-    <div>
-      <label for="username">username</label>
-      <input type="text" name="username" [(ngModel)]="user" #username="ngModel" required>
-      <ul *ngIf="username.errors && username.touched">
-        <li *ngIf="username.errors.required">username is required</li>
-      </ul>
+<div class="row"> 
+    <div class="col s11 offset-s1">
+      <h2>CHAT: {{id}}</h2>
+      <p>This is your chat</p>
     </div>
-    <div>
-      <label for="message">message</label>
-      <input type="text" name="message" [(ngModel)]="texto" #message="ngModel" required>
-      <ul *ngIf="message.errors && message.touched">
-        <li *ngIf="message.errors.required">message is required</li>
-      </ul>
-    </div>
-    <div>
-      <label for="lenguage">lenguage</label>
-      <input type="text" name="lenguage" [(ngModel)]="lengua" #lenguage="ngModel" required>
-      <ul *ngIf="lenguage.errors && lenguage.touched">
-        <li *ngIf="lenguage.errors.required">lenguage is required</li>
-      </ul>
-    </div>
+    <form class="col s11 offset-s1" (ngSubmit)="onSubmitCreateForm(updateForm)" #updateForm="ngForm">
+      <div class="row">
+        <div class="input-field col s10">
+            <i class="material-icons prefix">account_circle</i>
+            <input placeholder="User name" id="username" type="text" [(ngModel)]="user.username" 
+            name="username" #username="ngModel" required>
+            <label for="username">User name</label>
+            <span class="helper-text" *ngIf="username.errors && username.touched">
+              <ul>
+                <li *ngIf="username.errors?.required">Required</li>
+              </ul>
+            </span>
+        </div>
+        <div class="input-field col s10">
+            <i class="material-icons prefix">account_circle</i>
+            <input placeholder="Language" id="language" type="text" [(ngModel)]="user.language" 
+            name="language" #language="ngModel" required>
+            <label for="language">Language</label>
+            <span class="helper-text" *ngIf="language.errors && language.touched">
+              <ul>
+                <li *ngIf="language.errors?.required">Required</li>
+              </ul>
+            </span>
+        </div>
+        <div class="input-field col s10">
+            <i class="material-icons prefix">account_circle</i>
+            <input placeholder="Message" id="text" type="text" [(ngModel)]="chat.text" 
+            name="text" #text="ngModel" required>
+            <label for="text">Message</label>
+            <span class="helper-text" *ngIf="text.errors && text.touched">
+              <ul>
+                <li *ngIf="text.errors?.required">Required</li>
+              </ul>
+            </span>
+        </div>        
+      </div>
+      <div class="row">
+        <button class="btn waves-effect teal darken-3" type="submit" name="action" [disabled]="!updateForm.valid">
+          Create
+          <i class="material-icons right">add</i>
+        </button>
+        <div class="input-field col s10">
+          <label>{{ apiError }}</label>
+        </div>
+      </div>
+    </form>
   </div>
-  <button type="submit" [disabled]="!createForm.valid">Save</button>
-</form>
-<p class="error" *ngIf="error">{{ error | json }}</p>
 
-<button type="submit"  (click)="disconnect()" >DISCONNECT</button>
+<button class="btn waves-effect teal darken-3" type="submit" name="action" (click)="disconnect()">
+    Disconnect
+    <i class="material-icons right">add</i>
+  </button>
+<!-- <button type="submit"  (click)="disconnect()" >DISCONNECT</button> -->
 <div id="messages" ></div>
