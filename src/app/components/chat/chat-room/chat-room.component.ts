@@ -21,7 +21,6 @@ export class ChatRoomComponent implements OnInit {
   users: Array<User> = [];
   apiError: object;
 
-  previousComments: Array < Message > = [];
   groupName = '';
   texto = '';
   lengua = '';
@@ -73,7 +72,7 @@ export class ChatRoomComponent implements OnInit {
       groupName: this.groupName,
       createdBy: this.user.id,
       originalLanguage: this.user.language,
-      originalText: this.texto,
+      originalText: this.chat.text,
       time: now
     };
     console.log('Mandar Mensaje = ');
@@ -89,10 +88,10 @@ export class ChatRoomComponent implements OnInit {
   }
 
   render(data) {
-    const html = data.map(function (chat, index) {
+    const html = data.map(function (message, index) {
       return (`<div>
-                <strong>${chat.createdBy}</strong>:
-                <em>${chat.text}</em>
+                <strong>${message.createdBy}</strong>:
+                <em>${message.text}</em>
               </div>`);
     }).join(' ');
     const d1 = document.getElementById('messages');

@@ -58,7 +58,7 @@
 <!-- <button type="submit"  (click)="disconnect()" >DISCONNECT</button> -->
 <div id="messages" ></div>
 
-<table class="striped highlight">
+<table class="highlight">
   <thead>
     <tr>
         <th>Name</th>
@@ -70,7 +70,7 @@
     <tr *ngFor="let user of users">
       <td>{{user.username}}</td>
       <td>
-        <a (click)="addUserToChat(user.id)" >
+        <a href="javascript:;" (click)="addUserToChat(user.id)" >
           <i class="material-icons">add</i>
         </a>
       </td>
