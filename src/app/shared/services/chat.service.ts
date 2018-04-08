@@ -6,6 +6,7 @@ import { environment } from './../../../environments/environment';
 import { Chat } from './../models/chat.model';
 // import { Message } from './../models/message.model';
 import * as io from 'socket.io-client';
+import { User } from '../models/user.model';
 
 @Injectable()
 export class ChatService extends BaseApiService {
@@ -28,23 +29,30 @@ export class ChatService extends BaseApiService {
       .map((res: Response) => res.json())
       .catch((error: Response) => this.handleError(error));
   }
+
+  addUser(user: User, data: object): Observable<User> {
+    return this.http.put(`${ChatService.CHATS_API}/${user.id}/chats/adduser`, JSON.stringify(data), ChatService.defaultOptions)
+      .map((res: Response) => res.json())
+      .catch(error => this.handleError(error));
+  }
+
   /*SHOCKET.IO FUNCTIONS*/
 
   addComment (data) {
     this.socket.emit('addComment', data);
   }
 
-  joinChatRoom (showId) {
-    console.log('Chat Room = show id =' + showId);
+  joinChatRoom (roomName: string, user: User) {
+    console.log('Chat Room Name = ' + roomName);
 
-    this.socket.emit('join', `show-id-${showId}`);
+    this.socket.emit('join', roomName, user);
   }
 
-  onJoinChatRoom () {
-    return new Promise((resolve, reject) => {
-      this.socket.on('room:joined', (data) => {
-        resolve(data);
-      });
-    });
-  }
+  // onJoinChatRoom () {
+  //   return new Promise((resolve, reject) => {
+  //     this.socket.on('room:joined', (data) => {
+  //       resolve(data);
+  //     });
+  //   });
+  // }
 }

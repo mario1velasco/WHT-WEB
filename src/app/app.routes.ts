@@ -53,7 +53,7 @@ export const routes: Routes = [
             //     component: PhoneCreateComponent
             // },
             {
-                path: ':id',
+                path: ':groupName',
                 canActivate: [IsAuthenticatedGuard],
                 // resolve: {
                 //     phone: PhoneDetailsResolverGuard
