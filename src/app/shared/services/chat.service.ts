@@ -17,8 +17,14 @@ export class ChatService extends BaseApiService {
     super();
   }
 
-  get(id: string): Observable<Array<Chat>> {
+  show(id: string): Observable<Array<Chat>> {
     return this.http.get(`${ChatService.CHATS_API}/${id}/chats`, ChatService.defaultOptions)
+      .map((res: Response) => res.json())
+      .catch((error: Response) => this.handleError(error));
+  }
+
+  get(id: string, groupname: string): Observable<Chat> {
+    return this.http.get(`${ChatService.CHATS_API}/${id}/chats/${groupname}`, ChatService.defaultOptions)
       .map((res: Response) => res.json())
       .catch((error: Response) => this.handleError(error));
   }

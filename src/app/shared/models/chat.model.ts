@@ -2,8 +2,8 @@ export class Chat {
   groupName: string;
   createdBy ?: string;
   users ?: [string];
-  originalLanguage ?: string;
-  language ?: string;
+  firstLanguage ?: string;
+  secondLanguage ?: string;
   originalText ?: string;
   text ?: string;
   time ?: string;

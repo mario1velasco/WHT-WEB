@@ -18,6 +18,7 @@ import * as moment from 'moment';
 export class ChatRoomComponent implements OnInit {
   user: User = new User();
   chat: Chat = new Chat();
+  mnsToSend: string;
   users: Array<User> = [];
   apiError: object;
 
@@ -30,8 +31,7 @@ export class ChatRoomComponent implements OnInit {
     private routes: ActivatedRoute,
     private router: Router,
     private sessionService: SessionService,
-    private usersService: UsersService,
-    private chatService: ChatService
+    private usersService: UsersService
   ) { }
 
   ngOnInit() {
@@ -41,6 +41,11 @@ export class ChatRoomComponent implements OnInit {
       });
 
     this.user = this.sessionService.getUser();
+
+    this.chatservice.get(this.user.id, this.groupName).subscribe(
+      chat => {
+        this.chat = chat[0];
+      });
 
     this.usersService.show().subscribe(
       (users) => {
@@ -55,24 +60,26 @@ export class ChatRoomComponent implements OnInit {
 
     this.chatservice.joinChatRoom(this.groupName, this.user);
 
-    // this.previousComments = this.chatservice.socket.on('previousComments', comments => {
-    //   this.previousComments = comments;
-    //   this.render(comments);
-    // });
+    this.chatservice.socket.on('previousMessages', comments => {
+
+      this.render(comments);
+    });
 
     this.chatservice.socket.on('comment:added', (comment) => {
       console.log('AÑADIDO comentario');
       console.log(comment);
-      this.render(comment);
+      this.render(comment.message);
     });
   }
   onSubmitSendMessage(form: NgForm) {
-    const now = moment().format('LLLL');
+    const now = moment().format('MMMM Do YYYY, HH:mm:ss X');
     const message = {
+      chatCreatedBy: this.chat.createdBy,
       groupName: this.groupName,
       createdBy: this.user.id,
-      originalLanguage: this.user.language,
-      originalText: this.chat.text,
+      firstLanguage: this.user.language,
+      firstText: this.mnsToSend,
+      secondLanguage: this.chat.secondLanguage,
       time: now
     };
     console.log('Mandar Mensaje = ');
@@ -88,22 +95,23 @@ export class ChatRoomComponent implements OnInit {
   }
 
   render(data) {
-    const html = data.map(function (message, index) {
+    const html = [data].map(function (message, index) {
       return (`<div>
                 <strong>${message.createdBy}</strong>:
-                <em>${message.text}</em>
+                <em>${message.secondText}</em>
               </div>`);
     }).join(' ');
     const d1 = document.getElementById('messages');
     d1.insertAdjacentHTML('beforeend', html);
   }
 
-  addUserToChat(userId) {
+  addUserToChat(userId, language) {
     const data = {
       userToAdd: userId,
-      groupName: this.groupName
+      groupName: this.groupName,
+      secondLanguage: language
     };
-    this.chatService.addUser(this.user, data).subscribe(
+    this.chatservice.addUser(this.user, data).subscribe(
       (chat) => {
         console.log(chat);
       },
@@ -113,4 +121,6 @@ export class ChatRoomComponent implements OnInit {
       }
     );
   }
+
+  getLanguages() {}
 }

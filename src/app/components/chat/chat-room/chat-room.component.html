@@ -29,7 +29,7 @@
         </div>
         <div class="input-field col s10">
             <i class="material-icons prefix">account_circle</i>
-            <input placeholder="Message" id="text" type="text" [(ngModel)]="chat.text" 
+            <input placeholder="Message" id="text" type="text" [(ngModel)]="mnsToSend" 
             name="text" #text="ngModel" required>
             <label for="text">Message</label>
             <span class="helper-text" *ngIf="text.errors && text.touched">
@@ -70,7 +70,7 @@
     <tr *ngFor="let user of users">
       <td>{{user.username}}</td>
       <td>
-        <a href="javascript:;" (click)="addUserToChat(user.id)" >
+        <a href="javascript:;" (click)="addUserToChat(user.id, user.language)" >
           <i class="material-icons">add</i>
         </a>
       </td>

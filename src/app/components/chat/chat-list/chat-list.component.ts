@@ -16,7 +16,7 @@ import * as moment from 'moment';
   styleUrls: ['./chat-list.component.css']
 })
 export class ChatListComponent implements OnInit {
-  messages: Array<Message>;
+  chatsGroups: Array<Chat>;
   chat: Chat = new Chat();
   apiError: object;
   user: User;
@@ -31,9 +31,9 @@ export class ChatListComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.sessionService.getUser();
-    this.chatService.get(this.user.id).subscribe(
+    this.chatService.show(this.user.id).subscribe(
       (messages) => {
-        this.messages = messages;
+        this.chatsGroups = messages;
       },
       (error) => {
         console.log('error');
@@ -44,10 +44,11 @@ export class ChatListComponent implements OnInit {
   }
 
   onSubmitCreate(form: NgForm) {
-    this.chat.originalLanguage = this.user.language;
-    this.chat.language = this.user.language;
+    this.chat.firstLanguage = this.user.language;
     const now = moment().format('LLLL');
     this.chat.time = now;
+    console.log('CHAT');
+    console.log(this.chat);
     this.chatService.create(this.user.id, this.chat).subscribe(
       (chat) => {
         console.log(chat);

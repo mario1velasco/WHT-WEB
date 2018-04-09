@@ -1,7 +1,8 @@
 <h2>My Chats</h2>
 
 <div class="collection">
-  <a *ngFor="let message of messages" href="" class="collection-item" [routerLink]="['/chats', message]">{{message}}</a>
+  <a *ngFor="let chatG of chatsGroups" href="" class="collection-item" 
+  [routerLink]="['/chats', chatG.groupName]">{{chatG.groupName}}</a>
   <a href="" class="collection-item">
     <span class="new badge">4</span>New Messages
   </a>
