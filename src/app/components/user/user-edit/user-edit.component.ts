@@ -1,3 +1,4 @@
+import { SessionService, SessionService } from './../../../shared/services/session.service';
 import { GlobalErrorHandlerService } from './../../../shared/services/global-error-handler.service';
 import { User } from './../../../shared/models/user.model';
 import { UsersService } from './../../../shared/services/users.service';
@@ -18,7 +19,8 @@ export class UserEditComponent implements OnInit {
     private usersService: UsersService,
     private routes: ActivatedRoute,
     private router: Router,
-    private globalErrorHandlerService: GlobalErrorHandlerService
+    private globalErrorHandlerService: GlobalErrorHandlerService,
+    private sessionService: SessionService
   ) { }
 
   ngOnInit() {
@@ -40,6 +42,7 @@ export class UserEditComponent implements OnInit {
   onSubmitUpdate(form: NgForm) {
     this.usersService.edit(this.user).subscribe(
       (user) => {
+        this.sessionService.setUser(user);
         this.router.navigate(['/users', user.id]);
       },
       (error) => {
