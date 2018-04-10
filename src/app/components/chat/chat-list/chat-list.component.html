@@ -1,20 +1,22 @@
-<h2>My Chats</h2>
-
-<div class="collection">
-  <a *ngFor="let chatG of chatsGroups" href="javascript:;" class="collection-item" 
-  (click)="loadChatRoomComponent(chatG.groupName)">{{chatG.groupName}}</a>
-  <a href="javascript:;" class="collection-item">
-    <span class="new badge">4</span>New Messages
-  </a>
-  <a href="javascript:;" class="collection-item" (click)="loadCreateNewChatComponent()">New Chat</a>
-</div>
-
-{{ apiError }}
-
-  <div *ngIf= 'loadCreateNewChat'>
-    <app-chat-newchat [user] = user (onCreateChat)="unloadNewChatComponent($event)"></app-chat-newchat>
+<ng-container *ngIf="!rerender">
+  <h2>My Chats</h2>
+  
+  <div class="collection">
+    <a *ngFor="let chatG of chatsGroups" href="javascript:;" class="collection-item" 
+    (click)="loadChatRoomComponent(chatG.groupName)">{{chatG.groupName}}</a>
+    <a href="javascript:;" class="collection-item">
+      <span class="new badge">4</span>New Messages
+    </a>
+    <a href="javascript:;" class="collection-item" (click)="loadCreateNewChatComponent()">New Chat</a>
   </div>
-
-  <div *ngIf= 'loadSelectedChat'>
-    <app-chat-room [grpName] = grpName (onDisconnect)="unloadChatRoomComponent($event)"></app-chat-room>
-  </div>
+  
+  {{ apiError }}
+  
+    <div *ngIf= 'loadCreateNewChat'>
+      <app-chat-newchat [user] = user (onCreateChat)="unloadNewChatComponent($event)"></app-chat-newchat>
+    </div>
+  
+    <div *ngIf= 'loadSelectedChat'>
+      <app-chat-room [grpName] = grpName (onDisconnect)="unloadChatRoomComponent($event)"></app-chat-room>
+    </div>
+</ng-container>

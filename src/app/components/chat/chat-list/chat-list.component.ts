@@ -1,5 +1,4 @@
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, OnChanges } from '@angular/core';
 
 import { SessionService } from './../../../shared/services/session.service';
@@ -21,10 +20,9 @@ export class ChatListComponent implements OnInit, OnChanges {
   apiError: object;
   user: User;
   grpName: string;
+  rerender = false;
 
   constructor(
-    private routes: ActivatedRoute,
-    private router: Router,
     private globalErrorHandlerService: GlobalErrorHandlerService,
     private chatService: ChatService,
     private sessionService: SessionService
@@ -61,6 +59,22 @@ export class ChatListComponent implements OnInit, OnChanges {
 
   unloadNewChatComponent(bole: boolean) {
     this.loadCreateNewChat = bole;
+    this.doRerender();
+  }
+
+  doRerender() {
+    this.rerender = true;
+    this.chatService.show(this.user.id).subscribe(
+      (messages) => {
+        this.chatsGroups = messages;
+        this.rerender = false;
+      },
+      (error) => {
+        console.log('error');
+        this.globalErrorHandlerService.handleError(error);
+        this.apiError = error;
+      }
+    );
   }
 
 }

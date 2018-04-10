@@ -24,10 +24,6 @@ export class ChatNewchatComponent implements OnInit {
   ngOnInit() {
   }
 
-  // disconnect() {
-  //   this.onCreateChat.emit(false);
-  // }
-
   onSubmitCreate(form: NgForm) {
     this.chat.firstLanguage = this.user.language;
     const now = moment().format('LLLL');
