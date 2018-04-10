@@ -41,25 +41,25 @@ export const routes: Routes = [
     },
     { path: 'chats', canActivate: [IsAuthenticatedGuard], component: ChatListComponent},
     { path: 'newchat', canActivate: [IsAuthenticatedGuard], component: ChatRoomComponent},
-    {
-        path: 'chats',
-        canActivate: [IsAuthenticatedGuard],
-        component: ChatBaseComponent,
-        children: [
+    // {
+    //     path: 'chats',
+    //     canActivate: [IsAuthenticatedGuard],
+    //     component: ChatBaseComponent,
+        // children: [
             // {
             //     path: 'new',
             //     canActivate: [IsAuthenticatedGuard],
             //     canDeactivate: [CanLeavePhoneCreateGuard],
             //     component: PhoneCreateComponent
             // },
-            {
-                path: ':groupName',
-                canActivate: [IsAuthenticatedGuard],
+            // {
+            //     path: ':groupName',
+            //     canActivate: [IsAuthenticatedGuard],
                 // resolve: {
                 //     phone: PhoneDetailsResolverGuard
                 // },
-                component: ChatRoomComponent
-            }
-        ]
-    }
+            //     component: ChatRoomComponent
+            // }
+        // ]
+    // }
 ];
