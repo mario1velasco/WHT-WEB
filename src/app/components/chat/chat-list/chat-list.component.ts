@@ -5,7 +5,6 @@ import { Component, OnInit } from '@angular/core';
 import { SessionService } from './../../../shared/services/session.service';
 import { ChatService } from './../../../shared/services/chat.service';
 import { GlobalErrorHandlerService } from './../../../shared/services/global-error-handler.service';
-import { Message } from './../../../shared/models/message.model';
 import { User } from '../../../shared/models/user.model';
 import { Chat } from './../../../shared/models/chat.model';
 

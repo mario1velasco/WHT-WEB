@@ -23,6 +23,7 @@ import { UserBaseIdComponent } from './components/user/user-base-id/user-base-id
 import { ChatListComponent } from './components/chat/chat-list/chat-list.component';
 import { ChatRoomComponent } from './components/chat/chat-room/chat-room.component';
 import { ChatBaseComponent } from './components/chat/chat-base/chat-base.component';
+import { ChatAdduserComponent } from './components/chat/chat-adduser/chat-adduser.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { ChatBaseComponent } from './components/chat/chat-base/chat-base.compone
     UserBaseIdComponent,
     ChatListComponent,
     ChatRoomComponent,
-    ChatBaseComponent
+    ChatBaseComponent,
+    ChatAdduserComponent
   ],
   imports: [
     BrowserModule,

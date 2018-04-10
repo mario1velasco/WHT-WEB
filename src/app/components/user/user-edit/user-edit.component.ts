@@ -1,4 +1,4 @@
-import { SessionService, SessionService } from './../../../shared/services/session.service';
+import { SessionService } from './../../../shared/services/session.service';
 import { GlobalErrorHandlerService } from './../../../shared/services/global-error-handler.service';
 import { User } from './../../../shared/models/user.model';
 import { UsersService } from './../../../shared/services/users.service';

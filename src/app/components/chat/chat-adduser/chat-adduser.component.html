@@ -1,0 +1,19 @@
+<table class="highlight">
+  <thead>
+    <tr>
+        <th>Name</th>
+        <th>Add to chat</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{user.username}}</td>
+      <td>
+        <a href="javascript:;" (click)="addUserToChat(user.id, user.language)" >
+          <i class="material-icons">add</i>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
