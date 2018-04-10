@@ -8,7 +8,6 @@ import { GlobalErrorHandlerService } from './../../../shared/services/global-err
 import { User } from '../../../shared/models/user.model';
 import { Chat } from './../../../shared/models/chat.model';
 
-import * as moment from 'moment';
 @Component({
   selector: 'app-chat-list',
   templateUrl: './chat-list.component.html',
@@ -16,6 +15,7 @@ import * as moment from 'moment';
 })
 export class ChatListComponent implements OnInit, OnChanges {
   loadSelectedChat = false;
+  loadCreateNewChat = false;
   chatsGroups: Array<Chat>;
   chat: Chat = new Chat();
   apiError: object;
@@ -46,30 +46,21 @@ export class ChatListComponent implements OnInit, OnChanges {
 
   ngOnChanges() {}
 
-  loadMyChildComponent(grpName) {
+  loadChatRoomComponent(grpName) {
     this.grpName = grpName;
     this.loadSelectedChat = true;
   }
-  unLoadMyChildComponent(bole) {
+
+  unloadChatRoomComponent(bole: boolean) {
     this.loadSelectedChat = bole;
   }
 
-  onSubmitCreate(form: NgForm) {
-    this.chat.firstLanguage = this.user.language;
-    const now = moment().format('LLLL');
-    this.chat.time = now;
-    console.log('CHAT');
-    console.log(this.chat);
-    this.chatService.create(this.user.id, this.chat).subscribe(
-      (chat) => {
-        console.log('Chat Created');
-        console.log(chat);
-      },
-      (error) => {
-        console.log(error);
-        this.apiError = error;
-      }
-    );
+  loadCreateNewChatComponent() {
+    this.loadCreateNewChat = true;
+  }
+
+  unloadNewChatComponent(bole: boolean) {
+    this.loadCreateNewChat = bole;
   }
 
 }
