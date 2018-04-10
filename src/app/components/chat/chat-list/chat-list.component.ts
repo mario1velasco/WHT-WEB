@@ -1,6 +1,6 @@
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 
 import { SessionService } from './../../../shared/services/session.service';
 import { ChatService } from './../../../shared/services/chat.service';
@@ -14,11 +14,13 @@ import * as moment from 'moment';
   templateUrl: './chat-list.component.html',
   styleUrls: ['./chat-list.component.css']
 })
-export class ChatListComponent implements OnInit {
+export class ChatListComponent implements OnInit, OnChanges {
+  loadSelectedChat = false;
   chatsGroups: Array<Chat>;
   chat: Chat = new Chat();
   apiError: object;
   user: User;
+  grpName: string;
 
   constructor(
     private routes: ActivatedRoute,
@@ -42,6 +44,16 @@ export class ChatListComponent implements OnInit {
     );
   }
 
+  ngOnChanges() {}
+
+  loadMyChildComponent(grpName) {
+    this.grpName = grpName;
+    this.loadSelectedChat = true;
+  }
+  unLoadMyChildComponent(bole) {
+    this.loadSelectedChat = bole;
+  }
+
   onSubmitCreate(form: NgForm) {
     this.chat.firstLanguage = this.user.language;
     const now = moment().format('LLLL');
@@ -50,8 +62,8 @@ export class ChatListComponent implements OnInit {
     console.log(this.chat);
     this.chatService.create(this.user.id, this.chat).subscribe(
       (chat) => {
+        console.log('Chat Created');
         console.log(chat);
-        this.router.navigate(['/chats', this.chat.groupName]);
       },
       (error) => {
         console.log(error);

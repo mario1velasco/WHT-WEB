@@ -25,17 +25,6 @@ export class ChatAdduserComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.routes
-      .params.subscribe(params => {
-        this.groupName = params['groupName'];
-      });
-
-    // this.chatservice.get(this.user.id, this.groupName).subscribe(
-    //   chat => {
-    //     this.chat = chat[0];
-    //     console.log(this.chat);
-    //   });
-
     this.usersService.show().subscribe(
       (users) => {
         this.users = users;
@@ -50,15 +39,15 @@ export class ChatAdduserComponent implements OnInit {
   addUserToChat(userId, language) {
     const data = {
       userToAdd: userId,
-      groupName: this.groupName,
+      groupName: this.chat.groupName,
       secondLanguage: language
     };
     this.chatservice.addUser(this.user, data).subscribe(
       (chat) => {
-        console.log(chat);
+        console.log('ADD USER');
       },
       (error) => {
-        console.log(error);
+        console.log('ADD USER ERROR');
         this.apiError = error;
       }
     );

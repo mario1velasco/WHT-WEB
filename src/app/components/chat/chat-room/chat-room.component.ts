@@ -1,5 +1,6 @@
+import { EventEmitter } from '@angular/core';
 import {  ActivatedRoute,  Router} from '@angular/router';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, OnChanges, Output} from '@angular/core';
 import {  NgForm} from '@angular/forms';
 
 import { UsersService } from './../../../shared/services/users.service';
@@ -15,14 +16,14 @@ import * as moment from 'moment';
   templateUrl: './chat-room.component.html',
   styleUrls: ['./chat-room.component.css']
 })
-export class ChatRoomComponent implements OnInit, OnDestroy {
+export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() grpName: string;
+  @Output() onDisconnect: EventEmitter<Boolean> = new EventEmitter<Boolean>();
   user: User = new User();
   chat: Chat = new Chat();
   mnsToSend: string;
   // users: Array<User> = [];
   apiError: object;
-  groupName = '';
-
 
   constructor(
     private chatservice: ChatService,
@@ -32,21 +33,18 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
     // private usersService: UsersService
   ) { }
 
-  ngOnInit() {
-    this.routes
-      .params.subscribe(params => {
-        this.groupName = params['groupName'];
-      });
+  ngOnInit() {}
 
+  ngOnChanges() {
     this.user = this.sessionService.getUser();
 
-    this.chatservice.get(this.user.id, this.groupName).subscribe(
+    this.chatservice.get(this.user.id, this.grpName).subscribe(
       chat => {
         this.chat = chat[0];
         console.log(this.chat);
       });
 
-    this.chatservice.joinChatRoom(this.groupName, this.user);
+    this.chatservice.joinChatRoom(this.grpName, this.user);
 
     this.chatservice.socket.on('previousMessages', (comments) => {
       console.log('PREVIOUS MESSAGES');
@@ -63,14 +61,15 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     console.log('Disconnect.');
-    this.chatservice.leaveChatRoom(this.groupName);
+    this.chatservice.leaveChatRoom(this.grpName);
     // this.chatservice.socket.disconnect();
   }
 
   disconnect() {
     // console.log('Disconnect.');
     // this.chatservice.socket.disconnect();
-    this.router.navigate(['/chats']);
+    this.chatservice.leaveChatRoom(this.grpName);
+    this.onDisconnect.emit(false);
   }
 
   onSubmitSendMessage(form: NgForm) {
@@ -79,7 +78,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
     const language = (this.user.id !== this.chat.createdBy) ? this.chat.firstLanguage : this.chat.secondLanguage;
     const message = {
       chatCreatedBy: this.chat.createdBy,
-      groupName: this.groupName,
+      groupName: this.grpName,
       createdBy: this.user.id,
       firstLanguage: this.user.language,
       firstText: this.mnsToSend,
