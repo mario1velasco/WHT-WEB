@@ -49,13 +49,13 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
 
     this.chatservice.joinChatRoom(this.grpName);
 
-    // this.chatservice.socket.on('previousMessages', (messages) => {
-    //   this.previousMessages = messages;
-    //   console.log('PREVIOUS MESSAGES');
-    //   console.log(messages);
-    //   document.getElementById('messages').innerHTML = '';
-    //   this.render(messages);
-    // });
+    this.chatservice.socket.on('previousMessages', (messages) => {
+      this.previousMessages = messages;
+      console.log('PREVIOUS MESSAGES');
+      console.log(messages);
+      document.getElementById('messages').innerHTML = '';
+      this.render(messages);
+    });
 
     this.chatservice.socket.on('comment:added', (comment) => {
       console.log('AÑADIDO comentario');
@@ -103,12 +103,18 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
     const html = data.map((mns, index) => {
       console.log(mns.chatCreatedBy);
       console.log(this.user.id);
-      
-      const text = (mns.chatCreatedBy === this.user.id) ? mns.firstText : mns.secondText;
-      return (`<div>
-      <strong>${mns.chatCreatedBy}</strong>:
-      <em>${text}</em>
-      </div>`);
+      // HAY QUE HACER SI LOS MENSAJES SON DE OTRO QUE NO LOS MUESTRE
+      // HAY QUE HACER SI LOS MENSAJES SON DE OTRO QUE NO LOS MUESTRE
+      // HAY QUE HACER SI LOS MENSAJES SON DE OTRO QUE NO LOS MUESTRE
+      // HAY QUE HACER SI LOS MENSAJES SON DE OTRO QUE NO LOS MUESTRE
+      if ((mns.chatCreatedBy === this.user.id) || (this.user.id === mns.createdBy)) {
+        const text = (mns.chatCreatedBy === mns.createdBy) ? mns.firstText : mns.secondText;
+        return (`<div>
+        <strong>${mns.chatCreatedBy}</strong>:
+        <em>${text}</em>
+        </div>`);
+      }
+      return (``);
     }).join(' ');
     const d1 = document.getElementById('messages');
     d1.insertAdjacentHTML('beforeend', html);
