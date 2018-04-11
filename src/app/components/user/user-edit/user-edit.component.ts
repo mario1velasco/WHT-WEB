@@ -42,6 +42,7 @@ export class UserEditComponent implements OnInit {
   onSubmitUpdate(form: NgForm) {
     this.usersService.edit(this.user).subscribe(
       (user) => {
+        console.log(user);
         this.sessionService.setUser(user);
         this.router.navigate(['/users', user.id]);
       },

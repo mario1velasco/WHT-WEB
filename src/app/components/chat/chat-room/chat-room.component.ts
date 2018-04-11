@@ -47,7 +47,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
         console.log(this.chat);
       });
 
-    this.chatservice.joinChatRoom(this.grpName);
+    this.chatservice.joinChatRoom(this.grpName, this.user);
 
     this.chatservice.socket.on('previousMessages', (messages) => {
       this.previousMessages = messages;
@@ -101,12 +101,6 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
       data = [data];
     }
     const html = data.map((mns, index) => {
-      console.log(mns.chatCreatedBy);
-      console.log(this.user.id);
-      // HAY QUE HACER SI LOS MENSAJES SON DE OTRO QUE NO LOS MUESTRE
-      // HAY QUE HACER SI LOS MENSAJES SON DE OTRO QUE NO LOS MUESTRE
-      // HAY QUE HACER SI LOS MENSAJES SON DE OTRO QUE NO LOS MUESTRE
-      // HAY QUE HACER SI LOS MENSAJES SON DE OTRO QUE NO LOS MUESTRE
       if ((mns.chatCreatedBy === this.user.id) || (this.user.id === mns.createdBy)) {
         const text = (mns.chatCreatedBy === mns.createdBy) ? mns.firstText : mns.secondText;
         return (`<div>
