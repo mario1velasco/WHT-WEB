@@ -1,7 +1,11 @@
+<ng-container *ngIf="!rerender">
 <div class="row"> 
     <div class="col s11 offset-s1">
-      <h2>CHAT: {{grpName}}</h2>
-      <p>This is your chat</p>
+      <h4>CHAT: {{grpName}}</h4>
+      <h5>Users</h5>
+      <p *ngFor="let user of chat.users">
+          {{user}}
+      </p>
     </div>
     <form class="col s11 offset-s1" (ngSubmit)="onSubmitSendMessage(updateForm)" #updateForm="ngForm">
       <div class="row">
@@ -58,4 +62,14 @@
 <!-- <button type="submit"  (click)="disconnect()" >DISCONNECT</button> -->
 <div id="messages" ></div>
 
-<app-chat-adduser [user] = user [chat] = chat></app-chat-adduser>
+
+<div *ngIf= '!loadAddUser'>
+    <button class="btn waves-effect teal darken-3" type="submit" name="action" (click)="loadAddUserComponent()">
+      Add users
+      <i class="material-icons right">add</i>
+    </button>
+</div>
+<div *ngIf= 'loadAddUser'>
+  <app-chat-adduser [user] = user [chat] = chat (onAddUser)="unloadAddUserComponent($event)"></app-chat-adduser>
+</div>
+</ng-container>

@@ -1,0 +1,57 @@
+<div class="row"> 
+  <div class="col s11 offset-s1">
+    <h4>CHAT: {{grpName}}</h4>
+    <h5>Users</h5>
+    <p *ngFor="let user of chat.users">
+        {{user}}
+    </p>
+  </div>
+  <form class="col s11 offset-s1" (ngSubmit)="onSubmitSendMessage(updateForm)" #updateForm="ngForm">
+    <div class="row">
+      <div class="input-field col s10">
+          <i class="material-icons prefix">account_circle</i>
+          <input placeholder="User name" id="username" type="text" [(ngModel)]="user.username" 
+          name="username" #username="ngModel" required>
+          <label for="username">User name</label>
+          <span class="helper-text" *ngIf="username.errors && username.touched">
+            <ul>
+              <li *ngIf="username.errors?.required">Required</li>
+            </ul>
+          </span>
+      </div>
+      <div class="input-field col s10">
+          <i class="material-icons prefix">account_circle</i>
+          <input placeholder="Language" id="language" type="text" [(ngModel)]="user.language" 
+          name="language" #language="ngModel" required>
+          <label for="language">Language</label>
+          <span class="helper-text" *ngIf="language.errors && language.touched">
+            <ul>
+              <li *ngIf="language.errors?.required">Required</li>
+            </ul>
+          </span>
+      </div>
+      <div class="input-field col s10">
+          <i class="material-icons prefix">account_circle</i>
+          <input placeholder="Message" id="text" type="text" [(ngModel)]="mnsToSend" 
+          name="text" #text="ngModel" required>
+          <label for="text">Message</label>
+          <span class="helper-text" *ngIf="text.errors && text.touched">
+            <ul>
+              <li *ngIf="text.errors?.required">Required</li>
+            </ul>
+          </span>
+      </div>        
+    </div>
+    <div class="row">
+      <button class="btn waves-effect teal darken-3" type="submit" name="action" [disabled]="!updateForm.valid">
+        Create
+        <i class="material-icons right">add</i>
+      </button>
+      <div class="input-field col s10">
+        <label>{{ apiError }}</label>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div id="messages" ></div>

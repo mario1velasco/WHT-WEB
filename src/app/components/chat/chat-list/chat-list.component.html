@@ -1,4 +1,5 @@
 <ng-container *ngIf="!rerender">
+    <a [routerLink]="['/users', user.id]">GoToUserPanel</a>
   <h2>My Chats</h2>
   
   <div class="collection">
@@ -7,6 +8,8 @@
     <a href="javascript:;" class="collection-item">
       <span class="new badge">4</span>New Messages
     </a>
+  </div>
+  <div class="collection">
     <a href="javascript:;" class="collection-item" (click)="loadCreateNewChatComponent()">New Chat</a>
   </div>
   

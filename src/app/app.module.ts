@@ -25,6 +25,7 @@ import { ChatRoomComponent } from './components/chat/chat-room/chat-room.compone
 import { ChatBaseComponent } from './components/chat/chat-base/chat-base.component';
 import { ChatAdduserComponent } from './components/chat/chat-adduser/chat-adduser.component';
 import { ChatNewchatComponent } from './components/chat/chat-newchat/chat-newchat.component';
+import { ChatRoominvitedComponent } from './components/chat/chat-roominvited/chat-roominvited.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { ChatNewchatComponent } from './components/chat/chat-newchat/chat-newcha
     ChatRoomComponent,
     ChatBaseComponent,
     ChatAdduserComponent,
-    ChatNewchatComponent
+    ChatNewchatComponent,
+    ChatRoominvitedComponent
   ],
   imports: [
     BrowserModule,

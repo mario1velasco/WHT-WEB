@@ -1,27 +1,23 @@
-import { EventEmitter } from '@angular/core';
-import {  ActivatedRoute,  Router} from '@angular/router';
-import { Component, OnInit, OnDestroy, Input, OnChanges, Output} from '@angular/core';
-import {  NgForm} from '@angular/forms';
-
-import { UsersService } from './../../../shared/services/users.service';
+import { NgForm } from '@angular/forms';
 import { ChatService } from './../../../shared/services/chat.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import { SessionService } from './../../../shared/services/session.service';
 import { Chat } from './../../../shared/models/chat.model';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from '../../../shared/models/user.model';
 
 import * as moment from 'moment';
 
 @Component({
-  selector: 'app-chat-room',
-  templateUrl: './chat-room.component.html',
-  styleUrls: ['./chat-room.component.css']
+  selector: 'app-chat-roominvited',
+  templateUrl: './chat-roominvited.component.html',
+  styleUrls: ['./chat-roominvited.component.css']
 })
-export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() grpName: string;
-  @Output() onDisconnect: EventEmitter<Boolean> = new EventEmitter<Boolean>();
+export class ChatRoominvitedComponent implements OnInit, OnDestroy {
   user: User = new User();
   chat: Chat = new Chat();
   mnsToSend: string;
+  grpName: string;
   // users: Array<User> = [];
   apiError: object;
   rerender = false;
@@ -33,14 +29,19 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
     private routes: ActivatedRoute,
     private router: Router,
     private sessionService: SessionService
-    // private usersService: UsersService
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.routes.params.subscribe((params) => {
+      const id = params['id'];
+      this.user.id = id;
+      this.grpName = params['groupName'];
+      console.log(this.grpName);
+      console.log(this.user);
+    });
+    // this.user = this.sessionService.getUser();
 
-  ngOnChanges() {
-    this.user = this.sessionService.getUser();
-
+    // BUSCAR POR ID DE INVITED USERNAME
     this.chatservice.get(this.user.id, this.grpName).subscribe(
       chat => {
         this.chat = chat[0];
@@ -48,14 +49,6 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
       });
 
     this.chatservice.joinChatRoom(this.grpName);
-
-    this.chatservice.socket.on('previousMessages', (comments) => {
-      this.previousMessages = comments;
-      console.log('PREVIOUS MESSAGES');
-      console.log(comments);
-      document.getElementById('messages').innerHTML = '';
-      this.render(comments);
-    });
 
     this.chatservice.socket.on('comment:added', (comment) => {
       console.log('AÑADIDO comentario');
@@ -74,7 +67,6 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
     // console.log('Disconnect.');
     // this.chatservice.socket.disconnect();
     this.chatservice.leaveChatRoom(this.grpName);
-    this.onDisconnect.emit(false);
   }
 
   onSubmitSendMessage(form: NgForm) {
@@ -88,7 +80,8 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
       firstLanguage: this.user.language,
       firstText: this.mnsToSend,
       secondLanguage: language,
-      time: now
+      time: now,
+      isInvited: true
     };
     console.log('Mandar Mensaje = ');
     console.log(message);
@@ -125,4 +118,5 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
         this.render(this.previousMessages);
       });
   }
+
 }

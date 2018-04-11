@@ -1,5 +1,5 @@
 import { NgForm } from '@angular/forms';
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, OnDestroy } from '@angular/core';
 
 import { SessionService } from './../../../shared/services/session.service';
 import { ChatService } from './../../../shared/services/chat.service';
@@ -12,7 +12,7 @@ import { Chat } from './../../../shared/models/chat.model';
   templateUrl: './chat-list.component.html',
   styleUrls: ['./chat-list.component.css']
 })
-export class ChatListComponent implements OnInit, OnChanges {
+export class ChatListComponent implements OnInit, OnChanges, OnDestroy {
   loadSelectedChat = false;
   loadCreateNewChat = false;
   chatsGroups: Array<Chat>;
@@ -44,9 +44,14 @@ export class ChatListComponent implements OnInit, OnChanges {
 
   ngOnChanges() {}
 
+  ngOnDestroy() {
+    this.chatService.disconnect();
+  }
+
   loadChatRoomComponent(grpName) {
     this.grpName = grpName;
     this.loadSelectedChat = true;
+    this.loadCreateNewChat = false;
   }
 
   unloadChatRoomComponent(bole: boolean) {
@@ -55,6 +60,7 @@ export class ChatListComponent implements OnInit, OnChanges {
 
   loadCreateNewChatComponent() {
     this.loadCreateNewChat = true;
+    this.loadSelectedChat = false;
   }
 
   unloadNewChatComponent(bole: boolean) {

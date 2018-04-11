@@ -1,5 +1,5 @@
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 
 import { UsersService } from './../../../shared/services/users.service';
 import { ChatService } from './../../../shared/services/chat.service';
@@ -14,6 +14,7 @@ import { Chat } from './../../../shared/models/chat.model';
 export class ChatAdduserComponent implements OnInit {
   @Input() user: User = new User();
   @Input() chat: Chat = new Chat();
+  @Output() onAddUser: EventEmitter<Boolean> = new EventEmitter<Boolean>();
   users: Array<User> = [];
   groupName = '';
   apiError: object;
@@ -45,6 +46,7 @@ export class ChatAdduserComponent implements OnInit {
     this.chatservice.addUser(this.user, data).subscribe(
       (chat) => {
         console.log('ADD USER');
+        this.onAddUser.emit(false);
       },
       (error) => {
         console.log('ADD USER ERROR');
