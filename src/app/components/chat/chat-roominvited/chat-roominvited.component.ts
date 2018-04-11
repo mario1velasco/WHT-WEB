@@ -1,9 +1,10 @@
-import { NgForm } from '@angular/forms';
-import { ChatService } from './../../../shared/services/chat.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { NgForm } from '@angular/forms';
+
+import { ChatService } from './../../../shared/services/chat.service';
 import { SessionService } from './../../../shared/services/session.service';
 import { Chat } from './../../../shared/models/chat.model';
-import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from '../../../shared/models/user.model';
 
 import * as moment from 'moment';
@@ -21,6 +22,7 @@ export class ChatRoominvitedComponent implements OnInit, OnDestroy {
   // users: Array<User> = [];
   apiError: object;
   rerender = false;
+  isInvited = true;
   loadAddUser = false;
   previousMessages: object;
 
@@ -45,7 +47,9 @@ export class ChatRoominvitedComponent implements OnInit, OnDestroy {
     this.chatservice.get(this.user.id, this.grpName).subscribe(
       chat => {
         this.chat = chat[0];
-        console.log(this.chat);
+        this.isInvited = this.chat.isInvited;
+        console.log('IS INVITED');
+        console.log(this.isInvited);
       });
 
     this.chatservice.joinChatRoom(this.grpName);

@@ -7,4 +7,7 @@ export class Chat {
   originalText ?: string;
   text ?: string;
   time ?: string;
+  invitedUsername ?: string;
+  invitedAddress ?: string;
+  isInvited ?: boolean;
 }

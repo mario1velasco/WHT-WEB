@@ -49,13 +49,13 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
 
     this.chatservice.joinChatRoom(this.grpName);
 
-    this.chatservice.socket.on('previousMessages', (comments) => {
-      this.previousMessages = comments;
-      console.log('PREVIOUS MESSAGES');
-      console.log(comments);
-      document.getElementById('messages').innerHTML = '';
-      this.render(comments);
-    });
+    // this.chatservice.socket.on('previousMessages', (messages) => {
+    //   this.previousMessages = messages;
+    //   console.log('PREVIOUS MESSAGES');
+    //   console.log(messages);
+    //   document.getElementById('messages').innerHTML = '';
+    //   this.render(messages);
+    // });
 
     this.chatservice.socket.on('comment:added', (comment) => {
       console.log('AÑADIDO comentario');
@@ -101,9 +101,12 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
       data = [data];
     }
     const html = data.map((mns, index) => {
-      const text = (mns.createdBy === this.user.id) ? mns.firstText : mns.secondText;
+      console.log(mns.chatCreatedBy);
+      console.log(this.user.id);
+      
+      const text = (mns.chatCreatedBy === this.user.id) ? mns.firstText : mns.secondText;
       return (`<div>
-      <strong>${mns.createdBy}</strong>:
+      <strong>${mns.chatCreatedBy}</strong>:
       <em>${text}</em>
       </div>`);
     }).join(' ');
