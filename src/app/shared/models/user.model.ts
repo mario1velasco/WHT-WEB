@@ -8,7 +8,7 @@ export class User {
   familyname?: string;
   telephone?: string;
   role?: string;
-  friends?: string;
+  friends?: [string];
   about?: string;
   language?: string;
   photo?: string;

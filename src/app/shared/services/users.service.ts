@@ -48,6 +48,22 @@ export class UsersService extends BaseApiService {
       .catch(error => this.handleError(error));
   }
 
+  // addFriend(userId: string, friendId: string): Observable<User> {
+  //   // return this.http.put(`UsersService.PHONES_API/${user.id}`, user.asFormData(), new RequestOptions({ withCredentials: true }))
+  //   return this.http.put(`${UsersService.USERS_API}/${userId}/addFriend/${friendId}`,
+  //   UsersService.defaultOptions)
+  //     .map((res: Response) => res.json())
+  //     .catch(error => this.handleError(error));
+  // }
+
+  // removeFriend(userId: string, friendId: string): Observable<User> {
+  //   // return this.http.put(`UsersService.PHONES_API/${user.id}`, user.asFormData(), new RequestOptions({ withCredentials: true }))
+  //   return this.http.put(`${UsersService.USERS_API}/${userId}/removeFriend/${friendId}`,
+  //   UsersService.defaultOptions)
+  //     .map((res: Response) => res.json())
+  //     .catch(error => this.handleError(error));
+  // }
+
   // private handleError(error: Response): Observable<any> {
   //   if (!environment.production) {
   //     console.error(error);

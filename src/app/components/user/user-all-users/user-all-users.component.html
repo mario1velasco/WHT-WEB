@@ -1,3 +1,20 @@
-<p>
-  user-all-users works!
-</p>
+<h3>ALL USERS</h3>
+<table class="highlight">
+    <thead>
+      <tr>
+          <th>Username</th>
+          <th>Add as Friend</th>
+      </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let usr of users">
+            <td *ngIf="usr.username !== user.username">{{usr.username}}</td>
+            <td *ngIf="usr.username !== user.username">
+              <a href="javascript:;" (click)="addUserAsFriend(usr.id)" >
+                <i class="material-icons">add</i>
+              </a>
+            </td>
+          </tr>
+    </tbody>
+  </table>
