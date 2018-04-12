@@ -4,6 +4,7 @@
       <tr>
           <th>Username</th>
           <th>Add as Friend</th>
+          <th *ngIf="user.role === 'ADMIN'">DELETE</th>
       </tr>
     </thead>
 
@@ -15,6 +16,11 @@
                 <i class="material-icons">add</i>
               </a>
             </td>
+            <td *ngIf="(usr.username !== user.username) && (user.role === 'ADMIN')">
+                <a href="javascript:;" (click)="deleteUserAsFriend(usr)" >
+                  <i class="material-icons">add</i>
+                </a>
+              </td>
           </tr>
     </tbody>
   </table>

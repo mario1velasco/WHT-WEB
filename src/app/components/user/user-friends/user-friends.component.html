@@ -1,5 +1,22 @@
-<p>
-  user-friends works!
-</p>
+<h3>MY FRIENDS</h3>
+<table class="highlight">
+    <thead>
+      <tr>
+          <th>Username</th>
+          <th>Remove as Friend</th>          
+      </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let usr of user.friends">
+            <td *ngIf="usr.username !== user.username">{{usr}}</td>
+            <td *ngIf="usr.username !== user.username">
+              <a href="javascript:;" (click)="deleteUserAsFriend(usr)" >
+                <i class="material-icons">add</i>
+              </a>
+            </td>
+          </tr>
+    </tbody>
+  </table>
 
 <app-user-all-users [user] = user></app-user-all-users>

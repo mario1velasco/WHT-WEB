@@ -18,4 +18,10 @@ export class UserFriendsComponent implements OnInit {
     this.user = this.sessionService.getUser();
   }
 
+  deleteUserAsFriend(usr: string) {
+    const pos = this.user.friends.indexOf(usr);
+    this.user.friends.splice(pos, 1);
+    console.log(this.user);
+  }
+
 }

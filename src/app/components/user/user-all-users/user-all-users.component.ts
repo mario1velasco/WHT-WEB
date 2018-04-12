@@ -30,14 +30,29 @@ export class UserAllUsersComponent implements OnInit {
   }
   addUserAsFriend(id) {
     this.user.friends.push(id);
-    console.log(this.user);
-    this.usersService.edit(id).subscribe(
-      (chat) => {
-        console.log('ADD USER');
+    this.usersService.edit(this.user).subscribe(
+      (user) => {
+        console.log('ADD FRIEND');
+        console.log(user);
         // this.onAddUser.emit(false);
       },
       (error) => {
-        console.log('ADD USER ERROR');
+        console.log('ADD FRIEND ERROR');
+        this.apiError = error;
+      }
+    );
+  }
+
+  deleteUserAsFriend(user: User) {
+    // this.user.friends.push(user);
+    this.usersService.edit(this.user).subscribe(
+      (user) => {
+        console.log('ADD FRIEND');
+        console.log(user);
+        // this.onAddUser.emit(false);
+      },
+      (error) => {
+        console.log('ADD FRIEND ERROR');
         this.apiError = error;
       }
     );
