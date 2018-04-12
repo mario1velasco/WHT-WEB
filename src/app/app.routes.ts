@@ -1,3 +1,4 @@
+import { UserFriendsComponent } from './components/user/user-friends/user-friends.component';
 import { ChatRoominvitedComponent } from './components/chat/chat-roominvited/chat-roominvited.component';
 import { ChatBaseComponent } from './components/chat/chat-base/chat-base.component';
 import { ChatRoomComponent } from './components/chat/chat-room/chat-room.component';
@@ -16,7 +17,7 @@ export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full'},
     { path: 'login', component: LoginComponent },
     { path: 'signup', component: SignupComponent },
-    { path: 'users', canActivate: [IsAuthenticatedGuard], component: UserPanelComponent },
+    { path: 'users', canActivate: [IsAuthenticatedGuard], component: UserFriendsComponent },
     {
         path: 'users',
         canActivate: [IsAuthenticatedGuard],
@@ -57,14 +58,6 @@ export const routes: Routes = [
                     }
                 ]
             }
-            // {
-            //     path: ':groupName',
-            //     canActivate: [IsAuthenticatedGuard],
-            //     resolve: {
-            //         phone: PhoneDetailsResolverGuard
-            //     },
-            //     component: ChatRoomComponent
-            // }
         ]
     }
 ];
