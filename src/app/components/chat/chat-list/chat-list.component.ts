@@ -56,6 +56,7 @@ export class ChatListComponent implements OnInit, OnChanges, OnDestroy {
 
   unloadChatRoomComponent(bole: boolean) {
     this.loadSelectedChat = bole;
+    this.doRerender();
   }
 
   loadCreateNewChatComponent() {

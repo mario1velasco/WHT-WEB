@@ -69,7 +69,8 @@
       <i class="material-icons right">add</i>
     </button>
     <a class="waves-effect waves-light btn lime darken-3" (click)="leaveChat()">Leave</a>
-    <a *ngIf= 'user.role === "SUPERUSER"' class="waves-effect waves-light btn red darken-3 right" (click)="deleteChat()">Delete</a>
+    <a *ngIf= 'user.role === "SUPERUSER"' class="waves-effect waves-light btn red darken-3 right" 
+      (click)="deleteChat()">Delete</a>
 </div>
 <div *ngIf= 'loadAddUser'>
   <app-chat-adduser [user] = user [chat] = chat (onAddUser)="unloadAddUserComponent($event)"></app-chat-adduser>

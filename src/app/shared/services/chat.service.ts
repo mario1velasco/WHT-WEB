@@ -53,6 +53,12 @@ export class ChatService extends BaseApiService {
       .catch(error => this.handleError(error));
   }
 
+  deleteChat(id: string, groupname: string): Observable<User> {
+    return this.http.delete(`${ChatService.CHATS_API}/${id}/chats/${groupname}`, ChatService.defaultOptions)
+      .map((res: Response) => res.json())
+      .catch(error => this.handleError(error));
+  }
+
   /*SHOCKET.IO FUNCTIONS*/
 
   addComment (data) {
