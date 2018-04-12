@@ -52,7 +52,7 @@ export class ChatRoominvitedComponent implements OnInit, OnDestroy {
         console.log(this.isInvited);
       });
 
-    this.chatservice.joinChatRoom(this.grpName);
+    this.chatservice.joinChatRoom(this.grpName, this.user);
 
     this.chatservice.socket.on('comment:added', (comment) => {
       console.log('AÑADIDO comentario');

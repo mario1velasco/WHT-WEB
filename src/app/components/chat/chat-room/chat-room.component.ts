@@ -102,9 +102,9 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
     }
     const html = data.map((mns, index) => {
       if ((mns.chatCreatedBy === this.user.id) || (this.user.id === mns.createdBy)) {
-        const text = (mns.chatCreatedBy === mns.createdBy) ? mns.firstText : mns.secondText;
+        const text = (this.user.id === mns.createdBy) ? mns.firstText : mns.secondText;
         return (`<div>
-        <strong>${mns.chatCreatedBy}</strong>:
+        <strong>${mns.createdBy}</strong>:
         <em>${text}</em>
         </div>`);
       }
