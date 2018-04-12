@@ -36,8 +36,19 @@ export class ChatService extends BaseApiService {
       .catch((error: Response) => this.handleError(error));
   }
 
-  addUser(user: User, data: object): Observable<User> {
-    return this.http.put(`${ChatService.CHATS_API}/${user.id}/chats/adduser`, JSON.stringify(data), ChatService.defaultOptions)
+  addUser(user: User, data): Observable<User> {
+    console.log('AAAAAAAAAAAAAAAA');
+    console.log('AAAAAAAAAAAAAAAA');
+    console.log(`${ChatService.CHATS_API}/${user.id}/chats/${data.groupname}/addUser`);
+    return this.http.put(`${ChatService.CHATS_API}/${user.id}/chats/${data.groupname}/addUser`,
+    JSON.stringify(data), ChatService.defaultOptions)
+      .map((res: Response) => res.json())
+      .catch(error => this.handleError(error));
+  }
+
+  leaveChat(id: string, groupname: string): Observable<User> {
+    return this.http.put(`${ChatService.CHATS_API}/${id}/chats/${groupname}/leaveChat`,
+    {groupname: groupname}, ChatService.defaultOptions)
       .map((res: Response) => res.json())
       .catch(error => this.handleError(error));
   }

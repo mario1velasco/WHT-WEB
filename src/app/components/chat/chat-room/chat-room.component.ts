@@ -36,7 +36,9 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
     // private usersService: UsersService
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    // this.user = this.sessionService.getUser();
+  }
 
   ngOnChanges() {
     this.user = this.sessionService.getUser();
@@ -44,6 +46,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
     this.chatservice.get(this.user.id, this.grpName).subscribe(
       chat => {
         this.chat = chat[0];
+        console.log('onchanges');
         console.log(this.chat);
       });
 
@@ -126,6 +129,15 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
         console.log(this.chat);
         document.getElementById('messages').innerHTML = '';
         this.render(this.previousMessages);
+      });
+  }
+
+  leaveChat() {
+    console.log(this.user.id);
+    this.chatservice.leaveChat(this.user.id, this.grpName).subscribe(
+      user => {
+        console.log('USER LEAVE CHAT');
+        console.log(user);
       });
   }
 }
