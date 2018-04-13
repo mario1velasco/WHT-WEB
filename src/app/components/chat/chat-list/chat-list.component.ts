@@ -31,8 +31,11 @@ export class ChatListComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     this.user = this.sessionService.getUser();
     this.chatService.show(this.user.id).subscribe(
-      (messages) => {
-        this.chatsGroups = messages;
+      (chats) => {
+        this.chatsGroups = chats;
+        chats.forEach(chat => {
+          
+        });
       },
       (error) => {
         console.log('error');
@@ -41,14 +44,22 @@ export class ChatListComponent implements OnInit, OnChanges, OnDestroy {
       }
     );
 
-    this.chatService.socket.on('comment:added', (comment) => {
+    this.chatService.socket.on('notifymessage', (comment) => {
       console.log('MENSAJE RECIBIDO');
-      this.renderAddBadge(comment.chat.groupName);
+      this.renderAddBadge(comment.message.groupName);
     });
   }
 
+  notifyReadMessage(grpName: string) {
+    console.log('NOTIIFY NOTIFY');
+    const d1 = document.getElementById('badge' + grpName);
+    console.log(d1);
+    d1.innerHTML = '';
+    d1.insertAdjacentHTML('beforeend', `${grpName}`);
+  }
+
   renderAddBadge(chatName) {
-    const html = (`<span class="new badge" id="spnBadge">4</span>${chatName}`);
+    const html = (`<span class="new badge" id="spnBadge${chatName}">4</span>${chatName}`);
     const d1 = document.getElementById('badge' + chatName);
     d1.innerHTML = '';
     d1.insertAdjacentHTML('beforeend', html);

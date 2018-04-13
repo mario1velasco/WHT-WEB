@@ -18,7 +18,8 @@ import * as moment from 'moment';
 })
 export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
   @Input() grpName: string;
-  @Output() onDisconnect: EventEmitter<Boolean> = new EventEmitter<Boolean>();
+  @Output() disconnectRoom: EventEmitter<Boolean> = new EventEmitter<Boolean>();
+  @Output() readMessage: EventEmitter<String> = new EventEmitter<String>();
   user: User = new User();
   chat: Chat = new Chat();
   mnsToSend: string;
@@ -64,6 +65,11 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
       console.log('AÑADIDO comentario');
       console.log(comment);
       this.render(comment.message);
+      if (comment.message.createdBy !== this.user.id ) {
+        console.log('HOLA HOLA');
+        this.chatservice.socket.emit('messageRead', comment.message);
+        this.readMessage.emit(this.chat.groupName);
+      }
     });
   }
 
@@ -77,7 +83,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
     // console.log('Disconnect.');
     // this.chatservice.socket.disconnect();
     this.chatservice.leaveChatRoom(this.grpName);
-    this.onDisconnect.emit(false);
+    this.disconnectRoom.emit(false);
   }
 
   onSubmitSendMessage(form: NgForm) {
@@ -104,14 +110,14 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
       data = [data];
     }
     const html = data.map((mns, index) => {
-      if ((mns.chatCreatedBy === this.user.id) || (this.user.id === mns.createdBy)) {
+      // if ((mns.chatCreatedBy === this.user.id) || (this.user.id === mns.createdBy)) {
         const text = (this.user.id === mns.createdBy) ? mns.firstText : mns.secondText;
         return (`<div>
         <strong>${mns.createdBy}</strong>:
         <em>${text}</em>
         </div>`);
-      }
-      return (``);
+      // }
+      // return (``);
     }).join(' ');
     const d1 = document.getElementById('messages');
     d1.insertAdjacentHTML('beforeend', html);

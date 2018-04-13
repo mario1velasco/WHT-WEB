@@ -24,6 +24,7 @@
     </div>
   
     <div *ngIf= 'loadSelectedChat'>
-      <app-chat-room [grpName] = grpName (onDisconnect)="unloadChatRoomComponent($event)"></app-chat-room>
+      <app-chat-room [grpName] = grpName (disconnectRoom)="unloadChatRoomComponent($event)"
+      (readMessage)="notifyReadMessage($event)"></app-chat-room>
     </div>
 </ng-container>
