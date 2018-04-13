@@ -37,8 +37,6 @@ export class ChatService extends BaseApiService {
   }
 
   addUser(user: User, data): Observable<User> {
-    console.log('AAAAAAAAAAAAAAAA');
-    console.log('AAAAAAAAAAAAAAAA');
     console.log(`${ChatService.CHATS_API}/${user.id}/chats/${data.groupname}/addUser`);
     return this.http.put(`${ChatService.CHATS_API}/${user.id}/chats/${data.groupname}/addUser`,
     JSON.stringify(data), ChatService.defaultOptions)

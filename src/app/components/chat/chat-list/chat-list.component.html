@@ -3,10 +3,14 @@
   <h2>My Chats</h2>
   
   <div class="collection">
-    <a *ngFor="let chatG of chatsGroups" href="javascript:;" class="collection-item" 
-    (click)="loadChatRoomComponent(chatG.groupName)">{{chatG.groupName}}</a>
+    <a *ngFor="let chatG of chatsGroups; let i = index" href="javascript:;" class="collection-item" 
+      (click)="loadChatRoomComponent(chatG.groupName)" [id]="'badge' + chatG.groupName">
+      <!-- <span [hidden]="true" class="new badge" [id]="'badge' + chatG.groupName">4</span> -->
+      {{chatG.groupName}}
+    </a>
     <a href="javascript:;" class="collection-item">
-      <span class="new badge">4</span>New Messages
+      <span class="new badge">4</span>
+      New Messages
     </a>
   </div>
   <div class="collection">

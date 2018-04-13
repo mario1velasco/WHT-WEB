@@ -40,6 +40,18 @@ export class ChatListComponent implements OnInit, OnChanges, OnDestroy {
         this.apiError = error;
       }
     );
+
+    this.chatService.socket.on('comment:added', (comment) => {
+      console.log('MENSAJE RECIBIDO');
+      this.renderAddBadge(comment.chat.groupName);
+    });
+  }
+
+  renderAddBadge(chatName) {
+    const html = (`<span class="new badge" id="spnBadge">4</span>${chatName}`);
+    const d1 = document.getElementById('badge' + chatName);
+    d1.innerHTML = '';
+    d1.insertAdjacentHTML('beforeend', html);
   }
 
   ngOnChanges() {}
@@ -49,6 +61,9 @@ export class ChatListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   loadChatRoomComponent(grpName) {
+    const d1 = document.getElementById('badge' + grpName);
+    d1.innerHTML = '';
+    d1.insertAdjacentHTML('beforeend', `${grpName}`);
     this.grpName = grpName;
     this.loadSelectedChat = true;
     this.loadCreateNewChat = false;
