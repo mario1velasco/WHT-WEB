@@ -20,6 +20,7 @@ export class UserPanelComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    // window.location.reload();
     this.user = this.sessionService.getUser();
     this.userSubscription = this.sessionService.onUserChanges()
       .subscribe(user => this.user = user);
@@ -27,6 +28,7 @@ export class UserPanelComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.userSubscription.unsubscribe();
+    window.location.reload();
   }
 
   onClickLogout() {

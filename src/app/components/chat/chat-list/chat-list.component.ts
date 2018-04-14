@@ -1,7 +1,9 @@
+import { ChatRoomComponent } from './../chat-room/chat-room.component';
 import { NgForm } from '@angular/forms';
-import { Component, OnInit, OnChanges, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewChecked, ViewChild } from '@angular/core';
 
 import { SessionService } from './../../../shared/services/session.service';
+import { MessageService } from './../../../shared/services/message.service';
 import { ChatService } from './../../../shared/services/chat.service';
 import { GlobalErrorHandlerService } from './../../../shared/services/global-error-handler.service';
 import { User } from '../../../shared/models/user.model';
@@ -12,7 +14,8 @@ import { Chat } from './../../../shared/models/chat.model';
   templateUrl: './chat-list.component.html',
   styleUrls: ['./chat-list.component.css']
 })
-export class ChatListComponent implements OnInit, OnChanges, OnDestroy {
+export class ChatListComponent implements OnInit, OnDestroy, AfterViewChecked {
+  @ViewChild(ChatRoomComponent) chatRoomComponent: ChatRoomComponent;
   loadSelectedChat = false;
   loadCreateNewChat = false;
   chatsGroups: Array<Chat>;
@@ -25,30 +28,46 @@ export class ChatListComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private globalErrorHandlerService: GlobalErrorHandlerService,
     private chatService: ChatService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private messageService: MessageService
   ) { }
 
   ngOnInit() {
     this.user = this.sessionService.getUser();
-    this.chatService.show(this.user.id).subscribe(
-      (chats) => {
-        this.chatsGroups = chats;
-        chats.forEach(chat => {
-          
-        });
-      },
-      (error) => {
-        console.log('error');
-        this.globalErrorHandlerService.handleError(error);
-        this.apiError = error;
-      }
-    );
+    this.loadChatGroups();
 
     this.chatService.socket.on('notifymessage', (comment) => {
       console.log('MENSAJE RECIBIDO');
       this.renderAddBadge(comment.message.groupName);
     });
   }
+
+
+
+  ngOnDestroy() {
+    this.chatService.disconnect();
+  }
+
+  ngAfterViewChecked() {
+    // this.paintNotifications();
+  }
+
+  paintNotifications() {
+    this.sleep(1000).then(() => {
+      this.chatsGroups.forEach(chat => {
+        this.messageService.get(this.user.id, chat.groupName).subscribe(bool => {
+          console.log(bool);
+          if (!bool.wasRead) {
+            this.renderAddBadge(chat.groupName);
+          }
+        },
+        (error) => {
+          console.log('error wasRead');
+          this.globalErrorHandlerService.handleError(error);
+        });
+      });
+  });
+ }
 
   notifyReadMessage(grpName: string) {
     console.log('NOTIIFY NOTIFY');
@@ -58,20 +77,22 @@ export class ChatListComponent implements OnInit, OnChanges, OnDestroy {
     d1.insertAdjacentHTML('beforeend', `${grpName}`);
   }
 
-  renderAddBadge(chatName) {
-    const html = (`<span class="new badge" id="spnBadge${chatName}">4</span>${chatName}`);
-    const d1 = document.getElementById('badge' + chatName);
+  renderAddBadge(grpName: string) {
+    const html = (`<span class="new badge" id="spnBadge${grpName}">4</span>${grpName}`);
+    const d1 = document.getElementById('badge' + grpName);
     d1.innerHTML = '';
     d1.insertAdjacentHTML('beforeend', html);
   }
 
-  ngOnChanges() {}
-
-  ngOnDestroy() {
-    this.chatService.disconnect();
-  }
-
-  loadChatRoomComponent(grpName) {
+  loadChatRoomComponent(grpName: string) {
+    // this.chatsGroups.forEach(chat => {
+    //   this.chatService.leaveChatRoom(chat.groupName);
+    // });
+    // this.doRerender();
+    // debugger
+    if (this.chatRoomComponent) {
+      this.chatRoomComponent.ngOnDestroy();
+   }
     const d1 = document.getElementById('badge' + grpName);
     d1.innerHTML = '';
     d1.insertAdjacentHTML('beforeend', `${grpName}`);
@@ -81,6 +102,10 @@ export class ChatListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   unloadChatRoomComponent(bole: boolean) {
+  //   debugger
+  //   if (this.chatRoomComponent) {
+  //     this.chatRoomComponent.disconnect();
+  //  }
     this.loadSelectedChat = bole;
     this.doRerender();
   }
@@ -96,11 +121,16 @@ export class ChatListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   doRerender() {
+    this.loadChatGroups();
+  }
+
+  loadChatGroups() {
     this.rerender = true;
     this.chatService.show(this.user.id).subscribe(
       (messages) => {
         this.chatsGroups = messages;
         this.rerender = false;
+        this.paintNotifications();
       },
       (error) => {
         console.log('error');
@@ -110,4 +140,7 @@ export class ChatListComponent implements OnInit, OnChanges, OnDestroy {
     );
   }
 
+  sleep (time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+  }
 }

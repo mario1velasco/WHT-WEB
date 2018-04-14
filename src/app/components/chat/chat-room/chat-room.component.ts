@@ -74,17 +74,19 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
-    console.log('Leaving room....');
+    // console.log('Leaving room....');
     this.chatservice.leaveChatRoom(this.grpName);
     // this.chatservice.socket.disconnect();
   }
 
-  disconnect() {
-    // console.log('Disconnect.');
-    // this.chatservice.socket.disconnect();
-    this.chatservice.leaveChatRoom(this.grpName);
-    this.disconnectRoom.emit(false);
-  }
+  // disconnect() {
+  //   // console.log('Disconnect.');
+  //   // this.chatservice.socket.disconnect();
+  //   // console.log('Disconnect room....');
+  //   this.chatservice.leaveChatRoom(this.grpName);
+  //   // this.disconnectRoom.emit(false);
+  //   // window.location.reload();
+  // }
 
   onSubmitSendMessage(form: NgForm) {
     // const now = moment().format('MMMM Do YYYY, HH:mm:ss X');
@@ -143,7 +145,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
     this.chatservice.leaveChat(this.user.id, this.grpName).subscribe(
       user => {
         console.log('USER LEAVE CHAT');
-        this.onDisconnect.emit(false);
+        this.disconnectRoom.emit(false);
       });
   }
 
@@ -151,7 +153,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
     this.chatservice.deleteChat(this.user.id, this.grpName).subscribe(
       user => {
         console.log('CHAT DELETED');
-        this.onDisconnect.emit(false);
+        this.disconnectRoom.emit(false);
       });
   }
 }

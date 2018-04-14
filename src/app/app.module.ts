@@ -1,7 +1,3 @@
-import { ChatService } from './shared/services/chat.service';
-import { GlobalErrorHandlerService } from './shared/services/global-error-handler.service';
-import { IsAuthenticatedGuard } from './shared/guards/is-authenticated.guard';
-import { SessionService } from './shared/services/session.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { MaterializeModule } from 'angular2-materialize';
@@ -11,11 +7,16 @@ import { RouterModule } from '@angular/router';
 
 import { routes } from './app.routes';
 import { AppComponent } from './app.component';
+import { MessageService } from './shared/services/message.service';
+import { ChatService } from './shared/services/chat.service';
+import { GlobalErrorHandlerService } from './shared/services/global-error-handler.service';
+import { UsersService } from './shared/services/users.service';
+import { SessionService } from './shared/services/session.service';
+import { IsAuthenticatedGuard } from './shared/guards/is-authenticated.guard';
 import { DatepickerComponent } from './components/materialize/datepicker/datepicker.component';
 import { LoginComponent } from './components/misc/login/login.component';
 import { SignupComponent } from './components/misc/signup/signup.component';
 import { NavbarComponent } from './components/misc/navbar/navbar.component';
-import { UsersService } from './shared/services/users.service';
 import { UserPanelComponent } from './components/user/user-panel/user-panel.component';
 import { UserBaseComponent } from './components/user/user-base/user-base.component';
 import { UserEditComponent } from './components/user/user-edit/user-edit.component';
@@ -62,7 +63,8 @@ import { UserAllUsersComponent } from './components/user/user-all-users/user-all
     SessionService,
     IsAuthenticatedGuard,
     GlobalErrorHandlerService,
-    ChatService
+    ChatService,
+    MessageService
   ],
   bootstrap: [AppComponent]
 })
