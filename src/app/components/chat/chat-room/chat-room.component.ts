@@ -58,13 +58,13 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
       console.log('PREVIOUS MESSAGES');
       console.log(messages);
       document.getElementById('messages').innerHTML = '';
-      this.render(messages);
+      this.render(messages, true);
     });
 
     this.chatservice.socket.on('comment:added', (comment) => {
       console.log('AÑADIDO comentario');
       console.log(comment);
-      this.render(comment.message);
+      this.render(comment.message, false);
       if (comment.message.createdBy !== this.user.id ) {
         console.log('HOLA HOLA');
         this.chatservice.socket.emit('messageRead', comment.message);
@@ -107,17 +107,34 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
     this.chatservice.socket.emit('addComment', message);
   }
 
-  render(data) {
+  render(data, isPreviousMns: boolean) {
     if (!Array.isArray(data)) {
       data = [data];
     }
     const html = data.map((mns, index) => {
       // if ((mns.chatCreatedBy === this.user.id) || (this.user.id === mns.createdBy)) {
         const text = (this.user.id === mns.createdBy) ? mns.firstText : mns.secondText;
-        return (`<div>
-        <strong>${mns.createdBy}</strong>:
-        <em>${text}</em>
-        </div>`);
+        if (mns.wasRead) {
+          return (`<div>
+          <strong>${mns.createdBy}</strong>:
+          <em>${text}</em>
+          </div>`);
+        } else if (this.user.id === mns.createdBy) {
+          return (`<div>
+          <strong>${mns.createdBy}</strong>:
+          <em>${text}</em>
+          </div>`);
+        } else if (!isPreviousMns) {
+          return (`<div>
+          <strong>${mns.createdBy}</strong>:
+          <em>${text}</em>
+          </div>`);
+        } else {
+          return (`<div>
+          <strong>${mns.createdBy}(unread)</strong>:
+          <em>${text}</em>
+          </div>`);
+        }
       // }
       // return (``);
     }).join(' ');
@@ -131,13 +148,13 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
   unloadAddUserComponent(boole) {
     this.loadAddUser = boole;
     // this.rerender = true;
-    this.chatservice.get(this.user.id, this.grpName).subscribe(
-      chat => {
-        this.chat = chat[0];
-        console.log(this.chat);
-        document.getElementById('messages').innerHTML = '';
-        this.render(this.previousMessages);
-      });
+    // this.chatservice.get(this.user.id, this.grpName).subscribe(
+    //   chat => {
+    //     // this.chat = chat[0];
+    //     // console.log(this.chat);
+    //     // document.getElementById('messages').innerHTML = '';
+    //     // this.render(this.previousMessages);
+    //   });
   }
 
   leaveChat() {

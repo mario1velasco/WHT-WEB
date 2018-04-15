@@ -33,7 +33,9 @@ export class ChatListComponent implements OnInit, OnDestroy, AfterViewChecked {
   ) { }
 
   ngOnInit() {
+    console.log(this.user);
     this.user = this.sessionService.getUser();
+    console.log(this.user);
     this.loadChatGroups();
 
     this.chatService.socket.on('notifymessage', (comment) => {
@@ -89,10 +91,6 @@ export class ChatListComponent implements OnInit, OnDestroy, AfterViewChecked {
     //   this.chatService.leaveChatRoom(chat.groupName);
     // });
     // this.doRerender();
-    // debugger
-    if (this.chatRoomComponent) {
-      this.chatRoomComponent.ngOnDestroy();
-   }
     const d1 = document.getElementById('badge' + grpName);
     d1.innerHTML = '';
     d1.insertAdjacentHTML('beforeend', `${grpName}`);
@@ -102,9 +100,8 @@ export class ChatListComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   unloadChatRoomComponent(bole: boolean) {
-  //   debugger
   //   if (this.chatRoomComponent) {
-  //     this.chatRoomComponent.disconnect();
+  //     this.chatRoomComponent.destroy();
   //  }
     this.loadSelectedChat = bole;
     this.doRerender();

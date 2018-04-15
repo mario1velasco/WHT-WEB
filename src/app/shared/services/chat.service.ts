@@ -1,5 +1,6 @@
 import { Http, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
+// tslint:disable-next-line:import-blacklist
 import { Observable } from 'rxjs/Rx';
 import { BaseApiService } from './base-api.service';
 import { environment } from './../../../environments/environment';

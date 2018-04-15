@@ -47,6 +47,7 @@ export class SessionService extends BaseApiService {
     }
     setUser(user: User): void {
       this.user = user;
+      localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(this.user));
     }
 
     onUserChanges(): Observable<User> {
