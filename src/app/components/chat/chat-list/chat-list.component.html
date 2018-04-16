@@ -1,8 +1,10 @@
 <ng-container *ngIf="!rerender">
-    <a [routerLink]="['/users', user.id]">GoToUserPanel</a>
+    <a [routerLink]="['/users', user.id]">
+      <i class="medium material-icons prefix">arrow_back</i>
+    </a>
   <h2>My Chats</h2>
   
-  <div class="collection">
+  <div class="collection" id="collectionChats">
     <a *ngFor="let chatG of chatsGroups; let i = index" href="javascript:;" class="collection-item" 
       (click)="loadChatRoomComponent(chatG.groupName)" [id]="'badge' + chatG.groupName">
       <!-- <span [hidden]="true" class="new badge" [id]="'badge' + chatG.groupName">4</span> -->

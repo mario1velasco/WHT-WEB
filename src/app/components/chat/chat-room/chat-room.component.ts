@@ -10,6 +10,7 @@ import { Chat } from './../../../shared/models/chat.model';
 import { User } from '../../../shared/models/user.model';
 
 import * as moment from 'moment';
+import { debug } from 'util';
 
 @Component({
   selector: 'app-chat-room',
@@ -74,19 +75,15 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
-    // console.log('Leaving room....');
     this.chatservice.leaveChatRoom(this.grpName);
-    // this.chatservice.socket.disconnect();
   }
 
-  // disconnect() {
-  //   // console.log('Disconnect.');
-  //   // this.chatservice.socket.disconnect();
-  //   // console.log('Disconnect room....');
-  //   this.chatservice.leaveChatRoom(this.grpName);
-  //   // this.disconnectRoom.emit(false);
-  //   // window.location.reload();
-  // }
+  disconnect() {
+    console.log('Disconnect');
+    this.chatservice.leaveChatRoom(this.grpName);
+    this.disconnectRoom.emit(false);
+  }
+
 
   onSubmitSendMessage(form: NgForm) {
     // const now = moment().format('MMMM Do YYYY, HH:mm:ss X');
@@ -145,16 +142,10 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
   loadAddUserComponent() {
     this.loadAddUser = true;
   }
-  unloadAddUserComponent(boole) {
-    this.loadAddUser = boole;
-    // this.rerender = true;
-    // this.chatservice.get(this.user.id, this.grpName).subscribe(
-    //   chat => {
-    //     // this.chat = chat[0];
-    //     // console.log(this.chat);
-    //     // document.getElementById('messages').innerHTML = '';
-    //     // this.render(this.previousMessages);
-    //   });
+  unloadAddUserComponent(id: string) {
+    this.loadAddUser = false;
+    const data = {id: id, groupName: this.grpName};
+    this.chatservice.socket.emit('updateChatList:SendFromClient', data);
   }
 
   leaveChat() {

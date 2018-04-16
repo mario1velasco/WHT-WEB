@@ -7,10 +7,10 @@
   </thead>
 
   <tbody>
-    <tr *ngFor="let user of users">
-      <td>{{user.username}}</td>
-      <td>
-        <a href="javascript:;" (click)="addUserToChat(user.id, user.language)" >
+    <tr *ngFor="let usr of users">
+      <td *ngIf="usr.id !== user.id">{{usr.username}}</td>
+      <td *ngIf="usr.id !== user.id">
+        <a href="javascript:;" (click)="addUserToChat(usr.id, usr.language)" >
           <i class="material-icons">add</i>
         </a>
       </td>

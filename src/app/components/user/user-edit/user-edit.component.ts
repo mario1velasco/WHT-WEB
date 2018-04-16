@@ -1,10 +1,11 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
+
 import { SessionService } from './../../../shared/services/session.service';
 import { GlobalErrorHandlerService } from './../../../shared/services/global-error-handler.service';
 import { User } from './../../../shared/models/user.model';
 import { UsersService } from './../../../shared/services/users.service';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-user-edit',
@@ -20,7 +21,7 @@ export class UserEditComponent implements OnInit {
     private routes: ActivatedRoute,
     private router: Router,
     private globalErrorHandlerService: GlobalErrorHandlerService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
   ) { }
 
   ngOnInit() {

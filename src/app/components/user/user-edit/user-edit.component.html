@@ -1,77 +1,92 @@
 <a [routerLink]="['/users', user.id]">
-  <i class="material-icons prefix">chevron_left</i>
+  <i class="medium material-icons prefix">arrow_back</i>
 </a>
-<div class="row"> 
-    <div class="col s11 offset-s1">
-      <h2>My details</h2>
-      <p>Here you can update your personals details</p>
-    </div>
-    <form class="col s11 offset-s1" (ngSubmit)="onSubmitUpdate(updateForm)" #updateForm="ngForm">
-      <div class="row">
-        <div class="input-field col s10">
-          <label>{{ apiError }}</label>
-        </div>
-        <div class="input-field col s10">
-          <i class="material-icons prefix">account_circle</i>
-          <input placeholder="Email" disabled value="{{user.email}}" id="disabled" type="text" class="validate">
-          <label for="disabled">Email</label>
-        </div>
-        <div class="input-field col s10">
-            <i class="material-icons prefix">account_circle</i>
-            <input placeholder="Username" id="username" type="text" [(ngModel)]="user.username" 
-            data-length="10" name="username" class="validate" pattern="^.{0,9}$" #username="ngModel">
-            <label for="username">Username</label>
-            <span class="helper-text" *ngIf="username.errors">
-              <ul>
-                <li *ngIf="username.errors?.pattern">Username length < 10</li>
-              </ul>
-            </span>
-        </div>
-        <div class="input-field col s10">
-            <i class="material-icons prefix">account_circle</i>
-            <input placeholder="Name" id="name" type="text" [(ngModel)]="user.name" name="name" #name="ngModel">
-            <label for="name">Name</label>
-        </div>
-        <div class="input-field col s10">
-            <i class="material-icons prefix">account_circle</i>
-            <input placeholder="Family Name" id="familyname" type="text" [(ngModel)]="user.familyname" name="familyname" #familyname="ngModel">
-            <label for="familyname">Family Name</label>
-        </div>
-        <div class="input-field col s10">
-            <i class="material-icons prefix">account_circle</i>
-            <input placeholder="Telephone" id="telephone" type="text" [(ngModel)]="user.telephone" name="telephone" #telephone="ngModel">
-            <label for="telephone">Telephone</label>
-        </div>
-        <div class="input-field col s10">
-            <i class="material-icons prefix">account_circle</i>
-            <input placeholder="About" id="about" type="text" [(ngModel)]="user.about" name="about" #about="ngModel">
-            <label for="about">About</label>
-        </div>
-        <div class="input-field col s10">
+<div class="row">
+  <div class="col s11 offset-s1">
+    <h2>My details</h2>
+    <p>Here you can update your personals details</p>
+  </div>
+  <form class="col s11 offset-s1" (ngSubmit)="onSubmitUpdate(updateForm)" #updateForm="ngForm">
+    <div class="row">
+      <div class="input-field col s10">
+        <label>{{ apiError }}</label>
+      </div>
+      <div class="input-field col s10">
+        <p>Email</p>
+        <i class="material-icons prefix">email</i>
+        <input placeholder="Email" disabled value="{{user.email}}" id="disabled" type="text" class="validate">
+      </div>
+      <div class="input-field col s10">
+        <p>Username</p>
+        <i class="material-icons prefix">person</i>
+        <input placeholder="Username" id="username" type="text" [(ngModel)]="user.username" data-length="10" name="username" class="validate"
+          pattern="^.{0,9}$" #username="ngModel">
+        <span class="helper-text" *ngIf="username.errors">
+          <ul>
+            <li *ngIf="username.errors?.pattern">Username length
+              < 10</li>
+          </ul>
+        </span>
+      </div>
+      <div class="input-field col s10">
+        <p>Name</p>
+        <i class="material-icons prefix">account_circle</i>
+        <input placeholder="Name" id="name" type="text" [(ngModel)]="user.name" name="name" #name="ngModel">
+      </div>
+      <div class="input-field col s10">
+        <p>Family Name</p>
+        <i class="material-icons prefix">supervisor_account</i>
+        <input placeholder="Family Name" id="familyname" type="text" [(ngModel)]="user.familyname" name="familyname" #familyname="ngModel">
+      </div>
+      <div class="input-field col s10">
+        <p>Telephone</p>
+        <i class="material-icons prefix">phone_iphone</i>
+        <input placeholder="Telephone" id="telephone" type="text" [(ngModel)]="user.telephone" name="telephone" #telephone="ngModel">
+      </div>
+      <div class="input-field col s10">
+        <p>About</p>
+        <i class="material-icons prefix">short_text</i>
+        <input placeholder="About" id="about" type="text" [(ngModel)]="user.about" name="about" #about="ngModel">
+      </div>
+      <div class="input-field col s10">
+        <p>Select a language</p>
+        <i class="material-icons prefix">language</i>
+        <select materialize="material_select" class="icons" id="language" [(ngModel)]="user.language" name="language" #language="ngModel">
+          <option value="" disabled selected>Languages</option>
+          <option value="en" data-icon="images/sample-1.jpg">English</option>
+          <option value="es">Spanish</option>
+          <option value="fr">French</option>
+          <option value="de">German</option>
+          <option value="ru">Russian</option>
+        </select>
+      </div>
+      <!-- <div class="input-field col s10">
+            <p>Language</p>
             <i class="material-icons prefix">account_circle</i>
             <input placeholder="Language" id="language" type="text" [(ngModel)]="user.language" name="language" #language="ngModel">
-            <label for="language">Language</label>
-        </div>
-        <div class="input-field col s10">
-            <i class="material-icons prefix">account_circle</i>
-            <input placeholder="PHOTO" id="photo" type="text" [(ngModel)]="user.photo" name="photo" #photo="ngModel">
-            <label for="photo">PHOTO</label>
-          </div>
-          <div class="switch col s10">
-            <label>SUPERUSER</label>
-            <label>
-              Off
-              <input type="checkbox">
-              <span class="lever"></span>
-              On
-            </label>
-          </div>
+        </div> -->
+      <div class="input-field col s10">
+        <p>PHOTO</p>
+        <i class="material-icons prefix">photo_camera</i>
+        <input placeholder="PHOTO" id="photo" type="text" [(ngModel)]="user.photo" name="photo" #photo="ngModel">
       </div>
-      <div class="row">
-        <button class="btn waves-effect teal darken-3" type="submit" name="action" [disabled]="!updateForm.valid">
-          Update
-          <i class="material-icons right">add</i>
-        </button>
+      <div class="switch col s10">
+        <p>You need fill all the fields to became SuperUser</p>
+        <label>SUPERUSER</label>
+        <label>
+          Off
+          <input disabled *ngIf='user.role === "SUPERUSER"' type="checkbox" checked>
+          <input disabled *ngIf='user.role === "USER"' type="checkbox">
+          <span class="lever"></span>
+          On
+        </label>
       </div>
-    </form>
-  </div>
+    </div>
+    <div class="row">
+      <button class="btn waves-effect teal darken-3" type="submit" name="action" [disabled]="!updateForm.valid">
+        Update
+        <i class="material-icons right">add</i>
+      </button>
+    </div>
+  </form>
+</div>

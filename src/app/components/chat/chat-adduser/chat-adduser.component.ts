@@ -46,7 +46,7 @@ export class ChatAdduserComponent implements OnInit {
     this.chatservice.addUser(this.user, data).subscribe(
       (chat) => {
         console.log('ADD USER');
-        this.onAddUser.emit(false);
+        this.onAddUser.emit(userId);
       },
       (error) => {
         console.log('ADD USER ERROR');

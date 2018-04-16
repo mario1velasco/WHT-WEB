@@ -25,5 +25,13 @@ input{
   margin-bottom: 0px;
 }
 .input-field{
-  margin-bottom: 20px; 
+  margin-bottom: 0px; 
+  margin-top: 0px; 
+}
+
+p{
+  margin-top: 0px; 
+}
+i{
+  color: #00695c;
 }

@@ -28,7 +28,7 @@ export class UserPanelComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.userSubscription.unsubscribe();
-    window.location.reload();
+    // window.location.reload();
   }
 
   onClickLogout() {

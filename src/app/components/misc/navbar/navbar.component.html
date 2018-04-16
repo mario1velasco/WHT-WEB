@@ -1,13 +1,13 @@
 <nav class="teal darken-3">
   <div class="container">
-    <ul id="slide-out" class="side-nav fixed">
+    <ul id="slide-out" class="side-nav push">
         <li *ngIf="user">
           <div class="user-view">
             <div class="background">
               <img src="https://www.activengage.com/wp-content/uploads/2016/06/timeline-image-chat-green.jpg">
             </div>
             <a href="#user"><img class="circle" src="https://openclipart.org/image/300px/svg_to_png/14546/tonyk-Gnu-Knight.png&disposition=attachment"></a>
-            <a href="#name"><span class="white-text name">John Doe</span></a>
+            <a href="#name"><span class="white-text name">{{ user?.username }}</span></a>
             <a href="#email"><span class="white-text email">{{ user?.email }}</span></a>
           </div>
         </li>
@@ -45,7 +45,7 @@
 
     </ul>
     <a href="#" materialize="sideNav" [materializeParams]="[{edge:'left'}]" data-activates="slide-out"
-       class="button-collapse">
+       class="button-collapse show-on-large">
        <i class="material-icons">menu</i>
     </a>
   </div>
