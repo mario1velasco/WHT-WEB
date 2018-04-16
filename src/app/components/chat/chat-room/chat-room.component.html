@@ -3,9 +3,8 @@
     <div class="col s11 offset-s1">
       <h4>CHAT: {{grpName}}</h4>
       <h5>Users</h5>
-      <p *ngFor="let user of chat.users">
-          {{user}}
-      </p>
+      <p>{{user.username}}</p>
+      <p>{{secondChatUser.username}}</p>
     </div>
     <form class="col s11 offset-s1" (ngSubmit)="onSubmitSendMessage(updateForm)" #updateForm="ngForm">
       <div class="row">

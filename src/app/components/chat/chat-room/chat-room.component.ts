@@ -22,6 +22,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
   @Output() disconnectRoom: EventEmitter<Boolean> = new EventEmitter<Boolean>();
   @Output() readMessage: EventEmitter<String> = new EventEmitter<String>();
   user: User = new User();
+  secondChatUser: User = new User();
   chat: Chat = new Chat();
   mnsToSend: string;
   // users: Array<User> = [];
@@ -30,11 +31,13 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
   loadAddUser = false;
   previousMessages: object;
 
+
   constructor(
     private chatservice: ChatService,
     private routes: ActivatedRoute,
     private router: Router,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private usersService: UsersService
     // private usersService: UsersService
   ) { }
 
@@ -50,16 +53,33 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
         this.chat = chat[0];
         console.log('onchanges');
         console.log(this.chat);
+        for (const usr of this.chat.users) {
+          if (usr !== this.user.id) {
+            this.usersService.get(usr).subscribe((sndChatUser) => {
+              this.secondChatUser = sndChatUser;
+            });
+          }
+        }
       });
 
     this.chatservice.joinChatRoom(this.grpName, this.user);
 
     this.chatservice.socket.on('previousMessages', (messages) => {
       this.previousMessages = messages;
-      console.log('PREVIOUS MESSAGES');
-      console.log(messages);
-      document.getElementById('messages').innerHTML = '';
-      this.render(messages, true);
+        if ((messages[0].createdBy === 'WHT? Group') && (messages.length === 1)) {
+          this.render(messages, true);
+        } else {
+          console.log('PREVIOUS MESSAGES');
+          console.log(messages);
+          document.getElementById('messages').innerHTML = '';
+          this.render(messages, true);
+        }
+    });
+
+    this.chatservice.socket.on('updateChatList:SendFromServer', (data) => {
+      this.usersService.get(data.id).subscribe((sndChatUser) => {
+        this.secondChatUser = sndChatUser;
+      });
     });
 
     this.chatservice.socket.on('comment:added', (comment) => {
@@ -67,11 +87,11 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
       console.log(comment);
       this.render(comment.message, false);
       if (comment.message.createdBy !== this.user.id ) {
-        console.log('HOLA HOLA');
         this.chatservice.socket.emit('messageRead', comment.message);
         this.readMessage.emit(this.chat.groupName);
       }
     });
+
   }
 
   ngOnDestroy() {
@@ -104,41 +124,6 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
     this.chatservice.socket.emit('addComment', message);
   }
 
-  render(data, isPreviousMns: boolean) {
-    if (!Array.isArray(data)) {
-      data = [data];
-    }
-    const html = data.map((mns, index) => {
-      // if ((mns.chatCreatedBy === this.user.id) || (this.user.id === mns.createdBy)) {
-        const text = (this.user.id === mns.createdBy) ? mns.firstText : mns.secondText;
-        if (mns.wasRead) {
-          return (`<div>
-          <strong>${mns.createdBy}</strong>:
-          <em>${text}</em>
-          </div>`);
-        } else if (this.user.id === mns.createdBy) {
-          return (`<div>
-          <strong>${mns.createdBy}</strong>:
-          <em>${text}</em>
-          </div>`);
-        } else if (!isPreviousMns) {
-          return (`<div>
-          <strong>${mns.createdBy}</strong>:
-          <em>${text}</em>
-          </div>`);
-        } else {
-          return (`<div>
-          <strong>${mns.createdBy}(unread)</strong>:
-          <em>${text}</em>
-          </div>`);
-        }
-      // }
-      // return (``);
-    }).join(' ');
-    const d1 = document.getElementById('messages');
-    d1.insertAdjacentHTML('beforeend', html);
-  }
-
   loadAddUserComponent() {
     this.loadAddUser = true;
   }
@@ -163,5 +148,66 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
         console.log('CHAT DELETED');
         this.disconnectRoom.emit(false);
       });
+  }
+
+  render(data, isPreviousMns: boolean) {
+    if (!Array.isArray(data)) {
+      data = [data];
+    }
+    const html = data.map((mns, index) => {
+      // if ((mns.chatCreatedBy === this.user.id) || (this.user.id === mns.createdBy)) {
+        const text = (this.user.id === mns.createdBy) ? mns.firstText : mns.secondText;
+        if (mns.wasRead) {
+          if (mns.createdBy === 'WHT? Group') {
+            return (`<div>
+            <strong>${mns.createdBy}</strong>:
+            <em>${text}</em>
+            </div>`);
+          } else if (this.user.id === mns.createdBy) {
+            return (`<div>
+            <strong>${this.user.username}</strong>:
+            <em>${text}</em>
+            </div>`);
+          } else {
+            return (`<div>
+            <strong>${this.secondChatUser.username}</strong>:
+            <em>${text}</em>
+            </div>`);
+          }
+        } else if (this.user.id === mns.createdBy) {
+          return (`<div>
+          <strong>${this.user.username}</strong>:
+          <em>${text}</em>
+          </div>`);
+        } else if (!isPreviousMns) {
+          if (this.user.id === mns.createdBy) {
+            return (`<div>
+            <strong>${this.user.username}</strong>:
+            <em>${text}</em>
+            </div>`);
+          } else {
+            return (`<div>
+            <strong>${this.secondChatUser.username}</strong>:
+            <em>${text}</em>
+            </div>`);
+          }
+        } else {
+          if (this.user.id === mns.createdBy) {
+            return (`<div>
+            <strong>${this.user.username}(unread)</strong>:
+            <em>${text}</em>
+            </div>`);
+          } else {
+            return (`<div>
+            <strong>${this.secondChatUser.username}(unread)</strong>:
+            <em>${text}</em>
+            </div>`);
+          }
+        }
+      // }
+      // return (``);
+    }).join(' ');
+    const d1 = document.getElementById('messages');
+    d1.insertAdjacentHTML('beforeend', html);
   }
 }
