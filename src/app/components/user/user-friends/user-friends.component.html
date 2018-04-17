@@ -1,25 +1,46 @@
-<a [routerLink]="['/users', user.id]">
-  <i class="medium material-icons prefix">arrow_back</i>
-</a>
-<h3>MY FRIENDS</h3>
-<table class="highlight">
+<ng-container>
+  <div class="row">
+    <div class="col s11 offset-s1">
+      <a [routerLink]="['/users', user.id]" class="right">
+        <i class="medium material-icons prefix">arrow_back</i>
+      </a>
+      <h3>My Friends</h3>
+    </div>
+  </div>
+  <table class="highlight">
     <thead>
       <tr>
-          <th>Username</th>
-          <th>Remove as Friend</th>          
+        <th>Username</th>
+        <th>Info</th>
+        <th>Delete</th>
       </tr>
     </thead>
-
     <tbody>
-        <tr *ngFor="let usr of user.friends">
-            <td *ngIf="usr.username !== user.username">{{usr}}</td>
-            <td *ngIf="usr.username !== user.username">
-              <a href="javascript:;" (click)="deleteUserAsFriend(usr)" >
-                <i class="material-icons">add</i>
-              </a>
-            </td>
-          </tr>
+      <tr *ngFor="let friend of friends">
+        <td *ngIf="friend.username !== user.username">{{friend.username}}</td>
+        <td *ngIf="friend.username !== user.username">
+          <a href="javascript:;" (click)="deleteUserAsFriend(friend)">
+            <i class="material-icons">info_outline</i>
+          </a>
+        </td>
+        <td *ngIf="friend.username !== user.username">
+          <a href="javascript:;" (click)="deleteUserAsFriend(friend)">
+            <i class="material-icons">delete</i>
+          </a>
+        </td>
+      </tr>
     </tbody>
   </table>
-
-<app-user-all-users [user] = user></app-user-all-users>
+  <div class="row">
+    <div *ngIf='!loadAddUser' class="col s11 offset-s1 valign-wrapper">
+      <h4>Add Friends
+      </h4>
+      <a href="javascript:;" (click)="loadAddUserComponent()">
+        <i class="medium material-icons valign-wrapper">add</i>
+      </a>
+    </div>
+  </div>
+  <div *ngIf='loadAddUser'>
+    <app-user-all-users [user]=user (addUser)="unloadAddUserComponent($event)"></app-user-all-users>
+  </div>
+</ng-container>

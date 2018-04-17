@@ -1,3 +1,7 @@
 .row {
-  background-color: red;
+  background-color: rgb(231, 231, 231);
+}
+
+#messages{
+  background-color: white;
 }

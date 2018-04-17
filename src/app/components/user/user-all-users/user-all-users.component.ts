@@ -1,3 +1,4 @@
+import { EventEmitter, Output } from '@angular/core';
 import { Component, OnInit, Input } from '@angular/core';
 
 import { User } from './../../../shared/models/user.model';
@@ -10,6 +11,7 @@ import { UsersService } from './../../../shared/services/users.service';
 })
 export class UserAllUsersComponent implements OnInit {
   @Input() user: User;
+  @Output() addUser: EventEmitter<User> = new EventEmitter<User>();
   users: Array<User> = [];
   apiError: string;
 
@@ -34,7 +36,7 @@ export class UserAllUsersComponent implements OnInit {
       (user) => {
         console.log('ADD FRIEND');
         console.log(user);
-        // this.onAddUser.emit(false);
+        this.addUser.emit(user);
       },
       (error) => {
         console.log('ADD FRIEND ERROR');
@@ -43,12 +45,12 @@ export class UserAllUsersComponent implements OnInit {
     );
   }
 
-  deleteUserAsFriend(user: User) {
+  deleteUserAdmin(user: User) {
     // this.user.friends.push(user);
     this.usersService.edit(this.user).subscribe(
-      (user) => {
+      (usr) => {
         console.log('ADD FRIEND');
-        console.log(user);
+        console.log(usr);
         // this.onAddUser.emit(false);
       },
       (error) => {

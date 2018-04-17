@@ -34,6 +34,7 @@ export class ChatListComponent implements OnInit, OnDestroy, AfterViewChecked {
   ) { }
 
   ngOnInit() {
+    this.chatService.connect();
     console.log(this.user);
     this.user = this.sessionService.getUser();
     console.log(this.user);
@@ -69,8 +70,9 @@ export class ChatListComponent implements OnInit, OnDestroy, AfterViewChecked {
   ngOnDestroy() {
     console.log('onDestroy Chat list');
     this.chatService.socket.emit('disconnect');
-    this.chatService.socket.disconnect();
-    window.location.reload();
+    // this.chatService.socket.disconnect();
+    // this.chatService.socket.close();
+    // window.location.reload();
   }
 
   ngAfterViewChecked() {

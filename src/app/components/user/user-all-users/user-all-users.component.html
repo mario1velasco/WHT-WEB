@@ -17,8 +17,8 @@
               </a>
             </td>
             <td *ngIf="(usr.username !== user.username) && (user.role === 'ADMIN')">
-                <a href="javascript:;" (click)="deleteUserAsFriend(usr)" >
-                  <i class="material-icons">add</i>
+                <a href="javascript:;" (click)="deleteUserAdmin(usr)" >
+                  <i class="material-icons">remove</i>
                 </a>
               </td>
           </tr>
