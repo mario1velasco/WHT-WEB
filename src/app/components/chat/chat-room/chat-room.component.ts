@@ -79,6 +79,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
     this.chatservice.socket.on('updateChatList:SendFromServer', (data) => {
       this.usersService.get(data.id).subscribe((sndChatUser) => {
         this.secondChatUser = sndChatUser;
+        this.chat.secondLanguage = this.secondChatUser.language;
       });
     });
 

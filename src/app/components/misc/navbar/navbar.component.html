@@ -52,18 +52,25 @@
   <div class="right" *ngIf="user">
     <!-- Dropdown Trigger -->
     <a materialize="dropdown" class="" href='#' data-activates='dropdNav'>
-      <img class="circle " height="30" src="https://openclipart.org/image/300px/svg_to_png/14546/tonyk-Gnu-Knight.png&disposition=attachment">
+      
+        <img *ngIf="this.user.language" class="circle" height="30" src="../../../../assets/img/{{this.user.language}}.svg"/>
+        <img *ngIf="!this.user.language" class="circle" height="30" src="../../../../assets/img/en.svg"/>
     </a>
     <!-- Dropdown Structure -->
     <ul id='dropdNav' class='dropdown-content'>
       <li>
         <a class="waves-effect" [routerLink]="['/profile']">
-          <i class="material-icons">cloud</i>My Profile
+          <i class="material-icons">cloud</i>Profile
         </a>
       </li>
       <li>
         <a class="waves-effect" [routerLink]="['/panel']">
-          <i class="material-icons">cloud</i>Notifications
+          <i class="material-icons">cloud</i>User Panel
+        </a>
+      </li>
+      <li>
+        <a class="waves-effect" [routerLink]="['/panel']">
+          <i class="material-icons">cloud</i>Chats
         </a>
       </li>
       <li>

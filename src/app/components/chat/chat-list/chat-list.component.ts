@@ -45,6 +45,9 @@ export class ChatListComponent implements OnInit, OnDestroy, AfterViewChecked {
     });
 
     this.chatService.socket.on('updateChatList:SendFromServer', (data) => {
+      console.log('updateChatList:SendFromServer');
+      console.log(data);
+      console.log(this.user.id);
       if (this.user.id === data.id) {
         const html = `<a href="javascript:;" class="collection-item"
         (click)="loadChatRoomComponent(${data.groupName})" id="badge${data.groupName}">
