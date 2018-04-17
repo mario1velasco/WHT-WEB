@@ -59,18 +59,23 @@
     <!-- Dropdown Structure -->
     <ul id='dropdNav' class='dropdown-content'>
       <li>
-        <a class="waves-effect" [routerLink]="['/profile']">
+        <a class="waves-effect" [routerLink]="['/users', user.id, 'edit']">
           <i class="material-icons">cloud</i>Profile
         </a>
       </li>
       <li>
-        <a class="waves-effect" [routerLink]="['/panel']">
-          <i class="material-icons">cloud</i>User Panel
+        <a class="waves-effect" [routerLink]="['/users', user.id]">
+          <i class="material-icons">cloud</i>My Panel
         </a>
       </li>
       <li>
-        <a class="waves-effect" [routerLink]="['/panel']">
+        <a class="waves-effect" [routerLink]="['/chats']">
           <i class="material-icons">cloud</i>Chats
+        </a>
+      </li>
+      <li>
+        <a class="waves-effect" [routerLink]="['/users']">
+          <i class="material-icons">cloud</i>Friends
         </a>
       </li>
       <li>

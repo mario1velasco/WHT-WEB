@@ -1,38 +1,24 @@
 <ng-container *ngIf="!rerender">
 <div class="row"> 
     <div class="col s11 offset-s1">
-      <h4>CHAT: {{grpName}}</h4>
-      <h5>Users</h5>
-      <p>{{user.username}}</p>
-      <p>{{secondChatUser.username}}</p>
+      <h5>CHAT: {{grpName}}</h5>
+      <strong>Users:</strong><p> {{user.username}}, {{secondChatUser.username}}</p>
     </div>
+    <div class="col s10 offset-s1">
+        <a class="btn-floating btn-small waves-effect waves-light teal darken-3" type="submit" name="action" 
+        (click)="disconnect()"><i class="material-icons right">keyboard_arrow_left</i>
+        </a>
+      <a *ngIf= 'user.role === "SUPERUSER"' class="btn-floating btn-small waves-effect waves-light red darken-3 right" 
+      (click)="deleteChat()"><i class="material-icons right">delete_forever</i></a>
+      <a class="btn-floating btn-small waves-effect waves-light lime darken-3 right" 
+      (click)="leaveChat()"><i class="material-icons right">delete</i></a>
+    </div>
+    <div class="col s10 offset-s1" id="messages" ></div>
     <form class="col s11 offset-s1" (ngSubmit)="onSubmitSendMessage(updateForm)" #updateForm="ngForm">
       <div class="row">
-        <div class="input-field col s10">
-            <i class="material-icons prefix">account_circle</i>
-            <input placeholder="User name" id="username" type="text" [(ngModel)]="user.username" 
-            name="username" #username="ngModel" required>
-            <!-- <label for="username">User name</label> -->
-            <span class="helper-text" *ngIf="username.errors && username.touched">
-              <ul>
-                <li *ngIf="username.errors?.required">Required</li>
-              </ul>
-            </span>
-        </div>
-        <div class="input-field col s10">
-            <i class="material-icons prefix">account_circle</i>
-            <input placeholder="Language" id="language" type="text" [(ngModel)]="user.language" 
-            name="language" #language="ngModel" required>
-            <!-- <label for="language">Language</label> -->
-            <span class="helper-text" *ngIf="language.errors && language.touched">
-              <ul>
-                <li *ngIf="language.errors?.required">Required</li>
-              </ul>
-            </span>
-        </div>
-        <div class="input-field col s10">
-            <p>Message</p>
-            <i class="material-icons prefix">account_circle</i>
+          <div class="input-field col s10">
+            <img *ngIf="this.user.id === this.chat.createdBy" class="circle prefix" height="35" src="../../../../assets/img/{{this.chat.firstLanguage}}.svg"/>
+            <img *ngIf="this.user.id !== this.chat.createdBy" class="circle prefix" height="35" src="../../../../assets/img/{{this.chat.secondLanguage}}.svg"/>
             <input placeholder="Message" id="text" type="text" [(ngModel)]="mnsToSend" 
             name="text" #text="ngModel" required>
             <span class="helper-text" *ngIf="text.errors && text.touched">
@@ -54,12 +40,8 @@
     </form>
   </div>
 
-<button class="btn waves-effect teal darken-3" type="submit" name="action" (click)="disconnect()">
-    Disconnect
-    <i class="material-icons right">add</i>
-  </button>
-<!-- <button type="submit"  (click)="disconnect()" >DISCONNECT</button> -->
-<div id="messages" ></div>
+
+
 
 
 <div *ngIf= '!loadAddUser'>
@@ -67,9 +49,6 @@
       Add users
       <i class="material-icons right">add</i>
     </button>
-    <a class="waves-effect waves-light btn lime darken-3" (click)="leaveChat()">Leave</a>
-    <a *ngIf= 'user.role === "SUPERUSER"' class="waves-effect waves-light btn red darken-3 right" 
-      (click)="deleteChat()">Delete</a>
 </div>
 <div *ngIf= 'loadAddUser'>
   <app-chat-adduser [user] = user [chat] = chat (onAddUser)="unloadAddUserComponent($event)"></app-chat-adduser>
