@@ -29,6 +29,7 @@ import { ChatNewchatComponent } from './components/chat/chat-newchat/chat-newcha
 import { ChatRoominvitedComponent } from './components/chat/chat-roominvited/chat-roominvited.component';
 import { UserFriendsComponent } from './components/user/user-friends/user-friends.component';
 import { UserAllUsersComponent } from './components/user/user-all-users/user-all-users.component';
+import { HomeComponent } from './components/misc/home/home.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { UserAllUsersComponent } from './components/user/user-all-users/user-all
     ChatNewchatComponent,
     ChatRoominvitedComponent,
     UserFriendsComponent,
-    UserAllUsersComponent
+    UserAllUsersComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

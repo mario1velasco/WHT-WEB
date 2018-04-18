@@ -1,44 +1,68 @@
 <ng-container *ngIf="!rerender">
-<div class="row"> 
+  <div class="row">
     <div class="col s11 offset-s1">
       <h5>CHAT: {{grpName}}</h5>
-      <p><strong>Users:</strong> {{user.username}}, {{secondChatUser.username}}</p>
+      <p>
+        <strong>Users:</strong> {{user.username}}, {{secondChatUser.username}}</p>
     </div>
     <div class="col s10 offset-s1">
-        <a class="btn-floating btn-small waves-effect waves-light teal darken-3" type="submit" name="action" 
-        (click)="disconnect()"><i class="material-icons right">keyboard_arrow_left</i>
-        </a>
-      <a *ngIf= 'user.role === "SUPERUSER"' class="btn-floating btn-small waves-effect waves-light red darken-3 right" 
-      (click)="deleteChat()"><i class="material-icons right">delete_forever</i></a>
-      <a class="btn-floating btn-small waves-effect waves-light lime darken-3 right" 
-      (click)="leaveChat()"><i class="material-icons right">delete</i></a>
+      <a class="btn-floating btn-small waves-effect waves-light teal darken-3" type="submit" name="action" (click)="disconnect()">
+        <i class="material-icons right">keyboard_arrow_left</i>
+      </a>
+      <a *ngIf='user.role === "SUPERUSER"' class="btn-floating btn-small waves-effect waves-light red darken-3 right" (click)="deleteChat()">
+        <i class="material-icons right">delete_forever</i>
+      </a>
+      <a class="btn-floating btn-small waves-effect waves-light lime darken-3 right" (click)="leaveChat()">
+        <i class="material-icons right">delete</i>
+      </a>
     </div>
-     
+
     <div class="col s10 offset-s1" id="messages" style="width:85%; height:150px; overflow: auto;"></div>
     <form class="col s10 offset-s1" (ngSubmit)="onSubmitSendMessage(updateForm)" #updateForm="ngForm">
       <div class="row">
-          <div class="input-field col s10">
-            <img *ngIf="this.user.id === this.chat.createdBy" class="circle prefix" height="35" src="../../../../assets/img/{{this.chat.firstLanguage}}.svg"/>
-            <img *ngIf="this.user.id !== this.chat.createdBy" class="circle prefix" height="35" src="../../../../assets/img/{{this.chat.secondLanguage}}.svg"/>
-            <input placeholder="Message" id="text" type="text" [(ngModel)]="mnsToSend" 
-            name="text" #text="ngModel" required>
-        </div>        
+        <div class="input-field col s10">
+          <img *ngIf="this.user.id === this.chat.createdBy" class="circle prefix" height="35" src="../../../../assets/img/{{this.chat.firstLanguage}}.svg"
+          />
+          <img *ngIf="this.user.id !== this.chat.createdBy" class="circle prefix" height="35" src="../../../../assets/img/{{this.chat.secondLanguage}}.svg"
+          />
+          <input placeholder="Message" id="text" type="text" [(ngModel)]="mnsToSend" name="text" #text="ngModel" required>
+        </div>
       </div>
       <div class="row">
         <button class="btn waves-effect teal darken-3" type="submit" name="action" [disabled]="!updateForm.valid">
           Send
           <i class="material-icons right">send</i>
         </button>
-        <a *ngIf= '!loadAddUser' class="btn-floating btn-small waves-effect waves-light right teal darken-3" 
-    (click)="loadAddUserComponent()"><i class="material-icons right">add</i>Add</a>
+        <a *ngIf='!loadAddUser' class="btn-floating btn-small waves-effect waves-light right teal darken-3" (click)="loadAddUserComponent()">
+          <i class="material-icons right">add</i>Add</a>
         <div class="input-field col s10">
           <label>{{ apiError }}</label>
         </div>
 
       </div>
     </form>
+    <div *ngIf='!loadAddUser'>
+      <div *ngIf="((this.chat | json) != '{}') && (this.chat.users.length < 2)">
+        <a class="waves-effect waves-light btn small modal-trigger teal darken-3" (click)="openModal()">Send Invitation</a>
+
+        <!-- Modal Structure -->
+        <div id="modal1" class="modal bottom-sheet" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
+          <div class="modal-content">
+            <h3>Copy and share</h3>
+            <p>Give this link to a
+              <strong>wht? no user</strong> to chat with him</p>
+            <input type="text" value="{{this.chat.invitedAddress}}" id="linkToCopy" disabled>
+            <a class="waves-effect waves-light btn btn-small modal-trigger teal darken-3" (click)="copyLink()">Copy Link</a>
+          </div>
+          <div class="modal-footer">
+            <a class="waves-effect waves-green btn-flat" (click)="closeModal()">Close</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-<div *ngIf= 'loadAddUser'>
-  <app-chat-adduser [user] = user [chat] = chat (onAddUser)="unloadAddUserComponent($event)"></app-chat-adduser>
-</div>
+  <div *ngIf='loadAddUser'>
+    <app-chat-adduser [user]=user [chat]=chat (onAddUser)="unloadAddUserComponent($event)"></app-chat-adduser>
+  </div>
+
 </ng-container>

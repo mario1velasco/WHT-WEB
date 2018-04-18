@@ -1,3 +1,4 @@
+import { MaterializeAction } from 'angular2-materialize';
 import { EventEmitter } from '@angular/core';
 import {  ActivatedRoute,  Router} from '@angular/router';
 import { Component, OnInit, OnDestroy, Input, OnChanges, Output} from '@angular/core';
@@ -21,6 +22,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
   @Input() grpName: string;
   @Output() disconnectRoom: EventEmitter<Boolean> = new EventEmitter<Boolean>();
   @Output() readMessage: EventEmitter<String> = new EventEmitter<String>();
+  modalActions = new EventEmitter<string|MaterializeAction>();
   user: User = new User();
   secondChatUser: User = new User();
   chat: Chat = new Chat();
@@ -152,6 +154,29 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
         this.chatservice.notifyDeleteChat(this.grpName);
         this.disconnectRoom.emit(false);
       });
+  }
+
+  copyLink() {
+    /* Get the text field */
+    // (<HTMLInputElement>document.getElementById('linkToCopy')).value;
+  const copyText = (<HTMLInputElement>document.getElementById('linkToCopy'));
+  // const copyText = <HTMLInputElement>document.querySelector('linkToCopy');
+
+  /* Select the text field */
+  copyText.select();
+
+  /* Copy the text inside the text field */
+  document.execCommand('Copy');
+
+  /* Alert the copied text */
+  alert(copyText.value);
+  }
+
+  openModal() {
+    this.modalActions.emit({action: 'modal', params: ['open']});
+  }
+  closeModal() {
+    this.modalActions.emit({action: 'modal', params: ['close']});
   }
 
   render(data, isPreviousMns: boolean) {
