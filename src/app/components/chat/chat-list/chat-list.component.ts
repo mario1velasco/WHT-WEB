@@ -152,7 +152,8 @@ export class ChatListComponent implements OnInit, OnDestroy{
       (error) => {
         console.log('error');
         this.globalErrorHandlerService.handleError(error);
-        this.apiError = error;
+        window.alert(error);
+        // this.apiError = error;
       }
     );
   }

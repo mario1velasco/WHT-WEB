@@ -32,7 +32,8 @@ export class ChatAdduserComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this.apiError = error;
+        // this.apiError = error;
+        window.alert(error);
       }
     );
   }
@@ -50,7 +51,8 @@ export class ChatAdduserComponent implements OnInit {
       },
       (error) => {
         console.log('ADD USER ERROR');
-        this.apiError = error;
+        // this.apiError = error;
+        window.alert(error);
       }
     );
   }

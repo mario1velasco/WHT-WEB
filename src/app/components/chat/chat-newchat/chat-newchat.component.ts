@@ -39,7 +39,8 @@ export class ChatNewchatComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this.apiError = error;
+        window.alert(error);
+        // this.apiError = error;
       }
     );
   }

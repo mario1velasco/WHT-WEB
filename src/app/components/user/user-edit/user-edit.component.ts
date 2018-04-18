@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
@@ -13,6 +13,7 @@ import { UsersService } from './../../../shared/services/users.service';
   styleUrls: ['./user-edit.component.css']
 })
 export class UserEditComponent implements OnInit {
+  @ViewChild('updateForm') updateForm;
   user: User = new User();
   apiError: object;
 
@@ -35,7 +36,8 @@ export class UserEditComponent implements OnInit {
         (error) => {
           console.log('error');
           this.globalErrorHandlerService.handleError(error);
-          this.apiError = error;
+          window.alert(error);
+          // this.apiError = error;
         }
       );
     });
@@ -49,8 +51,20 @@ export class UserEditComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this.apiError = error.message;
+        window.alert(error);
+        // this.apiError = error.message;
       }
     );
+  }
+  canLeaveTheComponent(): boolean {
+    debugger
+    if (this.updateForm.dirty) {
+      return window.confirm(`
+        Unsaved changes.
+        Are you sure you want to leave?
+    `);
+    } else {
+      return true;
+    }
   }
 }

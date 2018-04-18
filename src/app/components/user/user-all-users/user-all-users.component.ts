@@ -26,7 +26,8 @@ export class UserAllUsersComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this.apiError = error;
+        // this.apiError = error;
+        window.alert(error);
       }
     );
   }
@@ -44,7 +45,8 @@ export class UserAllUsersComponent implements OnInit {
         },
         (error) => {
           console.log('ADD FRIEND ERROR');
-          this.apiError = error;
+          // this.apiError = error;
+          window.alert(error);
         }
       );
     } else {

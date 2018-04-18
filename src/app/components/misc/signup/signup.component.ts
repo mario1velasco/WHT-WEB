@@ -29,7 +29,8 @@ export class SignupComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this.apiError = error;
+        // this.apiError = error;
+        window.alert(error);
       }
     );
   }

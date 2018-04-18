@@ -1,3 +1,4 @@
+import { CanLeaveEditUserGuard } from './shared/guards/can-leave-edit-user.guard';
 import { HomeComponent } from './components/misc/home/home.component';
 import { UserFriendsComponent } from './components/user/user-friends/user-friends.component';
 import { ChatRoominvitedComponent } from './components/chat/chat-roominvited/chat-roominvited.component';
@@ -29,9 +30,7 @@ export const routes: Routes = [
             {
                 path: ':id',
                 canActivate: [IsAuthenticatedGuard],
-                // resolve: {
-                //     phone: PhoneDetailsResolverGuard
-                // },
+                // canDeactivate: [CanLeaveEditUserGuard],
                 component: UserBaseIdComponent,
                 children: [
                     {
@@ -51,8 +50,6 @@ export const routes: Routes = [
         children: [
             {
                 path: ':groupName',
-                // canActivate: [IsAuthenticatedGuard],
-                // canDeactivate: [CanLeavePhoneCreateGuard],
                 children: [
                     {
                         path: ':id',

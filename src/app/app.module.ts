@@ -1,3 +1,4 @@
+import { CanLeaveEditUserGuard } from './shared/guards/can-leave-edit-user.guard';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { MaterializeModule } from 'angular2-materialize';
@@ -64,6 +65,7 @@ import { HomeComponent } from './components/misc/home/home.component';
     UsersService,
     SessionService,
     IsAuthenticatedGuard,
+    CanLeaveEditUserGuard,
     GlobalErrorHandlerService,
     ChatService,
     MessageService
