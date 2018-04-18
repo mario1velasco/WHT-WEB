@@ -79,6 +79,11 @@ export class ChatService extends BaseApiService {
     this.socket.emit('leave room', roomName);
   }
 
+  notifyDeleteChat (groupName: string) {
+    console.log('notifyDeleteChat:SendFromClient room = ' + groupName);
+    this.socket.emit('notifyDeleteChat:SendFromClient', groupName);
+  }
+
   disconnect () {
     console.log('Disconecting....');
     this.socket.emit('disconnect');

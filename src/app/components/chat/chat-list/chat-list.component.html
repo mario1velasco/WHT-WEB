@@ -22,10 +22,10 @@
   {{ apiError }}
 
   <div *ngIf='loadCreateNewChat'>
-    <app-chat-newchat [user]=u ser (onCreateChat)="unloadNewChatComponent($event)"></app-chat-newchat>
+    <app-chat-newchat [user]=user (onCreateChat)="unloadNewChatComponent($event)"></app-chat-newchat>
   </div>
 
   <div *ngIf='loadSelectedChat'>
-    <app-chat-room [grpName]=g rpName (disconnectRoom)="unloadChatRoomComponent($event)" (readMessage)="notifyReadMessage($event)"></app-chat-room>
+    <app-chat-room [grpName]=grpName (disconnectRoom)="unloadChatRoomComponent($event)" (readMessage)="notifyReadMessage($event)"></app-chat-room>
   </div>
 </ng-container>

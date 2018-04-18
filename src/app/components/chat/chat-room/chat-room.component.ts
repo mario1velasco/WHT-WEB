@@ -149,6 +149,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
     this.chatservice.deleteChat(this.user.id, this.grpName).subscribe(
       user => {
         console.log('CHAT DELETED');
+        this.chatservice.notifyDeleteChat(this.grpName);
         this.disconnectRoom.emit(false);
       });
   }

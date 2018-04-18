@@ -1,6 +1,6 @@
 import { ChatRoomComponent } from './../chat-room/chat-room.component';
 import { NgForm } from '@angular/forms';
-import { Component, OnInit, OnDestroy, AfterViewChecked, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 
 import { SessionService } from './../../../shared/services/session.service';
 import { MessageService } from './../../../shared/services/message.service';
@@ -14,7 +14,7 @@ import { Chat } from './../../../shared/models/chat.model';
   templateUrl: './chat-list.component.html',
   styleUrls: ['./chat-list.component.css']
 })
-export class ChatListComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class ChatListComponent implements OnInit, OnDestroy{
   @ViewChild(ChatRoomComponent) chatRoomComponent: ChatRoomComponent;
   loadSelectedChat = false;
   loadCreateNewChat = false;
@@ -63,6 +63,12 @@ export class ChatListComponent implements OnInit, OnDestroy, AfterViewChecked {
         // this.loadChatRoomComponent(data.groupName).bind(this));
       }
     });
+
+    this.chatService.socket.on('notifyDeleteChat:SendFromServer', (comment) => {
+      console.log('notifyDeleteChat:SendFromServer');
+      this.loadSelectedChat = false;
+      this.doRerender();
+    });
   }
 
 
@@ -73,10 +79,6 @@ export class ChatListComponent implements OnInit, OnDestroy, AfterViewChecked {
     // this.chatService.socket.disconnect();
     // this.chatService.socket.close();
     // window.location.reload();
-  }
-
-  ngAfterViewChecked() {
-    // this.paintNotifications();
   }
 
   paintNotifications() {
