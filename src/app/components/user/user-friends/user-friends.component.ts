@@ -14,6 +14,7 @@ export class UserFriendsComponent implements OnInit {
   modalActions = new EventEmitter<string|MaterializeAction>();
   friends: Array<User> = new Array<User>();
   user: User;
+  infoUser: User = new User();
   loadAddUser = false;
   rerender = false;
 
@@ -37,14 +38,18 @@ export class UserFriendsComponent implements OnInit {
   }
 
   friendInfo(user: User) {
-    this.user.friends.splice(0, this.user.friends.length);
-    this.friends.splice(0, this.friends.length);
-    this.usersService.edit(this.user).subscribe((usr) => {
-      this.sessionService.setUser(this.user);
-    });
+    this.loadAddUser = false;
+    this.infoUser = user;
+    this.modalActions.emit({action: 'modal', params: ['open']});
+    // this.user.friends.splice(0, this.user.friends.length);
+    // this.friends.splice(0, this.friends.length);
+    // this.usersService.edit(this.user).subscribe((usr) => {
+    //   this.sessionService.setUser(this.user);
+    // });
   }
 
   deleteUserAsFriend(user: User) {
+    this.loadAddUser = false;
     const pos = this.user.friends.indexOf(user.id);
     this.user.friends.splice(pos, 1);
     this.friends = this.friends.filter(item => {
@@ -73,9 +78,6 @@ export class UserFriendsComponent implements OnInit {
     this.rerender = false;
   }
 
-  openModal() {
-    this.modalActions.emit({action: 'modal', params: ['open']});
-  }
   closeModal() {
     this.modalActions.emit({action: 'modal', params: ['close']});
   }

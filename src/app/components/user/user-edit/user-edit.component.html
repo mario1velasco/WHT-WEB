@@ -63,19 +63,8 @@
           <option value="it" data-icon="../../../../assets/img/it.svg">Italian</option>
         </select>
       </div>
-      
-      <!-- <div class="input-field col s10">
-            <p>Language</p>
-            <i class="material-icons prefix">account_circle</i>
-            <input placeholder="Language" id="language" type="text" [(ngModel)]="user.language" name="language" #language="ngModel">
-        </div> -->
-      <div class="input-field col s10">
-        <p>PHOTO</p>
-        <i class="material-icons prefix">photo_camera</i>
-        <input placeholder="PHOTO" id="photo" type="text" [(ngModel)]="user.photo" name="photo" #photo="ngModel">
-      </div>
       <div class="switch col s10">
-        <p>You need fill all the fields to became SuperUser</p>
+        <p>You need fill all the fields to become <strong>SuperUser</strong> </p>
         <label>SUPERUSER</label>
         <label>
           Off
@@ -89,7 +78,7 @@
     <div class="row">
       <button class="btn waves-effect teal darken-3" type="submit" name="action" [disabled]="!updateForm.valid">
         Update
-        <i class="material-icons right">add</i>
+        <i class="material-icons right" id='btnUpdate'>fast_forward</i>
       </button>
     </div>
   </form>

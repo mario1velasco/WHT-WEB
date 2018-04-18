@@ -1,52 +1,39 @@
-<div *ngIf= 'isInvited'>
-  <div class="row"> 
+<div *ngIf='isInvited'>
+  <div class="row">
     <div class="col s11 offset-s1">
       <h4>CHAT: {{grpName}}</h4>
       <h5>Users</h5>
       <p *ngFor="let user of chat.users">
-          {{user}}
+        {{user}}
       </p>
     </div>
-    <form class="col s11 offset-s1" (ngSubmit)="onSubmitSendMessage(updateForm)" #updateForm="ngForm">
-      <div class="row">
+    <div class="col s10 offset-s1" id="messages" style="width:85%; height:150px; overflow: auto;"></div>
+    <form class="col s10 offset-s1" (ngSubmit)="onSubmitSendMessage(updateForm)" #updateForm="ngForm">
+      <div class="input-field col s10">
+        <p>Select a language</p>
+        <i class="material-icons prefix">language</i>
+        <select materialize="material_select" class="icons" [(ngModel)]="language" name="language" required>
+          <option value="" disabled selected>Languages</option>
+          <option value="en" data-icon="../../../../assets/img/en.svg">English</option>
+          <option value="es" data-icon="../../../../assets/img/es.svg">Spanish</option>
+          <option value="fr" data-icon="../../../../assets/img/fr.svg">French</option>
+          <option value="de" data-icon="../../../../assets/img/de.svg">German</option>
+          <option value="ru" data-icon="../../../../assets/img/ru.svg">Russian</option>
+          <option value="pt" data-icon="../../../../assets/img/pt.svg">Portuguese</option>
+          <option value="ko" data-icon="../../../../assets/img/ko.svg">Korean</option>
+          <option value="it" data-icon="../../../../assets/img/it.svg">Italian</option>
+        </select>
+      </div>
+      <div class="row" *ngIf="this.language.toString() !== ''">
         <div class="input-field col s10">
-            <i class="material-icons prefix">account_circle</i>
-            <input placeholder="User name" id="username" type="text" [(ngModel)]="user.username" 
-            name="username" #username="ngModel" required>
-            <label for="username">User name</label>
-            <span class="helper-text" *ngIf="username.errors && username.touched">
-              <ul>
-                <li *ngIf="username.errors?.required">Required</li>
-              </ul>
-            </span>
+          <img class="circle prefix" height="35" src="../../../../assets/img/{{this.language}}.svg"/>
+          <input placeholder="Message" id="text" type="text" [(ngModel)]="mnsToSend" name="text" #text="ngModel" required>
         </div>
-        <div class="input-field col s10">
-            <i class="material-icons prefix">account_circle</i>
-            <input placeholder="Language" id="language" type="text" [(ngModel)]="user.language" 
-            name="language" #language="ngModel" required>
-            <label for="language">Language</label>
-            <span class="helper-text" *ngIf="language.errors && language.touched">
-              <ul>
-                <li *ngIf="language.errors?.required">Required</li>
-              </ul>
-            </span>
-        </div>
-        <div class="input-field col s10">
-            <i class="material-icons prefix">account_circle</i>
-            <input placeholder="Message" id="text" type="text" [(ngModel)]="mnsToSend" 
-            name="text" #text="ngModel" required>
-            <label for="text">Message</label>
-            <span class="helper-text" *ngIf="text.errors && text.touched">
-              <ul>
-                <li *ngIf="text.errors?.required">Required</li>
-              </ul>
-            </span>
-        </div>        
       </div>
       <div class="row">
         <button class="btn waves-effect teal darken-3" type="submit" name="action" [disabled]="!updateForm.valid">
-          Create
-          <i class="material-icons right">add</i>
+          Send
+          <i class="material-icons right">send</i>
         </button>
         <div class="input-field col s10">
           <label>{{ apiError }}</label>
@@ -55,10 +42,8 @@
     </form>
   </div>
 </div>
-<div *ngIf= '!isInvited'>
+<div *ngIf='!isInvited'>
   <h1>
     THIS IS A PRIVAT CHAT YOU DONT HAVE ACCESS TO CREATE YOUR PRIVATE CHATS PLEASE SIGN UP
   </h1>
 </div>
-
-<div id="messages" ></div>

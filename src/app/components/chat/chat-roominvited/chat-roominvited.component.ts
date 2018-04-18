@@ -19,7 +19,7 @@ export class ChatRoominvitedComponent implements OnInit, OnDestroy {
   chat: Chat = new Chat();
   mnsToSend: string;
   grpName: string;
-  // users: Array<User> = [];
+  language = '';
   apiError: object;
   rerender = false;
   isInvited = true;

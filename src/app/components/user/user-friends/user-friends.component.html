@@ -7,30 +7,35 @@
       <h3>My Friends</h3>
     </div>
   </div>
-  <table class="highlight">
-    <thead>
-      <tr>
-        <th>Username</th>
-        <th>Info</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let friend of friends">
-        <td *ngIf="friend.username">{{friend.username}}</td>
-        <td *ngIf="friend.username">
-          <a href="javascript:;" (click)="friendInfo(friend)">
-            <i class="material-icons">info_outline</i>
-          </a>
-        </td>
-        <td *ngIf="friend.username">
-          <a href="javascript:;" (click)="deleteUserAsFriend(friend)">
-            <i class="material-icons">delete</i>
-          </a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div *ngIf="this.friends.length === 0" class="collection">
+    <a href="javascript:;" class="collection-item" (click)="loadAddUserComponent()">Add friends</a>
+  </div>
+  <div *ngIf="this.friends.length !== 0">
+    <table class="highlight">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Info</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let friend of friends">
+          <td *ngIf="friend.username">{{friend.username}}</td>
+          <td *ngIf="friend.username">
+            <a href="javascript:;" (click)="friendInfo(friend)">
+              <i class="material-icons">info_outline</i>
+            </a>
+          </td>
+          <td *ngIf="friend.username">
+            <a href="javascript:;" (click)="deleteUserAsFriend(friend)">
+              <i class="material-icons">delete</i>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <div class="row">
     <div *ngIf='!loadAddUser' class="col s11 offset-s1 valign-wrapper">
       <h4>Add Friends
@@ -45,18 +50,26 @@
   </div>
 </ng-container>
 
-
-<!-- Modal Trigger -->
-<a class="waves-effect waves-light btn modal-trigger" (click)="openModal()">Modal</a>
- 
 <!-- Modal Structure -->
-<div id="modal1" class="modal bottom-sheet" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
+<div id="modal1" class="modal bottom-sheet teal lighten-5" materialize="modal" [materializeParams]="[{dismissible: false}]"
+  [materializeActions]="modalActions">
   <div class="modal-content">
-    <h4>Modal Header</h4>
-    <p>A bunch of text</p>
+    <img *ngIf="this.infoUser.language" class="right" height="30" src="../../../../assets/img/{{this.infoUser.language}}.svg"/>
+    <h4>{{infoUser.username}}</h4>
+    <div *ngIf="this.infoUser.role === 'SUPERUSER'">
+      <p class="valign-wrapper">
+        <i class="material-icons prefix">supervisor_account</i>
+        {{infoUser.name}} {{infoUser.familyname}}</p>
+      <p class="valign-wrapper">
+        <i class="material-icons prefix">short_text</i>
+        {{infoUser.about}}</p>
+      <p class="valign-wrapper">
+        <i class="material-icons prefix">phone_iphone</i>
+        <a href="tel:{{infoUser.telephone}}">{{infoUser.telephone}}</a>
+      </p>
+    </div>
   </div>
-  <div class="modal-footer">
+  <div class="modal-footer teal lighten-5">
     <a class="waves-effect waves-green btn-flat" (click)="closeModal()">Close</a>
-    <a class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
   </div>
 </div>
