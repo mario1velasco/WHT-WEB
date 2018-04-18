@@ -1,6 +1,8 @@
+import { MaterializeAction } from 'angular2-materialize';
+import { EventEmitter } from '@angular/core';
 import { UsersService } from './../../../shared/services/users.service';
 import { SessionService } from './../../../shared/services/session.service';
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { User } from '../../../shared/models/user.model';
 
 @Component({
@@ -8,10 +10,11 @@ import { User } from '../../../shared/models/user.model';
   templateUrl: './user-friends.component.html',
   styleUrls: ['./user-friends.component.css']
 })
-export class UserFriendsComponent implements OnInit, OnChanges {
+export class UserFriendsComponent implements OnInit {
+  modalActions = new EventEmitter<string|MaterializeAction>();
+  friends: Array<User> = new Array<User>();
   user: User;
   loadAddUser = false;
-  friends: Array<User> = new Array<User>();
   rerender = false;
 
   constructor(
@@ -22,11 +25,6 @@ export class UserFriendsComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.user = this.sessionService.getUser();
     this.getUserFriends();
-    console.log(this.user);
-  }
-
-  ngOnChanges() {
-    // this.doRender();
   }
 
   getUserFriends() {
@@ -34,8 +32,6 @@ export class UserFriendsComponent implements OnInit, OnChanges {
     for (const friend of this.user.friends) {
       this.usersService.get(friend).subscribe(user => {
         this.friends.push(user);
-        console.log('getUserFriends');
-        console.log(this.friends);
       });
     }
   }
@@ -43,11 +39,8 @@ export class UserFriendsComponent implements OnInit, OnChanges {
   friendInfo(user: User) {
     this.user.friends.splice(0, this.user.friends.length);
     this.friends.splice(0, this.friends.length);
-    console.log(this.user);
     this.usersService.edit(this.user).subscribe((usr) => {
       this.sessionService.setUser(this.user);
-      console.log('Delete ALL Friends');
-      console.log(this.user);
     });
   }
 
@@ -59,7 +52,6 @@ export class UserFriendsComponent implements OnInit, OnChanges {
     });
     this.usersService.edit(this.user).subscribe((usr) => {
       this.sessionService.setUser(this.user);
-      console.log('Delete Friend = ' + user.username);
     });
   }
 
@@ -81,5 +73,11 @@ export class UserFriendsComponent implements OnInit, OnChanges {
     this.rerender = false;
   }
 
+  openModal() {
+    this.modalActions.emit({action: 'modal', params: ['open']});
+  }
+  closeModal() {
+    this.modalActions.emit({action: 'modal', params: ['close']});
+  }
 
 }
