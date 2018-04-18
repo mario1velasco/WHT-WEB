@@ -15,7 +15,7 @@ import { IsAuthenticatedGuard } from './shared/guards/is-authenticated.guard';
 import { UserEditComponent } from './components/user/user-edit/user-edit.component';
 
 export const routes: Routes = [
-    { path: '', redirectTo: 'login', pathMatch: 'full'},
+    { path: '', redirectTo: 'home', pathMatch: 'full'},
     { path: 'home', component: HomeComponent },
     { path: 'login', component: LoginComponent },
     { path: 'signup', component: SignupComponent },
