@@ -8,10 +8,11 @@ import { User } from '../../../shared/models/user.model';
   templateUrl: './user-friends.component.html',
   styleUrls: ['./user-friends.component.css']
 })
-export class UserFriendsComponent implements OnInit {
+export class UserFriendsComponent implements OnInit, OnChanges {
   user: User;
   loadAddUser = false;
   friends: Array<User> = new Array<User>();
+  rerender = false;
 
   constructor(
     private sessionService: SessionService,
@@ -21,26 +22,45 @@ export class UserFriendsComponent implements OnInit {
   ngOnInit() {
     this.user = this.sessionService.getUser();
     this.getUserFriends();
+    console.log(this.user);
   }
-  
-  // ngOnChanges() {
-  //   this.user = this.sessionService.getUser();
-  //   this.getUserFriends();
-  // }
+
+  ngOnChanges() {
+    // this.doRender();
+  }
 
   getUserFriends() {
+    this.friends.splice(0, this.friends.length);
     for (const friend of this.user.friends) {
       this.usersService.get(friend).subscribe(user => {
         this.friends.push(user);
+        console.log('getUserFriends');
+        console.log(this.friends);
       });
     }
   }
 
-  deleteUserAsFriend(usr: string) {
-    const pos = this.user.friends.indexOf(usr);
+  friendInfo(user: User) {
+    this.user.friends.splice(0, this.user.friends.length);
+    this.friends.splice(0, this.friends.length);
+    console.log(this.user);
+    this.usersService.edit(this.user).subscribe((usr) => {
+      this.sessionService.setUser(this.user);
+      console.log('Delete ALL Friends');
+      console.log(this.user);
+    });
+  }
+
+  deleteUserAsFriend(user: User) {
+    const pos = this.user.friends.indexOf(user.id);
     this.user.friends.splice(pos, 1);
-    this.sessionService.setUser(this.user);
-    this.loadAddUser = false;
+    this.friends = this.friends.filter(item => {
+      return item.id !== user.id;
+    });
+    this.usersService.edit(this.user).subscribe((usr) => {
+      this.sessionService.setUser(this.user);
+      console.log('Delete Friend = ' + user.username);
+    });
   }
 
   loadAddUserComponent() {
@@ -48,8 +68,18 @@ export class UserFriendsComponent implements OnInit {
   }
 
   unloadAddUserComponent(user: User) {
-    this.user.friends.push(user.id);
+    this.user = user;
     this.sessionService.setUser(this.user);
     this.loadAddUser = false;
+    this.doRender();
   }
+
+  doRender() {
+    this.rerender = true;
+    this.user = this.sessionService.getUser();
+    this.getUserFriends();
+    this.rerender = false;
+  }
+
+
 }

@@ -31,33 +31,25 @@ export class UserAllUsersComponent implements OnInit {
     );
   }
   addUserAsFriend(id) {
-    this.user.friends.push(id);
-    this.usersService.edit(this.user).subscribe(
-      (user) => {
-        console.log('ADD FRIEND');
-        console.log(user);
-        this.addUser.emit(user);
-      },
-      (error) => {
-        console.log('ADD FRIEND ERROR');
-        this.apiError = error;
-      }
-    );
-  }
-
-  deleteUserAdmin(user: User) {
-    // this.user.friends.push(user);
-    this.usersService.edit(this.user).subscribe(
-      (usr) => {
-        console.log('ADD FRIEND');
-        console.log(usr);
-        // this.onAddUser.emit(false);
-      },
-      (error) => {
-        console.log('ADD FRIEND ERROR');
-        this.apiError = error;
-      }
-    );
+    const found = this.user.friends.indexOf(id);
+    if (found === -1) {
+      this.user.friends.push(id);
+      console.log('USER TO EDIT');
+      console.log(this.user);
+      this.usersService.edit(this.user).subscribe(
+        (user) => {
+          console.log('ADD FRIEND and emit');
+          console.log(user);
+          this.addUser.emit(user);
+        },
+        (error) => {
+          console.log('ADD FRIEND ERROR');
+          this.apiError = error;
+        }
+      );
+    } else {
+      console.log('You have that user already as a friend');
+    }
   }
 
 }

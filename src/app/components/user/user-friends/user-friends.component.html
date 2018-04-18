@@ -1,4 +1,4 @@
-<ng-container>
+<ng-container *ngIf="!rerender">
   <div class="row">
     <div class="col s11 offset-s1">
       <a [routerLink]="['/users', user.id]" class="right">
@@ -17,13 +17,13 @@
     </thead>
     <tbody>
       <tr *ngFor="let friend of friends">
-        <td *ngIf="friend.username !== user.username">{{friend.username}}</td>
-        <td *ngIf="friend.username !== user.username">
-          <a href="javascript:;" (click)="deleteUserAsFriend(friend)">
+        <td *ngIf="friend.username">{{friend.username}}</td>
+        <td *ngIf="friend.username">
+          <a href="javascript:;" (click)="friendInfo(friend)">
             <i class="material-icons">info_outline</i>
           </a>
         </td>
-        <td *ngIf="friend.username !== user.username">
+        <td *ngIf="friend.username">
           <a href="javascript:;" (click)="deleteUserAsFriend(friend)">
             <i class="material-icons">delete</i>
           </a>
