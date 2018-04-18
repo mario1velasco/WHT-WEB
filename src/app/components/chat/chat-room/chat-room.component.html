@@ -43,7 +43,7 @@
     </form>
     <div *ngIf='!loadAddUser'>
       <div *ngIf="((this.chat | json) != '{}') && (this.chat.users.length < 2)">
-        <a class="waves-effect waves-light btn small modal-trigger teal darken-3" (click)="openModal()">Send Invitation</a>
+        <a class="waves-effect waves-light btn small pulse modal-trigger teal darken-3" (click)="openModal()">Send Invitation</a>
 
         <!-- Modal Structure -->
         <div id="modal1" class="modal bottom-sheet" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">

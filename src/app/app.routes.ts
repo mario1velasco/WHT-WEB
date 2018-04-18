@@ -1,3 +1,4 @@
+import { HomeComponent } from './components/misc/home/home.component';
 import { UserFriendsComponent } from './components/user/user-friends/user-friends.component';
 import { ChatRoominvitedComponent } from './components/chat/chat-roominvited/chat-roominvited.component';
 import { ChatBaseComponent } from './components/chat/chat-base/chat-base.component';
@@ -15,6 +16,7 @@ import { UserEditComponent } from './components/user/user-edit/user-edit.compone
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full'},
+    { path: 'home', component: HomeComponent },
     { path: 'login', component: LoginComponent },
     { path: 'signup', component: SignupComponent },
     { path: 'users', canActivate: [IsAuthenticatedGuard], component: UserFriendsComponent },
