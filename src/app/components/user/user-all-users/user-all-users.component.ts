@@ -50,7 +50,7 @@ export class UserAllUsersComponent implements OnInit {
         }
       );
     } else {
-      console.log('You have that user already as a friend');
+      window.alert('You have that user already as a friend');
     }
   }
 

@@ -3,25 +3,25 @@
   color: rgb(0, 0, 0);
 }
 /* label focus color */
-.input-field input[name=email]:focus+label {
+.input-field input:focus+label {
   color: rgb(9, 109, 62);
   ;
 }
 /* label underline focus color */
-.input-field input[name=email]:focus {
+.input-field input:focus {
   border-bottom: 1px solid rgb(9, 109, 62);
   box-shadow: 0 1px 0 0 rgb(230, 230, 230);
 }
 /* label focus color */
-.input-field input[name=password]:focus+label {
+/* .input-field input[name=password]:focus+label {
   color: rgb(9, 109, 62);
   ;
-}
+} */
 /* label underline focus color */
-.input-field input[name=password]:focus {
+/* .input-field input[name=password]:focus {
   border-bottom: 1px solid rgb(9, 109, 62);
   box-shadow: 0 1px 0 0 rgb(230, 230, 230);
-}
+} */
 /* valid color */
 /* .input-field input[name=email].valid {
   border-bottom: 2px solid rgb(0, 161, 13);
