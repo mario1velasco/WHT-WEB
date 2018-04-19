@@ -5,6 +5,7 @@
 
 export const environment = {
   production: false,
-  baseApi: 'https://wht-api.herokuapp.com'
+  // baseApi: 'https://wht-api.herokuapp.com'
+  baseApi: 'https://q.com'
   // baseApi: 'http://localhost:3000'
 };
