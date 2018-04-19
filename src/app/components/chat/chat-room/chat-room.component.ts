@@ -35,7 +35,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
 
 
   constructor(
-    private chatservice: ChatService,
+    private chatService: ChatService,
     private routes: ActivatedRoute,
     private router: Router,
     private sessionService: SessionService,
@@ -48,10 +48,10 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges() {
-    this.chatservice.connect();
+    // this.chatService.connect();
     this.user = this.sessionService.getUser();
 
-    this.chatservice.get(this.user.id, this.grpName).subscribe(
+    this.chatService.get(this.user.id, this.grpName).subscribe(
       chat => {
         this.chat = chat[0];
         console.log('onchanges');
@@ -65,9 +65,9 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
         }
       });
 
-    this.chatservice.joinChatRoom(this.grpName, this.user);
+    this.chatService.joinChatRoom(this.grpName, this.user);
 
-    this.chatservice.socket.on('previousMessages', (messages) => {
+    this.chatService.socket.on('previousMessages', (messages) => {
       this.previousMessages = messages;
       if ((messages[0].createdBy === 'WHT? Group') && (messages.length === 1)) {
         document.getElementById('messages').innerHTML = '';
@@ -80,19 +80,19 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
       }
     });
 
-    this.chatservice.socket.on('updateChatList:SendFromServer', (data) => {
+    this.chatService.socket.on('updateChatList:SendFromServer', (data) => {
       this.usersService.get(data.id).subscribe((sndChatUser) => {
         this.secondChatUser = sndChatUser;
         this.chat.secondLanguage = this.secondChatUser.language;
       });
     });
 
-    this.chatservice.socket.on('comment:added', (comment) => {
+    this.chatService.socket.on('comment:added', (comment) => {
       console.log('AÑADIDO comentario');
       console.log(comment);
       this.render(comment.message, false);
       if (comment.message.createdBy !== this.user.id ) {
-        this.chatservice.socket.emit('messageRead', comment.message);
+        this.chatService.socket.emit('messageRead', comment.message);
         this.readMessage.emit(this.chat.groupName);
       }
     });
@@ -100,18 +100,18 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
-    this.chatservice.leaveChatRoom(this.grpName);
+    this.chatService.leaveChatRoom(this.grpName);
   }
 
   disconnect() {
     console.log('Disconnect');
-    this.chatservice.leaveChatRoom(this.grpName);
+    this.chatService.leaveChatRoom(this.grpName);
     this.disconnectRoom.emit(false);
   }
 
 
   onSubmitSendMessage(form: NgForm) {
-    // const now = moment().format('MMMM Do YYYY, HH:mm:ss X');
+    // this.chatService.connect();
     const now = moment().format('YYYY:MM:DDTHH:mm:ss.SSS');
     const language = (this.user.id !== this.chat.createdBy) ? this.chat.firstLanguage : this.chat.secondLanguage;
     const message = {
@@ -126,7 +126,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
     console.log('Mandar Mensaje = ');
     console.log(message);
 
-    this.chatservice.socket.emit('addComment', message);
+    this.chatService.socket.emit('addComment', message);
   }
 
   loadAddUserComponent() {
@@ -135,12 +135,12 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
   unloadAddUserComponent(id: string) {
     this.loadAddUser = false;
     const data = {id: id, groupName: this.grpName};
-    this.chatservice.socket.emit('updateChatList:SendFromClient', data);
+    this.chatService.socket.emit('updateChatList:SendFromClient', data);
   }
 
   leaveChat() {
     console.log(this.user.id);
-    this.chatservice.leaveChat(this.user.id, this.grpName).subscribe(
+    this.chatService.leaveChat(this.user.id, this.grpName).subscribe(
       user => {
         console.log('USER LEAVE CHAT');
         this.disconnectRoom.emit(false);
@@ -148,28 +148,28 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   deleteChat() {
-    this.chatservice.deleteChat(this.user.id, this.grpName).subscribe(
+    this.chatService.deleteChat(this.user.id, this.grpName).subscribe(
       user => {
         console.log('CHAT DELETED');
-        this.chatservice.notifyDeleteChat(this.grpName);
+        this.chatService.notifyDeleteChat(this.grpName);
         this.disconnectRoom.emit(false);
       });
   }
 
   copyLink() {
-    /* Get the text field */
-    // (<HTMLInputElement>document.getElementById('linkToCopy')).value;
-  const copyText = (<HTMLInputElement>document.getElementById('linkToCopy'));
-  // const copyText = <HTMLInputElement>document.querySelector('linkToCopy');
+      /* Get the text field */
+      // (<HTMLInputElement>document.getElementById('linkToCopy')).value;
+    // const copyText = (<HTMLInputElement>document.getElementById('linkToCopy'));
+    // // const copyText = <HTMLInputElement>document.querySelector('linkToCopy');
 
-  /* Select the text field */
-  copyText.select();
+    // /* Select the text field */
+    // copyText.select();
 
-  /* Copy the text inside the text field */
-  document.execCommand('Copy');
+    // /* Copy the text inside the text field */
+    // document.execCommand('Copy');
 
-  /* Alert the copied text */
-  alert(copyText.value);
+    // /* Alert the copied text */
+    // alert(copyText.value);
   }
 
   openModal() {

@@ -12,7 +12,7 @@ import { User } from '../models/user.model';
 @Injectable()
 export class ChatService extends BaseApiService {
   private static readonly CHATS_API = `${BaseApiService.BASE_API}/users`;
-  socket = io.connect(environment.baseApi);
+  socket = io.connect(environment.baseApi, { 'forceNew': true });
   // socket = io.connect('http://localhost:3000', { 'forceNew': true });
   // socket = io.connect('http://localhost:3000');
   constructor (private http: Http) {

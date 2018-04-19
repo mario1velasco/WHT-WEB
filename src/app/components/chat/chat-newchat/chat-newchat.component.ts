@@ -25,7 +25,7 @@ export class ChatNewchatComponent implements OnInit {
   }
 
   onSubmitCreate(form: NgForm) {
-    this.chatService.connect();
+    // this.chatService.connect();
     this.chat.firstLanguage = this.user.language;
     const now = moment().format('LLLL');
     this.chat.time = now;

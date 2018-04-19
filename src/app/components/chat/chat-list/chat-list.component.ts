@@ -14,7 +14,7 @@ import { Chat } from './../../../shared/models/chat.model';
   templateUrl: './chat-list.component.html',
   styleUrls: ['./chat-list.component.css']
 })
-export class ChatListComponent implements OnInit, OnDestroy{
+export class ChatListComponent implements OnInit, OnDestroy {
   @ViewChild(ChatRoomComponent) chatRoomComponent: ChatRoomComponent;
   loadSelectedChat = false;
   loadCreateNewChat = false;
@@ -34,8 +34,7 @@ export class ChatListComponent implements OnInit, OnDestroy{
   ) { }
 
   ngOnInit() {
-    this.chatService.connect();
-    console.log(this.user);
+    // this.chatService.connect();
     this.user = this.sessionService.getUser();
     console.log(this.user);
     this.loadChatGroups();
@@ -80,10 +79,30 @@ export class ChatListComponent implements OnInit, OnDestroy{
 
   ngOnDestroy() {
     console.log('onDestroy Chat list');
-    this.chatService.socket.emit('disconnect');
+    this.chatService.socket.close();
     // this.chatService.socket.disconnect();
-    // this.chatService.socket.close();
     // window.location.reload();
+  }
+
+  doRerender() {
+    this.loadChatGroups();
+  }
+
+  loadChatGroups() {
+    this.rerender = true;
+    this.chatService.show(this.user.id).subscribe(
+      (messages) => {
+        this.chatsGroups = messages;
+        this.rerender = false;
+        this.paintNotifications();
+      },
+      (error) => {
+        console.log('error');
+        this.globalErrorHandlerService.handleError(error);
+        window.alert(error);
+        // this.apiError = error;
+      }
+    );
   }
 
   paintNotifications() {
@@ -100,8 +119,8 @@ export class ChatListComponent implements OnInit, OnDestroy{
           this.globalErrorHandlerService.handleError(error);
         });
       });
-  });
- }
+    });
+   }
 
   notifyReadMessage(grpName: string) {
     console.log('NOTIIFY NOTIFY');
@@ -119,6 +138,7 @@ export class ChatListComponent implements OnInit, OnDestroy{
   }
 
   loadChatRoomComponent(grpName: string) {
+    this.chatService.socket.emit('leaveALLrooms');
     const d1 = document.getElementById('badge' + grpName);
     d1.innerHTML = '';
     d1.insertAdjacentHTML('beforeend', `${grpName}`);
@@ -142,26 +162,7 @@ export class ChatListComponent implements OnInit, OnDestroy{
     this.doRerender();
   }
 
-  doRerender() {
-    this.loadChatGroups();
-  }
 
-  loadChatGroups() {
-    this.rerender = true;
-    this.chatService.show(this.user.id).subscribe(
-      (messages) => {
-        this.chatsGroups = messages;
-        this.rerender = false;
-        this.paintNotifications();
-      },
-      (error) => {
-        console.log('error');
-        this.globalErrorHandlerService.handleError(error);
-        window.alert(error);
-        // this.apiError = error;
-      }
-    );
-  }
 
   sleep (time) {
     return new Promise((resolve) => setTimeout(resolve, time));
