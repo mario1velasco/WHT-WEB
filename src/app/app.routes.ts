@@ -30,12 +30,12 @@ export const routes: Routes = [
             {
                 path: ':id',
                 canActivate: [IsAuthenticatedGuard],
-                // canDeactivate: [CanLeaveEditUserGuard],
                 component: UserBaseIdComponent,
                 children: [
                     {
                         path: 'edit',
                         canActivate: [IsAuthenticatedGuard],
+                        canDeactivate: [CanLeaveEditUserGuard],
                         component: UserEditComponent
                     }
                 ]

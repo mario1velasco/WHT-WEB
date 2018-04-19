@@ -6,7 +6,6 @@ import { Observable } from 'rxjs/Rx';
 @Injectable()
 export class CanLeaveEditUserGuard implements CanDeactivate<UserEditComponent> {
   canDeactivate(component: UserEditComponent): Observable<boolean> | Promise<boolean> | boolean {
-    debugger
     return component.canLeaveTheComponent();
   }
 }
