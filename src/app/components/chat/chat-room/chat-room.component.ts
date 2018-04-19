@@ -11,7 +11,6 @@ import { Chat } from './../../../shared/models/chat.model';
 import { User } from '../../../shared/models/user.model';
 
 import * as moment from 'moment';
-import { debug } from 'util';
 
 @Component({
   selector: 'app-chat-room',
@@ -24,7 +23,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
   @Output() readMessage: EventEmitter<String> = new EventEmitter<String>();
   modalActions = new EventEmitter<string|MaterializeAction>();
   user: User = new User();
-  secondChatUser: User = new User();
+  secondChatUser: User;
   chat: Chat = new Chat();
   mnsToSend: string;
   // users: Array<User> = [];
@@ -54,6 +53,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
 
     this.chatService.get(this.user.id, this.grpName).subscribe(
       chat => {
+        // debugger
         this.chat = chat[0];
         console.log(this.chat);
         for (const usr of this.chat.users) {
@@ -68,16 +68,24 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
     this.chatService.joinChatRoom(this.grpName, this.user);
 
     this.chatService.socket.on('previousMessages', (messages) => {
-      this.previousMessages = messages;
-      if ((messages[0].createdBy === 'WHT? Group') && (messages.length === 1)) {
-        document.getElementById('messages').innerHTML = '';
-        this.render(messages, true);
-      } else {
-        console.log('PREVIOUS MESSAGES');
-        console.log(messages);
-        document.getElementById('messages').innerHTML = '';
-        this.render(messages, true);
-      }
+      // console.log(this.secondChatUser);
+      // while (!this.secondChatUser){
+      //   console.log('A');
+      // }
+      setTimeout(() => {
+        // debugger
+        this.previousMessages = messages;
+        if ((messages[0].createdBy === 'WHT? Group') && (messages.length === 1)) {
+          document.getElementById('messages').innerHTML = '';
+          this.render(messages, true);
+        } else {
+          console.log('PREVIOUS MESSAGES');
+          console.log(messages);
+          document.getElementById('messages').innerHTML = '';
+          this.render(messages, true);
+        }
+      }, 500);
+
     });
 
     this.chatService.socket.on('updateChatList:SendFromServer', (data) => {
@@ -184,15 +192,15 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
       data = [data];
     }
     const html = data.map((mns, index) => {
-      // if ((mns.chatCreatedBy === this.user.id) || (this.user.id === mns.createdBy)) {
-        const text = (this.user.id === mns.createdBy) ? mns.firstText : mns.secondText;
-        if (mns.wasRead) {
-          if (mns.createdBy === 'WHT? Group') {
-            return (`<div>
-            <strong>${mns.createdBy}</strong>:
-            <em>${text}</em>
-            </div>`);
-          } else if (this.user.id === mns.createdBy) {
+      // debugger
+      const text = (this.user.id === mns.createdBy) ? mns.firstText : mns.secondText;
+      if (mns.createdBy === 'WHT? Group') {
+        return (`<div>
+        <strong>${mns.createdBy}</strong>:
+        <em>${text}</em>
+        </div>`);
+      } else if (mns.wasRead) {
+          if (this.user.id === mns.createdBy) {
             return (`<div>
             <strong>${this.user.username}</strong>:
             <em>${text}</em>
@@ -238,5 +246,9 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
     }).join(' ');
     const d1 = document.getElementById('messages');
     d1.insertAdjacentHTML('beforeend', html);
+  }
+
+  sleep (time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
   }
 }
