@@ -49,12 +49,12 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges() {
     // this.chatService.connect();
+    console.log('onchanges');
     this.user = this.sessionService.getUser();
 
     this.chatService.get(this.user.id, this.grpName).subscribe(
       chat => {
         this.chat = chat[0];
-        console.log('onchanges');
         console.log(this.chat);
         for (const usr of this.chat.users) {
           if (usr !== this.user.id) {

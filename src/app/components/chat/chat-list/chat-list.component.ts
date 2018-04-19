@@ -34,7 +34,7 @@ export class ChatListComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    // this.chatService.connect();
+    this.chatService.connect();
     this.user = this.sessionService.getUser();
     console.log(this.user);
     this.loadChatGroups();
@@ -79,8 +79,8 @@ export class ChatListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     console.log('onDestroy Chat list');
-    this.chatService.socket.close();
-    // this.chatService.socket.disconnect();
+    // this.chatService.socket.close();
+    this.chatService.socket.disconnect();
     // window.location.reload();
   }
 
