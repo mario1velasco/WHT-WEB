@@ -131,6 +131,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
     console.log(message);
 
     this.chatService.socket.emit('addComment', message);
+    this.mnsToSend = '';
   }
 
   loadAddUserComponent() {

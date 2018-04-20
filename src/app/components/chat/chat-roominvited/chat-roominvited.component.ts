@@ -27,13 +27,14 @@ export class ChatRoominvitedComponent implements OnInit, OnDestroy {
   previousMessages: object;
 
   constructor(
-    private chatservice: ChatService,
+    private chatService: ChatService,
     private routes: ActivatedRoute,
     private router: Router,
     private sessionService: SessionService
   ) { }
 
   ngOnInit() {
+    this.chatService.connect();
     this.routes.params.subscribe((params) => {
       const id = params['id'];
       this.user.id = id;
@@ -44,7 +45,7 @@ export class ChatRoominvitedComponent implements OnInit, OnDestroy {
     // this.user = this.sessionService.getUser();
 
     // BUSCAR POR ID DE INVITED USERNAME
-    this.chatservice.get(this.user.id, this.grpName).subscribe(
+    this.chatService.get(this.user.id, this.grpName).subscribe(
       chat => {
         this.chat = chat[0];
         this.isInvited = this.chat.isInvited;
@@ -52,9 +53,9 @@ export class ChatRoominvitedComponent implements OnInit, OnDestroy {
         console.log(this.isInvited);
       });
 
-    this.chatservice.joinChatRoom(this.grpName, this.user);
+    this.chatService.joinChatRoom(this.grpName, this.user);
 
-    this.chatservice.socket.on('comment:added', (comment) => {
+    this.chatService.socket.on('comment:added', (comment) => {
       console.log('AÑADIDO comentario');
       console.log(comment);
       this.render(comment.message);
@@ -63,34 +64,34 @@ export class ChatRoominvitedComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     console.log('Leaving room....');
-    this.chatservice.leaveChatRoom(this.grpName);
-    // this.chatservice.socket.disconnect();
+    this.chatService.leaveChatRoom(this.grpName);
+    // this.chatService.socket.disconnect();
   }
 
   disconnect() {
     // console.log('Disconnect.');
-    // this.chatservice.socket.disconnect();
-    this.chatservice.leaveChatRoom(this.grpName);
+    // this.chatService.socket.disconnect();
+    this.chatService.leaveChatRoom(this.grpName);
   }
 
   onSubmitSendMessage(form: NgForm) {
     // const now = moment().format('MMMM Do YYYY, HH:mm:ss X');
     const now = moment().format('YYYY:MM:DDTHH:mm:ss.SSS');
-    const language = (this.user.id !== this.chat.createdBy) ? this.chat.firstLanguage : this.chat.secondLanguage;
+    const lang = (this.user.id !== this.chat.createdBy) ? this.chat.firstLanguage : this.chat.secondLanguage;
     const message = {
       chatCreatedBy: this.chat.createdBy,
       groupName: this.grpName,
       createdBy: this.user.id,
-      firstLanguage: this.user.language,
+      firstLanguage: this.language,
       firstText: this.mnsToSend,
-      secondLanguage: language,
+      secondLanguage: this.chat.firstLanguage,
       time: now,
       isInvited: true
     };
     console.log('Mandar Mensaje = ');
     console.log(message);
-
-    this.chatservice.socket.emit('addComment', message);
+    this.chatService.socket.emit('addComment', message);
+    this.mnsToSend = '';
   }
 
   render(data) {
@@ -114,7 +115,7 @@ export class ChatRoominvitedComponent implements OnInit, OnDestroy {
   unloadAddUserComponent(boole) {
     this.loadAddUser = boole;
     // this.rerender = true;
-    this.chatservice.get(this.user.id, this.grpName).subscribe(
+    this.chatService.get(this.user.id, this.grpName).subscribe(
       chat => {
         this.chat = chat[0];
         console.log(this.chat);

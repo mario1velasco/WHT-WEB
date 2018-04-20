@@ -24,13 +24,15 @@
           <option value="it" data-icon="assets/img/it.svg">Italian</option>
         </select>
       </div>
-      <div class="row" *ngIf="this.language.toString() !== ''">
+
+      
+      <div class="input-field col s10" *ngIf="this.language.toString() !== ''">
         <div class="input-field col s10">
-          <img class="circle prefix" height="35" src="assets/img/{{this.language}}.svg"/>
+          <img class="circle prefix" height="35" src="assets/img/{{this.language}}.svg" />
           <input placeholder="Message" id="text" type="text" [(ngModel)]="mnsToSend" name="text" #text="ngModel" required>
         </div>
       </div>
-      <div class="row">
+      <div class="input-field col s10">
         <button class="btn waves-effect teal darken-3" type="submit" name="action" [disabled]="!updateForm.valid">
           Send
           <i class="material-icons right">send</i>
