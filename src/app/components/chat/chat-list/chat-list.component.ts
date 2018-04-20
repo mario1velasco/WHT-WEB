@@ -59,16 +59,10 @@ export class ChatListComponent implements OnInit, OnDestroy {
         this.elRef.nativeElement.querySelector('#badge' + data.groupName).addEventListener('click', () => {
           this.loadChatRoomComponent(data.groupName);
         });
-        // this.loadChatRoomComponent(data.groupName).bind(this));
       }
     });
 
     this.chatService.socket.on('notifyDeleteChat:SendFromServer', (comment) => {
-    //   this.chatService.connect();
-    // console.log(this.user);
-    // this.user = this.sessionService.getUser();
-    // console.log(this.user);
-    // this.loadChatGroups();
       console.log('notifyDeleteChat:SendFromServer');
       this.loadSelectedChat = false;
       this.doRerender();

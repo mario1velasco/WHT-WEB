@@ -29,6 +29,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
   // users: Array<User> = [];
   apiError: object;
   rerender = false;
+  justOne = true;
   loadAddUser = false;
   previousMessages: object;
 
@@ -92,12 +93,18 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
     });
 
     this.chatService.socket.on('comment:added', (comment) => {
-      console.log('AÑADIDO comentario');
-      console.log(comment);
-      this.render(comment.message, false);
-      if (comment.message.createdBy !== this.user.id ) {
-        this.chatService.socket.emit('messageRead', comment.message);
-        this.readMessage.emit(this.chat.groupName);
+      if (this.justOne) {
+        this.justOne = false;
+        setTimeout(() => {
+          console.log('AÑADIDO comentario');
+          console.log(comment);
+          this.render(comment.message, false);
+          if (comment.message.createdBy !== this.user.id ) {
+            this.chatService.socket.emit('messageRead', comment.message);
+            this.readMessage.emit(this.chat.groupName);
+          }
+          this.justOne = true;
+        }, 200);
       }
     });
 

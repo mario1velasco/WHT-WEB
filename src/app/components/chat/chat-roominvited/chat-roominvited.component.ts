@@ -92,6 +92,7 @@ export class ChatRoominvitedComponent implements OnInit, OnDestroy {
     console.log(message);
     this.chatService.socket.emit('addComment', message);
     this.mnsToSend = '';
+    
   }
 
   render(data) {

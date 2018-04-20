@@ -73,6 +73,8 @@ export class ChatService extends BaseApiService {
 
   joinChatRoom (roomName: string, user: User) {
     console.log('Chat Room Name = ' + roomName);
+    console.log('Chat USER Name');
+    console.log(user);
     this.socket.emit('join', roomName, user);
   }
   leaveChatRoom (roomName: string) {
