@@ -67,25 +67,21 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
 
     this.chatService.joinChatRoom(this.grpName, this.user);
 
-    this.chatService.socket.on('previousMessages', (messages) => {
-      // console.log(this.secondChatUser);
-      // while (!this.secondChatUser){
-      //   console.log('A');
-      // }
-      setTimeout(() => {
-        // debugger
-        this.previousMessages = messages;
-        if ((messages[0].createdBy === 'WHT? Group') && (messages.length === 1)) {
-          document.getElementById('messages').innerHTML = '';
-          this.render(messages, true);
-        } else {
-          console.log('PREVIOUS MESSAGES');
-          console.log(messages);
-          document.getElementById('messages').innerHTML = '';
-          this.render(messages, true);
-        }
-      }, 500);
-
+    this.chatService.socket.on('previousMessages', (messages, chat, sndChatUser) => {
+      this.chat = chat[0];
+      console.log(this.chat);
+      this.secondChatUser = sndChatUser;
+      this.previousMessages = messages;
+      // debugger
+      if ((messages[0].createdBy === 'WHT? Group') && (messages.length === 1)) {
+        document.getElementById('messages').innerHTML = '';
+        this.render(messages, true);
+      } else {
+        console.log('PREVIOUS MESSAGES');
+        console.log(messages);
+        document.getElementById('messages').innerHTML = '';
+        this.render(messages, true);
+      }
     });
 
     this.chatService.socket.on('updateChatList:SendFromServer', (data) => {

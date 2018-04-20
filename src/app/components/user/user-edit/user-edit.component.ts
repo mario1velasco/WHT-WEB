@@ -57,7 +57,6 @@ export class UserEditComponent implements OnInit {
     );
   }
   canLeaveTheComponent(): boolean {
-    debugger
     if (this.updateForm.dirty) {
       return window.confirm(`
         Unsaved changes.
