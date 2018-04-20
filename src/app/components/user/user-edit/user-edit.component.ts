@@ -27,25 +27,13 @@ export class UserEditComponent implements OnInit {
 
   ngOnInit() {
     this.routes.parent.params.subscribe((params) => {
-      console.log(params);
       const id = params['id'];
-      console.log(id);
-      // 5ac50598dabd0d33a48ceb1d
-      this.usersService.get(id).subscribe(
-        (user) => this.user = user,
-        (error) => {
-          console.log('error');
-          this.globalErrorHandlerService.handleError(error);
-          window.alert(error);
-          // this.apiError = error;
-        }
-      );
+      this.user = this.sessionService.getUser();
     });
   }
   onSubmitUpdate(form: NgForm) {
     this.usersService.edit(this.user).subscribe(
       (user) => {
-        console.log(user);
         this.sessionService.setUser(user);
         this.router.navigate(['/users', user.id]);
       },

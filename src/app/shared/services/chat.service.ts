@@ -32,7 +32,6 @@ export class ChatService extends BaseApiService {
       .catch((error: Response) => this.handleError(error));
   }
 
-  // http://localhost:3000/users/5ac50598dabd0d33a48ceb1d/chats
   create(id: string, chat: Chat): Observable<Chat> {
     return this.http.post(`${ChatService.CHATS_API}/${id}/chats`, JSON.stringify(chat), ChatService.defaultOptions)
       .map((res: Response) => res.json())
@@ -40,8 +39,8 @@ export class ChatService extends BaseApiService {
   }
 
   addUser(user: User, data): Observable<User> {
-    console.log(`${ChatService.CHATS_API}/${user.id}/chats/${data.groupname}/addUser`);
-    return this.http.put(`${ChatService.CHATS_API}/${user.id}/chats/${data.groupname}/addUser`,
+    console.log(`${ChatService.CHATS_API}/${user.id}/chats/${data.groupName}/addUser`);
+    return this.http.put(`${ChatService.CHATS_API}/${user.id}/chats/${data.groupName}/addUser`,
     JSON.stringify(data), ChatService.defaultOptions)
       .map((res: Response) => res.json())
       .catch(error => this.handleError(error));
@@ -73,8 +72,6 @@ export class ChatService extends BaseApiService {
 
   joinChatRoom (roomName: string, user: User) {
     console.log('Chat Room Name = ' + roomName);
-    console.log('Chat USER Name');
-    console.log(user);
     this.socket.emit('join', roomName, user);
   }
   leaveChatRoom (roomName: string) {

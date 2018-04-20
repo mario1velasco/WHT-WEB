@@ -73,7 +73,6 @@ export class ChatListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     console.log('onDestroy Chat list');
-    // this.chatService.socket.close();
     this.chatService.socket.disconnect();
     // window.location.reload();
   }

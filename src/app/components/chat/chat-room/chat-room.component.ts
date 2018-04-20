@@ -17,7 +17,7 @@ import * as moment from 'moment';
   templateUrl: './chat-room.component.html',
   styleUrls: ['./chat-room.component.css']
 })
-export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
+export class ChatRoomComponent implements OnDestroy, OnChanges {
   @Input() grpName: string;
   @Output() disconnectRoom: EventEmitter<Boolean> = new EventEmitter<Boolean>();
   @Output() readMessage: EventEmitter<String> = new EventEmitter<String>();
@@ -31,6 +31,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
   rerender = false;
   justOne = true;
   loadAddUser = false;
+  loadAddUserButton = false;
   previousMessages: object;
 
 
@@ -39,47 +40,24 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
     private routes: ActivatedRoute,
     private router: Router,
     private sessionService: SessionService,
-    private usersService: UsersService
+    private usersService: UsersService,
     // private usersService: UsersService
   ) { }
 
-  ngOnInit() {
-    // this.user = this.sessionService.getUser();
-  }
-
   ngOnChanges() {
-    // this.chatService.connect();
-    console.log('onchanges');
     this.user = this.sessionService.getUser();
-
-    this.chatService.get(this.user.id, this.grpName).subscribe(
-      chat => {
-        // debugger
-        this.chat = chat[0];
-        console.log(this.chat);
-        for (const usr of this.chat.users) {
-          if (usr !== this.user.id) {
-            this.usersService.get(usr).subscribe((sndChatUser) => {
-              this.secondChatUser = sndChatUser;
-            });
-          }
-        }
-      });
 
     this.chatService.joinChatRoom(this.grpName, this.user);
 
     this.chatService.socket.on('previousMessages', (messages, chat, sndChatUser) => {
       this.chat = chat[0];
-      console.log(this.chat);
+      (this.chat.users.length > 1) ? this.loadAddUserButton = true : this.loadAddUserButton = false;
       this.secondChatUser = sndChatUser;
       this.previousMessages = messages;
-      // debugger
       if ((messages[0].createdBy === 'WHT? Group') && (messages.length === 1)) {
         document.getElementById('messages').innerHTML = '';
         this.render(messages, true);
       } else {
-        console.log('PREVIOUS MESSAGES');
-        console.log(messages);
         document.getElementById('messages').innerHTML = '';
         this.render(messages, true);
       }
@@ -96,15 +74,13 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
       if (this.justOne) {
         this.justOne = false;
         setTimeout(() => {
-          console.log('AÑADIDO comentario');
-          console.log(comment);
           this.render(comment.message, false);
           if (comment.message.createdBy !== this.user.id ) {
             this.chatService.socket.emit('messageRead', comment.message);
             this.readMessage.emit(this.chat.groupName);
           }
           this.justOne = true;
-        }, 200);
+        }, 400);
       }
     });
 
@@ -118,11 +94,11 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
     console.log('Disconnect');
     this.chatService.leaveChatRoom(this.grpName);
     this.disconnectRoom.emit(false);
+    this.router.navigate(['/users', this.user.id]);
   }
 
 
   onSubmitSendMessage(form: NgForm) {
-    // this.chatService.connect();
     const now = moment().format('YYYY:MM:DDTHH:mm:ss.SSS');
     const language = (this.user.id !== this.chat.createdBy) ? this.chat.firstLanguage : this.chat.secondLanguage;
     const message = {
@@ -134,9 +110,6 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
       secondLanguage: language,
       time: now
     };
-    console.log('Mandar Mensaje = ');
-    console.log(message);
-
     this.chatService.socket.emit('addComment', message);
     this.mnsToSend = '';
   }
@@ -151,7 +124,6 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   leaveChat() {
-    console.log(this.user.id);
     this.chatService.leaveChat(this.user.id, this.grpName).subscribe(
       user => {
         console.log('USER LEAVE CHAT');
@@ -166,22 +138,6 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
         this.chatService.notifyDeleteChat(this.grpName);
         this.disconnectRoom.emit(false);
       });
-  }
-
-  copyLink() {
-      /* Get the text field */
-      // (<HTMLInputElement>document.getElementById('linkToCopy')).value;
-    // const copyText = (<HTMLInputElement>document.getElementById('linkToCopy'));
-    // // const copyText = <HTMLInputElement>document.querySelector('linkToCopy');
-
-    // /* Select the text field */
-    // copyText.select();
-
-    // /* Copy the text inside the text field */
-    // document.execCommand('Copy');
-
-    // /* Alert the copied text */
-    // alert(copyText.value);
   }
 
   openModal() {
@@ -245,8 +201,6 @@ export class ChatRoomComponent implements OnInit, OnDestroy, OnChanges {
             </div>`);
           }
         }
-      // }
-      // return (``);
     }).join(' ');
     const d1 = document.getElementById('messages');
     d1.insertAdjacentHTML('beforeend', html);

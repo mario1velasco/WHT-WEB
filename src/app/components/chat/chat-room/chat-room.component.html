@@ -21,24 +21,20 @@
     <form class="col s10 offset-s1" (ngSubmit)="onSubmitSendMessage(updateForm)" #updateForm="ngForm">
       <div class="row">
         <div class="input-field col s10">
-          <img *ngIf="this.user.id === this.chat.createdBy" class="circle prefix" height="35" src="assets/img/{{this.chat.firstLanguage}}.svg"
-          />
-          <img *ngIf="this.user.id !== this.chat.createdBy" class="circle prefix" height="35" src="assets/img/{{this.chat.secondLanguage}}.svg"
-          />
+          <img *ngIf="this.user.id === this.chat.createdBy" class="circle prefix" height="35" src="assets/img/{{this.chat.firstLanguage}}.svg"/>
+          <img *ngIf="this.user.id !== this.chat.createdBy" class="circle prefix" height="35" src="assets/img/{{this.chat.secondLanguage}}.svg"/>
           <input placeholder="Message" id="text" type="text" [(ngModel)]="mnsToSend" name="text" #text="ngModel" required>
         </div>
       </div>
       <div class="row">
-        <button class="btn waves-effect teal darken-3" type="submit" name="action" [disabled]="!updateForm.valid">
+        <button class="btn waves-effect teal darken-3 right" type="submit" name="action" [disabled]="!updateForm.valid">
           Send
           <i class="material-icons right">send</i>
         </button>
-        <a *ngIf='!loadAddUser' class="btn-floating btn-small waves-effect waves-light right teal darken-3" (click)="loadAddUserComponent()">
-          <i class="material-icons right">add</i>Add</a>
-        <div class="input-field col s10">
-          <label>{{ apiError }}</label>
-        </div>
-
+        <a *ngIf='!loadAddUserButton' class="btn-floating btn-small waves-effect waves-light teal darken-3" 
+          (click)="loadAddUserComponent()">
+          <i class="material-icons right">add</i>
+        </a>
       </div>
     </form>
     <div *ngIf='!loadAddUser'>
@@ -63,6 +59,9 @@
   </div>
   <div *ngIf='loadAddUser'>
     <app-chat-adduser [user]=user [chat]=chat (onAddUser)="unloadAddUserComponent($event)"></app-chat-adduser>
+  </div>
+  <div class="input-field col s10">
+    <label>{{ apiError }}</label>
   </div>
 
 </ng-container>

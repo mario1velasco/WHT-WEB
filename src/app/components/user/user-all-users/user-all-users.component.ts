@@ -35,16 +35,11 @@ export class UserAllUsersComponent implements OnInit {
     const found = this.user.friends.indexOf(id);
     if (found === -1) {
       this.user.friends.push(id);
-      console.log('USER TO EDIT');
-      console.log(this.user);
       this.usersService.edit(this.user).subscribe(
         (user) => {
-          console.log('ADD FRIEND and emit');
-          console.log(user);
           this.addUser.emit(user);
         },
         (error) => {
-          console.log('ADD FRIEND ERROR');
           // this.apiError = error;
           window.alert(error);
         }

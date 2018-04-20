@@ -40,7 +40,6 @@ export class ChatRoominvitedComponent implements OnInit, OnDestroy {
       this.user.id = id;
       this.grpName = params['groupName'];
       console.log(this.grpName);
-      console.log(this.user);
     });
     // this.user = this.sessionService.getUser();
 
@@ -48,6 +47,7 @@ export class ChatRoominvitedComponent implements OnInit, OnDestroy {
     this.chatService.get(this.user.id, this.grpName).subscribe(
       chat => {
         this.chat = chat[0];
+        console.log(this.chat);
         this.isInvited = this.chat.isInvited;
         console.log('IS INVITED');
         console.log(this.isInvited);
@@ -81,18 +81,19 @@ export class ChatRoominvitedComponent implements OnInit, OnDestroy {
     const message = {
       chatCreatedBy: this.chat.createdBy,
       groupName: this.grpName,
-      createdBy: this.user.id,
+      createdBy: 'Invited-User',
       firstLanguage: this.language,
       firstText: this.mnsToSend,
       secondLanguage: this.chat.firstLanguage,
       time: now,
       isInvited: true
     };
+    console.log(this.chat);
+    
     console.log('Mandar Mensaje = ');
     console.log(message);
     this.chatService.socket.emit('addComment', message);
     this.mnsToSend = '';
-    
   }
 
   render(data) {
@@ -100,7 +101,7 @@ export class ChatRoominvitedComponent implements OnInit, OnDestroy {
       data = [data];
     }
     const html = data.map((mns, index) => {
-      const text = (mns.createdBy === this.user.id) ? mns.firstText : mns.secondText;
+      const text = (mns.createdBy === 'Invited-User') ? mns.firstText : mns.secondText;
       return (`<div>
       <strong>${mns.createdBy}</strong>:
       <em>${text}</em>
@@ -108,21 +109,6 @@ export class ChatRoominvitedComponent implements OnInit, OnDestroy {
     }).join(' ');
     const d1 = document.getElementById('messages');
     d1.insertAdjacentHTML('beforeend', html);
-  }
-
-  loadAddUserComponent() {
-    this.loadAddUser = true;
-  }
-  unloadAddUserComponent(boole) {
-    this.loadAddUser = boole;
-    // this.rerender = true;
-    this.chatService.get(this.user.id, this.grpName).subscribe(
-      chat => {
-        this.chat = chat[0];
-        console.log(this.chat);
-        document.getElementById('messages').innerHTML = '';
-        this.render(this.previousMessages);
-      });
   }
 
 }
