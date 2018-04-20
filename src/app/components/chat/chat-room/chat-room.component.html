@@ -21,9 +21,9 @@
     <form class="col s10 offset-s1" (ngSubmit)="onSubmitSendMessage(updateForm)" #updateForm="ngForm">
       <div class="row">
         <div class="input-field col s10">
-          <img *ngIf="this.user.id === this.chat.createdBy" class="circle prefix" height="35" src="../../../../assets/img/{{this.chat.firstLanguage}}.svg"
+          <img *ngIf="this.user.id === this.chat.createdBy" class="circle prefix" height="35" src="assets/img/{{this.chat.firstLanguage}}.svg"
           />
-          <img *ngIf="this.user.id !== this.chat.createdBy" class="circle prefix" height="35" src="../../../../assets/img/{{this.chat.secondLanguage}}.svg"
+          <img *ngIf="this.user.id !== this.chat.createdBy" class="circle prefix" height="35" src="assets/img/{{this.chat.secondLanguage}}.svg"
           />
           <input placeholder="Message" id="text" type="text" [(ngModel)]="mnsToSend" name="text" #text="ngModel" required>
         </div>

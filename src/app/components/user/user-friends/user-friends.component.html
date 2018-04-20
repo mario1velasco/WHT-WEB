@@ -54,7 +54,7 @@
 <div id="modal1" class="modal bottom-sheet teal lighten-5" materialize="modal" [materializeParams]="[{dismissible: false}]"
   [materializeActions]="modalActions">
   <div class="modal-content">
-    <img *ngIf="this.infoUser.language" class="right" height="30" src="../../../../assets/img/{{this.infoUser.language}}.svg"/>
+    <img *ngIf="this.infoUser.language" class="right" height="30" src="assets/img/{{this.infoUser.language}}.svg"/>
     <h4>{{infoUser.username}}</h4>
     <div *ngIf="this.infoUser.role === 'SUPERUSER'">
       <p class="valign-wrapper">
